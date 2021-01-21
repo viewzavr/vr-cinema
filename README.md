@@ -8,7 +8,7 @@ A successor of https://github.com/pavelvasev/38parrots
 
 # run online
 
-https://viewlang.ru/viewzavr-apps/viewzavr-cinema/
+https://viewlang.ru/viewzavr-apps/vr-cinema/
 
 # copyright
 
