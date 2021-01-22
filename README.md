@@ -1,3 +1,5 @@
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/viewzavr/vr-cinema)
+
 # viewzavr-cinema
 Viewzavr-based CinemaScience 3d viewer and it's components.
 A successor of https://github.com/pavelvasev/38parrots
