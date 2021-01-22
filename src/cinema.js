@@ -73,11 +73,11 @@ export default function cinema() {
     return [nearest_i,nearest_dist,nearest_i2,nearest_dist2];
   }
 
-  function distf( request, dataobj, i ) {
+  function distf( request, dataframe, i ) {
     var diff = 0;
     Object.keys(request).forEach( function(name) {
         var reqval = request[name];
-        var datval = (obj.data[ name ] || [])[i];
+        var datval = (dataframe[ name ] || [])[i];
         if (datval === undefined || reqval === undefined) {
           
         }
@@ -91,11 +91,11 @@ export default function cinema() {
   
 //////////////////////  
   // is request is less than dataobj value?
-  function lessf( request, dataobj, i ) {
+  function lessf( request, dataframe, i ) {
     var lesscount = 0;
     Object.keys(request).forEach( function(name) {
         var reqval = request[name];
-        var datval = (obj.data[ name ] || [])[i];
+        var datval = (dataframe[ name ] || [])[i];
         if (datval === undefined || reqval === undefined) {
         }
         else

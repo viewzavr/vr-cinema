@@ -1,3 +1,4 @@
+
 # viewzavr-cinema
 Viewzavr-based CinemaScience 3d viewer and it's components.
 A successor of https://github.com/pavelvasev/38parrots
@@ -9,6 +10,10 @@ A successor of https://github.com/pavelvasev/38parrots
 # run online
 
 https://viewlang.ru/viewzavr-apps/vr-cinema/
+
+# edit online
+
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/viewzavr/vr-cinema)
 
 # copyright
 
