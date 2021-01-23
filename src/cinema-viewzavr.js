@@ -1,5 +1,7 @@
 // Viewzavr component with CinemaScience 3d logic and views
 
+// Q1: how we will implement just multiple files viewer?
+
 import cinema from "./cinema.js";
 import parse_csv from "./csv.js";
 
@@ -19,7 +21,6 @@ function tablica() {
   }
   return h;
 }
-
 
 ////////////////////////////////
 export function create_cinema( vz, opts ) {
@@ -158,8 +159,15 @@ export function create_cinema( vz, opts ) {
   }
   
   obj.getArtFunc = function( art_type ) {
-     return tablica()[ art_type ];
+     return obj.tablica[ art_type ];
   }
+  
+  // table of art_type -> function of view creator..
+  obj.tablica = tablica();
+  obj.addViewType = function( art_type, func ) {
+    obj.tablica[ art_type ] = func;
+  }
+  
 
   return obj;
 }
