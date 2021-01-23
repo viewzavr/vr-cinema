@@ -89,15 +89,29 @@ export function file_merge_feature( obj,parser,interp,dataparam ) {
   
   obj.addSlider( "w",0,0,1,0.01,function(v) {
     w=v;
-    f();
+    f(1); // this should not be called if files are still loaded!
   });
   
   var dat1, dat2, w
-  function f() {
+  var f = function() {
     if (obj.removed) return;
   
     var dat = interp( dat1, dat2, w );
     obj.setParam( dataparam, dat );
   }
-
+  
+  ///////////// feature: disable f reaction if data is pending
+  // in other case data will jump while files are loading
+  function tc() {
+    slider_w_reaction_disabled=true;
+  }
+  obj.trackParam("file",tc );
+  obj.trackParam("file2",tc );
+  var slider_w_reaction_disabled = false;
+  var orig_f = f;
+  f = function(reason) {
+    if (reason == 1 && slider_w_reaction_disabled) return;
+    slider_w_reaction_disabled=false
+    orig_f();
+  }
 }

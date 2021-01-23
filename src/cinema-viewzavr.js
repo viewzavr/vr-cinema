@@ -7,13 +7,15 @@ import parse_csv from "./csv.js";
 import vz_points from "../views/vz-points.js";
 import vz_lines  from "../views/vz-lines.js";
 import vz_models from "../views/vz-models.js";
+import vz_vrml from "../views/vrml/vz-vrml.js";
 
 
 function tablica() {
   var h = {
     "points" : vz_points,
     "lines"  : vz_lines,
-    "models" : vz_models
+    "models" : vz_models,
+    "vrml"   : vz_vrml
   }
   return h;
 }
@@ -107,7 +109,7 @@ export function create_cinema( vz, opts ) {
 
     var sum_dist = dist1 + dist2;
     var w = sum_dist > 0 ? dist1 / sum_dist : 0;
-      //console.log("w",w,"found_i1=",found_i1,"dist1=",dist1,"found_i2=",found_i2,"dist2=",dist2,"req=",req);    
+    console.log("w",w,"found_i1=",found_i1,"dist1=",dist1,"found_i2=",found_i2,"dist2=",dist2,"req=",req);    
 
     obj.cinemadb.getArtNames().forEach( function(name) {
       var artsrc1 = obj.cinemadb.data[ name ][ found_i1 ];
@@ -116,9 +118,11 @@ export function create_cinema( vz, opts ) {
       artsrc2 = obj.cinemadb_path_function( artsrc2 );
 
       var art = obj.art_obj.ns.getChildByName(name);
-      art.setParam("file",artsrc1 );
-      art.setParam("file2",artsrc2 );
-      art.setParam("w",w );
+      if (art) {
+        art.setParam("file",artsrc1 );
+        art.setParam("file2",artsrc2 );
+        art.setParam("w",w );
+      }
 
     });
   };
