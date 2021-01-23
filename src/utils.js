@@ -106,6 +106,8 @@ export function file_merge_feature( obj,parser,interp,dataparam ) {
   // and move them into Promise.all
   // but in that case we have to track that they are not changed manually
   // which is possible, btw
+  // TODO: this doesnt work. setFile_v1 -> flag, setFile_v2 -> flag, loaded_v1 => flag cleared
+  // idea: create promises for each file, and reassign them to some vars
   
   obj.trackParam("file",function() { data_pending = data_pending | 1; } );
   obj.trackParam("file2",function() { data_pending = data_pending | 2; } );

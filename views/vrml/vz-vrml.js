@@ -11,6 +11,7 @@ export default function cinema_vrml( parent,name ) {
   pts.color=[1,1,1];
 //  obj.gr = gr;
   mesh.setParam("flat-shading",true ); // R-FLATSHADING-VRML-DEFAULT
+  mesh.setParam("shine",5 ); // todo mb move this to Dubins project?
 
   obj.trackParam( "@dat",function(v) {
     var dat = obj.getParam("@dat");
