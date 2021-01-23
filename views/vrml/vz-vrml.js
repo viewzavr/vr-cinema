@@ -10,6 +10,7 @@ export default function cinema_vrml( parent,name ) {
   var pts  = parent.vz.vis.addPoints( obj, "points" );
   pts.color=[1,1,1];
 //  obj.gr = gr;
+  mesh.setParam("flat-shading",true ); // R-FLATSHADING-VRML-DEFAULT
 
   obj.trackParam( "@dat",function(v) {
     var dat = obj.getParam("@dat");
