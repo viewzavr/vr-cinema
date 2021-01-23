@@ -76,20 +76,20 @@ export function file_merge_feature( obj,parser,interp,dataparam ) {
   obj.addFile( "file","",function(v) {
     cachedLoad(v,parser).then(function(dat) {
       dat1 = dat;
-      f();
+      f(1);
     });
   });
   
   obj.addFile( "file2","",function(v) {
     cachedLoad(v,parser).then(function(dat) {
       dat2 = dat;
-      f();
+      f(2);
     });
   });
   
   obj.addSlider( "w",0,0,1,0.01,function(v) {
     w=v;
-    f(1); // this should not be called if files are still loaded!
+    f(4); // this should not be called if files are still loaded!
   });
   
   var dat1, dat2, w
@@ -100,18 +100,21 @@ export function file_merge_feature( obj,parser,interp,dataparam ) {
     obj.setParam( dataparam, dat );
   }
   
-  ///////////// feature: disable f reaction if data is pending
+  ///////////// feature: R-NOJUMP-ON-PARAM-CHANGE and R-NOJUMP-ON-W-CHANGE
   // in other case data will jump while files are loading
-  function tc() {
-    slider_w_reaction_disabled=true;
-  }
-  obj.trackParam("file",tc );
-  obj.trackParam("file2",tc );
-  var slider_w_reaction_disabled = false;
+  // maybe better to assign [files] instead of [file] and [file2]
+  // and move them into Promise.all
+  // but in that case we have to track that they are not changed manually
+  // which is possible, btw
+  
+  obj.trackParam("file",function() { data_pending = data_pending | 1; } );
+  obj.trackParam("file2",function() { data_pending = data_pending | 2; } );
+  var data_pending=0;
+  
   var orig_f = f;
   f = function(reason) {
-    if (reason == 1 && slider_w_reaction_disabled) return;
-    slider_w_reaction_disabled=false
+    if (reason < 4) data_pending = data_pending & (~reason);
+    if (data_pending) return;
     orig_f();
   }
 }
