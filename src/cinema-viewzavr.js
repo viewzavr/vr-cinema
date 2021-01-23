@@ -92,6 +92,8 @@ export function create_cinema( vz, opts ) {
   }
 
   obj.reactOnParamChange = function() {
+    if (!obj.art_obj) return;
+  
     var req = {};
     obj.cinemadb.getParamNames().forEach( function(name) {
       req[name] = obj.params_obj.getParam( name );
