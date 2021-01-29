@@ -1,5 +1,7 @@
 // Viewzavr component with CinemaScience 3d logic and views
 
+// Q1: how we will implement just multiple files viewer?
+
 import cinema from "./cinema.js";
 import parse_csv from "./csv.js";
 
@@ -7,17 +9,18 @@ import parse_csv from "./csv.js";
 import vz_points from "../views/vz-points.js";
 import vz_lines  from "../views/vz-lines.js";
 import vz_models from "../views/vz-models.js";
+import vz_vrml from "../views/vrml/vz-vrml.js";
 
 
 function tablica() {
   var h = {
     "points" : vz_points,
     "lines"  : vz_lines,
-    "models" : vz_models
+    "models" : vz_models,
+    "vrml"   : vz_vrml
   }
   return h;
 }
-
 
 ////////////////////////////////
 export function create_cinema( vz, opts ) {
@@ -86,11 +89,13 @@ export function create_cinema( vz, opts ) {
       obj.params_obj.addSlider( name, min, min, max, 0.01, function(v) {
         obj.reactOnParamChange();
       });
-      obj.params_obj.setParamOption( name,"sliding",true );
+      // obj.params_obj.setParamOption( name,"sliding",true );
     });
   }
 
   obj.reactOnParamChange = function() {
+    if (!obj.art_obj) return;
+  
     var req = {};
     obj.cinemadb.getParamNames().forEach( function(name) {
       req[name] = obj.params_obj.getParam( name );
@@ -108,7 +113,7 @@ export function create_cinema( vz, opts ) {
 
     var sum_dist = dist1 + dist2;
     var w = sum_dist > 0 ? dist1 / sum_dist : 0;
-      //console.log("w",w,"found_i1=",found_i1,"dist1=",dist1,"found_i2=",found_i2,"dist2=",dist2,"req=",req);    
+    console.log("w",w,"found_i1=",found_i1,"dist1=",dist1,"found_i2=",found_i2,"dist2=",dist2,"req=",req);    
 
     obj.cinemadb.getArtNames().forEach( function(name) {
       var artsrc1 = obj.cinemadb.data[ name ][ found_i1 ];
@@ -117,9 +122,11 @@ export function create_cinema( vz, opts ) {
       artsrc2 = obj.cinemadb_path_function( artsrc2 );
 
       var art = obj.art_obj.ns.getChildByName(name);
-      art.setParam("file",artsrc1 );
-      art.setParam("file2",artsrc2 );
-      art.setParam("w",w );
+      if (art) {
+        art.setParam("file",artsrc1 );
+        art.setParam("file2",artsrc2 );
+        art.setParam("w",w );
+      }
 
     });
   };
@@ -153,8 +160,15 @@ export function create_cinema( vz, opts ) {
   }
   
   obj.getArtFunc = function( art_type ) {
-     return tablica()[ art_type ];
+     return obj.tablica[ art_type ];
   }
+  
+  // table of art_type -> function of view creator..
+  obj.tablica = tablica();
+  obj.addViewType = function( art_type, func ) {
+    obj.tablica[ art_type ] = func;
+  }
+  
 
   return obj;
 }

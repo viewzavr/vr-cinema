@@ -1,0 +1,22 @@
+{
+  "name": "vr-cinema",
+  "version": "1.0.0",
+  "description": "Viewzavr-based CinemaScience 3d viewer and it's components. A successor of https://github.com/pavelvasev/38parrots",
+  "main": "app.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/viewzavr/vr-cinema.git"
+  },
+  "author": "Pavel Vasev",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/viewzavr/vr-cinema/issues"
+  },
+  "homepage": "https://github.com/viewzavr/vr-cinema#readme"
+}

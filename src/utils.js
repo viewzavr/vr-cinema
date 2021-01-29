@@ -76,28 +76,47 @@ export function file_merge_feature( obj,parser,interp,dataparam ) {
   obj.addFile( "file","",function(v) {
     cachedLoad(v,parser).then(function(dat) {
       dat1 = dat;
-      f();
+      f(1);
     });
   });
   
   obj.addFile( "file2","",function(v) {
     cachedLoad(v,parser).then(function(dat) {
       dat2 = dat;
-      f();
+      f(2);
     });
   });
   
   obj.addSlider( "w",0,0,1,0.01,function(v) {
     w=v;
-    f();
+    f(4); // this should not be called if files are still loaded!
   });
   
   var dat1, dat2, w
-  function f() {
+  var f = function() {
     if (obj.removed) return;
   
     var dat = interp( dat1, dat2, w );
     obj.setParam( dataparam, dat );
   }
-
+  
+  ///////////// feature: R-NOJUMP-ON-PARAM-CHANGE and R-NOJUMP-ON-W-CHANGE
+  // in other case data will jump while files are loading
+  // maybe better to assign [files] instead of [file] and [file2]
+  // and move them into Promise.all
+  // but in that case we have to track that they are not changed manually
+  // which is possible, btw
+  // TODO: this doesnt work. setFile_v1 -> flag, setFile_v2 -> flag, loaded_v1 => flag cleared
+  // idea: create promises for each file, and reassign them to some vars
+  
+  obj.trackParam("file",function() { data_pending = data_pending | 1; } );
+  obj.trackParam("file2",function() { data_pending = data_pending | 2; } );
+  var data_pending=0;
+  
+  var orig_f = f;
+  f = function(reason) {
+    if (reason < 4) data_pending = data_pending & (~reason);
+    if (data_pending) return;
+    orig_f();
+  }
 }
