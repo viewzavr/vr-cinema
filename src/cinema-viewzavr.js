@@ -86,6 +86,7 @@ export function create_cinema( vz, opts ) {
       obj.params_obj.addSlider( name, min, min, max, 0.01, function(v) {
         obj.reactOnParamChange();
       });
+      obj.params_obj.setParamOption( name,"sliding",true );
     });
   }
 
