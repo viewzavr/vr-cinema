@@ -173,9 +173,8 @@ export function create_cinema( vz, opts ) {
   return obj;
 }
 
-export default function setup( vz ) {
-  vz.addType
-  vz.addItemType( "cinemaparams","Cinema params",function( opts ) {
+export function setup( vz ) {
+  vz.addItemType( "cinema-viewer","Cinema 3d viewer",function( opts ) {
     return create_cinema( vz, opts );
   }, {label:"special"} );
 }

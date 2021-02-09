@@ -1,4 +1,4 @@
-import { default as setup_cinema, create_cinema } from "./src/cinema-viewzavr.js";
+import { create_cinema } from "./src/cinema-viewzavr.js";
 
 export function create( vz, opts ) {
   var ci = create_cinema( vz, opts );
