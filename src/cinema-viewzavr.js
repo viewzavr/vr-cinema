@@ -6,31 +6,26 @@ import cinema from "./cinema.js";
 import parse_csv from "./csv.js";
 
 ////////////////////////////
-import vz_points from "../views/vz-points.js";
-import vz_lines  from "../views/vz-lines.js";
-import vz_triangles  from "../views/vz-triangles.js";
-import vz_models from "../views/vz-models.js";
-import vz_vrml from "../views/vrml/vz-vrml.js";
+import * as vz_points from "../views/vz-points.js";
+import * as vz_lines  from "../views/vz-lines.js";
+import * as vz_triangles  from "../views/vz-triangles.js";
+import * as vz_models from "../views/vz-models.js";
+import * as vz_vrml from "../views/vrml/vz-vrml.js";
 
-
-function tablica() {
-  var h = {
-    "points" : vz_points,
-    "lines"  : vz_lines,
-    "triangles"  : vz_triangles,
-    "models" : vz_models,
-    "vrml"   : vz_vrml,
-    "cinema" : mkcinemaview,
-  }
-  return h;
-}
-
-function mkcinemaview(parent,name) {
-  return create_cinema( parent.vz, {parent:parent,name:name} );
+export function setup( vz ) {
+  vz.addItemType( "cinema-view-cinema","Cinema 3d viewer",function( opts ) {
+    return create( vz, opts );
+  }, {label:"special"} );
+  
+  vz_points.setup( vz );
+  vz_lines.setup( vz );
+  vz_triangles.setup( vz );
+  vz_models.setup( vz );
+  vz_vrml.setup( vz );
 }
 
 ////////////////////////////////
-export function create_cinema( vz, opts ) {
+export function create( vz, opts ) {
   if (!opts.name) opts.name = "cinema";
   var obj = vz.create_obj( {}, opts );
   
@@ -173,7 +168,7 @@ export function create_cinema( vz, opts ) {
       }
       else 
       {
-        var art = artfunc( obj.art_obj, nama );
+        var art = artfunc( {parent:obj.art_obj, name:nama} );
         art.cinemadb_path_function = obj.cinemadb_path_function;
         art.cinemadb_coords_function = obj.cinemadb_coords_function;
         art.cinemadb_rotate_function = obj.cinemadb_rotate_function;
@@ -183,6 +178,20 @@ export function create_cinema( vz, opts ) {
     });
   }
   
+/*  this is original way to provide view types
+
+function tablica() {
+  var h = {
+    "points" : vz_points,
+    "lines"  : vz_lines,
+    "triangles"  : vz_triangles,
+    "models" : vz_models,
+    "vrml"   : vz_vrml,
+    "cinema" : create,
+  }
+  return h;
+}
+
   obj.getArtFunc = function( art_type ) {
      return obj.tablica[ art_type ];
   }
@@ -192,16 +201,16 @@ export function create_cinema( vz, opts ) {
   obj.addViewType = function( art_type, func ) {
     obj.tablica[ art_type ] = func;
   }
-  
+*/
+
+  obj.getArtFunc = function( art_type ) {
+    var type = "cinema-view-" + art_type;
+    return vz.getTypeFunc( type );
+  }
 
   return obj;
 }
 
-export function setup( vz ) {
-  vz.addItemType( "cinema-viewer","Cinema 3d viewer",function( opts ) {
-    return create_cinema( vz, opts );
-  }, {label:"special"} );
-}
 
 
 ///////////////// helper

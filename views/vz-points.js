@@ -3,10 +3,16 @@
 import parse_csv from "../src/csv.js";
 import * as utils from "../src/utils.js";
 
-export default function cinema_points( parent,name ) {
+export function setup( vz ) {
+  vz.addItemType( "cinema-view-points","Cinema: points", function( opts ) {
+    return create( vz, opts );
+  } );
+}
 
-  var obj = parent.vz.create_obj( {}, {parent:parent, name:name} );
-  var gr  = parent.vz.vis.addPoints( obj, "points" );
+export function create( vz, opts ) {
+
+  var obj = vz.createObj( opts );
+  var gr  = vz.vis.addPoints( obj, "points" );
   gr.color=[1,1,1];
   obj.gr = gr;
 

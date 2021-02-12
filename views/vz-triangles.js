@@ -1,9 +1,14 @@
 import parse_csv from "../src/csv.js";
 
-export default function cinema_triangles( parent,name ) {
+export function setup( vz ) {
+  vz.addItemType( "cinema-view-triangles","Cinema: triangles", function( opts ) {
+    return create( vz, opts );
+  } );
+}
 
-  //var obj = vz.create_obj( parent, name );
-  var obj = parent.vz.create_obj( {}, {parent:parent, name:name} );
+export function create( vz, opts ) {
+
+  var obj = vz.createObj( opts );
   var gr  = parent.vz.vis.addMesh( obj, "triangles" );
   
   obj.addFile( "file","",function(v) {

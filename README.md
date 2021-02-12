@@ -11,6 +11,12 @@ A successor of https://github.com/pavelvasev/38parrots
 
 https://viewlang.ru/viewzavr-apps/vr-cinema/
 
+# how to add your own type
+
+Create new viewzavr package and add component types in the form: `cinema-view-MYTYPENAME`.
+Viewzavr-cinema will lookup these types in common type space.
+See [views](views) dir for example.
+
 # copyright
 
 The presented approach for 3d scene description is developed in Computer visualization lab 

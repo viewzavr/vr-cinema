@@ -1,9 +1,16 @@
 import parse_csv from "../src/csv.js";
 import * as utils from "../src/utils.js";
 
-export default function cinema_models( parent,name ) {
+export function setup( vz ) {
+  vz.addItemType( "cinema-view-models","Cinema: gltf models", function( opts ) {
+    return create( vz, opts );
+  } );
+}
 
-  var obj = parent.vz.create_obj( {}, {parent:parent, name:name} );
+export function create( vz, opts ) {
+
+  var obj = vz.createObj( opts );
+
   obj.cinemadb_path_function = function(v) { return v;};
   obj.cinemadb_coords_function = function(v) { return v;};
   obj.cinemadb_rotate_function = function(v) { return v;};

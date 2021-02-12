@@ -1,10 +1,15 @@
 import parse_csv from "../src/csv.js";
 
-export default function cinema_points( parent,name ) {
+export function setup( vz ) {
+  vz.addItemType( "cinema-view-lines","Cinema: lines", function( opts ) {
+    return create( vz, opts );
+  } );
+}
 
-  //var obj = vz.create_obj( parent, name );
-  var obj = parent.vz.create_obj( {}, {parent:parent, name:name} );
-  var gr  = parent.vz.vis.addLines( obj, "lines" );
+export function create( vz, opts ) {
+
+  var obj = vz.createObj( opts );
+  var gr  = vz.vis.addLines( obj, "lines" );
   
   obj.addFile( "file","",function(v) {
     loadFile( v, function(res) {
@@ -19,6 +24,8 @@ export default function cinema_points( parent,name ) {
       gr.positions = [];
     });
   });
+  
+  // todo: add interpolation, like in points
 
   return obj;
 }

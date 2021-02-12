@@ -3,11 +3,18 @@
 import * as vrml from "./parse_vrml.js";
 import * as utils from "../../src/utils.js";
 
-export default function cinema_vrml( parent,name ) {
+export function setup( vz ) {
+  vz.addItemType( "cinema-view-vrml","Cinema: vrmls", function( opts ) {
+    return create( vz, opts );
+  } );
+}
 
-  var obj = parent.vz.create_obj( {}, {parent:parent, name:name} );
-  var mesh = parent.vz.vis.addMesh( obj, "surface" );
-  var pts  = parent.vz.vis.addPoints( obj, "points" );
+export function create( vz, opts ) {
+
+  var obj = vz.createObj( opts );
+
+  var mesh = vz.vis.addMesh( obj, "surface" );
+  var pts  = vz.vis.addPoints( obj, "points" );
   pts.color=[1,1,1];
 //  obj.gr = gr;
   mesh.setParam("flat-shading",true ); // R-FLATSHADING-VRML-DEFAULT
