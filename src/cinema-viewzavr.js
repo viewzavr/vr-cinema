@@ -73,10 +73,10 @@ export function create( vz, opts ) {
     obj.cinemadb_coords_function = coords_function || function(coords) { return coords; };
     obj.cinemadb_rotate_function = rotate_function || function(coords) { return coords; };
     
+    //obj.clearArtefacts();
     obj.generateParams();
     obj.generateArtefacts();
     obj.reactOnParamChange();
-    
   }
 
   obj.generateParams = function() {
@@ -150,11 +150,20 @@ export function create( vz, opts ) {
     });
   };
   
+  obj.clearArtefacts = function() {
+    if (obj.art_obj) {
+      obj.art_obj.remove();
+      obj.art_obj = undefined;
+    }
+  }
+  
   obj.generateArtefacts = function() {
     if (obj.art_obj) obj.art_obj.remove();
     obj.art_obj = vz.create_obj( {}, {parent:obj,name:"artefacts"});
     
     obj.art_obj.cinemadb_path_function = obj.cinemadb_path_function; // loaders need this
+    
+
     
     obj.cinemadb.getArtNames().forEach( function(name) {
       //var nama = name.split("FILE_")[1];
@@ -176,7 +185,11 @@ export function create( vz, opts ) {
       //vz.create_obj( {}, {parent:obj.art_obj,name:nama} );
       // ...
     });
+    
+
   }
+  
+
   
 /*  this is original way to provide view types
 
@@ -207,8 +220,43 @@ function tablica() {
     var type = "cinema-view-" + art_type;
     return vz.getTypeFunc( type );
   }
+  
+  addRestoreStateFeature( obj );
 
   return obj;
+}
+
+///////////////// feature
+
+// requirement: when db changes, set it's params to previous db
+// requirement: when system reloads, set params to original state
+function addRestoreStateFeature( obj ) {
+ 
+  obj.chain("generateArtefacts", function() {
+    this.orig();
+    if (obj.subtreeState) {
+      //obj.vz.removeChildrenByDump( obj.subtreeState, obj );
+      obj.vz.createChildrenByDump( obj.subtreeState, obj );
+    }
+  });
+  
+  var tmrid;
+  obj.chain("reactOnParamChange",function() {
+     if (tmrid) clearTimeout( tmrid );
+     var q = this.orig;
+     tmrid = setTimeout( function() { q(); }, 0 );
+  });
+  
+  var tmrid2;
+  addTracking( obj,function() {
+    // todo - timer?
+    if (tmrid2) clearTimeout( tmrid2 );
+    tmrid2 = setTimeout( function() {
+      console.log("PPPP");
+      obj.subtreeState = obj.dump();
+    }, 0 );
+    
+  } );
 }
 
 
@@ -221,3 +269,43 @@ function add_dir_if( path, dir ) {
   if (path[0] == "." && path[1] == "/") path = path.substring( 2 );
   return dir + path;
 }
+
+  function addTracking( tobj, fn ) {
+    
+    function myfeature( ob ) {
+      if (ob.added_myfeature) return;
+      ob.added_myfeature = true;
+      
+      var orig0 = ob.setParam;
+      ob.setParam = function(name, value) {
+        var res = orig0( name, value );
+        var p = ob.ns.parent;
+        // console.log("~~~~>",name,value);
+        while (p && p.added_myfeature) {
+          p.signal( "child-param-changed", {child: ob} );
+          p = p.ns.parent;
+        }
+        return res;
+      }
+      
+      var orig =  ob.ns.appendChild;
+      ob.ns.appendChild = function( cobj, name ) {
+        orig( cobj, name );
+        myfeature( cobj );
+      }
+    }
+    
+    myfeature( tobj );
+    
+    // вот мне тут опять надо addFeature? но адд-фича похожа на сигнал..
+    // ну сделал типа фичу, для теста
+    // но на самом деле можно было обойтись вот этот код туды вписать.. мммм...
+    var tmrid;
+    tobj.track("child-param-changed",function(v) {
+       //var total_dump = tobj.dump();
+       //console.log("got dump",total_dump );
+       
+       
+       fn();
+    });
+  }

@@ -17,6 +17,9 @@ for new line.
 ## R-FLATSHADING-VRML-DEFAULT
 Vrml surface should have flat shading by default, required for Dubins car visualization (ehh).
 
+## R-INTERPOLATION-IS-A-FEATURE
+It should be able to turn it off, in case if data is not appropriate for interpolation.
+
 # Ideas
 
 * prefetch ongoing views data files?

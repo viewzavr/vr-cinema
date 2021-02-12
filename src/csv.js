@@ -10,6 +10,8 @@ export default function parse_csv(data,separator) { // data is text blob
   if (df.is_df(data)) {
     return data; // this is already a dataframe
   }
+  if (!data || data.length == 0)
+    return df.create();
 
   var lines = data.split("\n"); 
   //console.log("lines=",lines.length)
