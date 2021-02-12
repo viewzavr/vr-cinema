@@ -8,6 +8,7 @@ import parse_csv from "./csv.js";
 ////////////////////////////
 import vz_points from "../views/vz-points.js";
 import vz_lines  from "../views/vz-lines.js";
+import vz_triangles  from "../views/vz-triangles.js";
 import vz_models from "../views/vz-models.js";
 import vz_vrml from "../views/vrml/vz-vrml.js";
 
@@ -16,6 +17,7 @@ function tablica() {
   var h = {
     "points" : vz_points,
     "lines"  : vz_lines,
+    "triangles"  : vz_triangles,
     "models" : vz_models,
     "vrml"   : vz_vrml
   }
