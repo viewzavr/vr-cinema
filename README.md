@@ -1,10 +1,11 @@
 # viewzavr-cinema
+
 Viewzavr-based CinemaScience 3d viewer and it's components.
 A successor of https://github.com/pavelvasev/38parrots
 
 # features
 
-* Data interpolation version.
+* Interpolates data from two neighbouring files.
 
 # run online
 
