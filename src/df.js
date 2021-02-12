@@ -4,7 +4,7 @@
 // constructors and getters
 ///////////////////////////////////////////
 export function create() {
-  return { "colnames": [], length: 0, isDataFrame: true }
+  return { "colnames": [], length: 0, isDataFrame: true, string_columns: {} }
 }
 
 export function add_column( df, name, values ) {
@@ -35,7 +35,13 @@ export function get_length( df ) {
   return df.length;
 }
 
+export function set_column_type_string( df, name ) {
+  df.string_columns[ name ] = true
+}
 
+export function is_string_column( df, name ) {
+  return df.string_columns[ name ] ? true : false
+}
 
 ///////////////////////////////////////////
 // algos

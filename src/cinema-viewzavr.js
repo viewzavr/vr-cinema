@@ -19,9 +19,14 @@ function tablica() {
     "lines"  : vz_lines,
     "triangles"  : vz_triangles,
     "models" : vz_models,
-    "vrml"   : vz_vrml
+    "vrml"   : vz_vrml,
+    "cinema" : mkcinemaview,
   }
   return h;
+}
+
+function mkcinemaview(parent,name) {
+  return create_cinema( parent.vz, {parent:parent,name:name} );
 }
 
 ////////////////////////////////
@@ -88,10 +93,18 @@ export function create_cinema( vz, opts ) {
       var min = vals[0];
       var max = vals[ vals.length-1 ];
       // todo check if string - setup combo..
+      
+      if (obj.cinemadb.isStringColumn(name)) {
+        obj.params_obj.addCombo( name, 0,vals, function(v) {
+          obj.reactOnParamChange();
+        });
+        obj.params_obj.setParamOption(name,"values",vals );
+      }
+      else
       obj.params_obj.addSlider( name, min, min, max, 0.01, function(v) {
         obj.reactOnParamChange();
       });
-      // obj.params_obj.setParamOption( name,"sliding",true );
+      obj.params_obj.setParamOption( name,"sliding",false );
     });
   }
 
@@ -100,8 +113,13 @@ export function create_cinema( vz, opts ) {
   
     var req = {};
     obj.cinemadb.getParamNames().forEach( function(name) {
-      req[name] = obj.params_obj.getParam( name );
-      //var pobj, obj.params_obj.ns.getChildByName( name );
+
+      if (obj.cinemadb.isStringColumn(name)) {
+        var index = obj.params_obj.getParam( name );
+        req[name] = obj.params_obj.getParamOption( name,"values" )[ index ];
+      }
+      else
+        req[name] = obj.params_obj.getParam( name );
     });
 
     var [ found_i1, dist1, found_i2, dist2 ]  = obj.cinemadb.findNearestOnGrid( req );
@@ -128,6 +146,10 @@ export function create_cinema( vz, opts ) {
         art.setParam("file",artsrc1 );
         art.setParam("file2",artsrc2 );
         art.setParam("w",w );
+      }
+      else
+      {
+        console.error("artefact view not found in art_obj list. name=",name);
       }
 
     });

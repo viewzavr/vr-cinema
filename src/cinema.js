@@ -1,6 +1,7 @@
 // an abstract Javascript code for processing CinemaScience databases
 
 import parse_csv from "./csv.js";
+import * as df from "./df.js";
 
 export default function cinema() {
   var obj = {};
@@ -14,10 +15,10 @@ export default function cinema() {
 
   obj.setDbContent = function( csv_data_object ) {
     obj.data = csv_data_object;
-    obj.datalen = obj.data[ obj.data.colnames[0] ].length;
+    obj.datalen = df.get_length( obj.data );
     obj.paramnames = [];
     obj.artnames = [];
-    obj.data.colnames.forEach( function(v) { 
+    df.get_column_names( obj.data ).forEach( function(v) { 
       if (/^FILE_/.test(v))
         obj.artnames.push(v)
       else
@@ -77,7 +78,13 @@ export default function cinema() {
     var diff = 0;
     Object.keys(request).forEach( function(name) {
         var reqval = request[name];
-        var datval = (obj.data[ name ] || [])[i];
+
+        var datval = (df.get_column( dataobj, name ) || [])[i];
+        
+        if (df.is_string_column( dataobj,name )) {
+          if (reqval != datval) diff = diff + 1;
+        }
+        else
         if (datval === undefined || reqval === undefined) {
           
         }
@@ -146,8 +153,14 @@ export default function cinema() {
         valsarr.push(v);
       }
     });
+    // stringparam
+    if (df.is_string_column( obj.data, name )) return valsarr; // no need to sort, seems - show as is.
     return valsarr.sort(function(a,b){return a-b;});
   };
+  
+  obj.isStringColumn = function(name) {
+    return df.is_string_column( obj.data, name );
+  }
 
   return obj;
 }
