@@ -15,7 +15,10 @@ export function create( vz, opts ) {
 
   var mesh = vz.vis.addMesh( obj, "surface" );
   var pts  = vz.vis.addPoints( obj, "points" );
-  pts.color=[1,1,1];
+
+  pts.setParam("color",[1,1,1]);
+  pts.setParam("radius",0.1);
+  
 //  obj.gr = gr;
   mesh.setParam("flat-shading",true ); // R-FLATSHADING-VRML-DEFAULT
   mesh.setParam("shine",5 ); // todo mb move this to Dubins project?
