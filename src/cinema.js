@@ -121,13 +121,14 @@ export default function cinema() {
   obj.findNearestOnGrid = function( req, distfunc, lessfunc ) {
     if (!distfunc) distfunc = distf;
     if (!lessfunc) lessfunc = lessf;
+
     var nearest_i=-1;
     var nearest_dist=-1;
     var nearest_i2=-1;
     var nearest_dist2=-1;
     for (var i=0; i<obj.datalen; i++) {
       var dist = distfunc( req,obj.data,i );
-      if (!lessfunc( req, obj.data, i )) {
+      if (!lessfunc( req, obj.data, i ) || nearest_i < 0) {
         if (nearest_i < 0 || nearest_dist > dist ) {
           nearest_i = i;
           nearest_dist = dist;

@@ -231,15 +231,22 @@ function tablica() {
 // requirement: when db changes, set it's params to previous db
 // requirement: when system reloads, set params to original state
 function addRestoreStateFeature( obj ) {
- 
-  obj.chain("generateArtefacts", function() {
-    this.orig();
-    if (obj.subtreeState) {
-      //obj.vz.removeChildrenByDump( obj.subtreeState, obj );
-      obj.vz.createChildrenByDump( obj.subtreeState, obj );
+
+  obj.chain( "assignData",function( csv_data_object,path_function,coords_function, rotate_function ) {
+    var subtreeState;
+    if (obj.pendingExternalDump) { // we need to use external data for the first assignData
+      subtreeState = obj.pendingExternalDump;
+      delete obj["pendingExternalDump"];
     }
+    else 
+      subtreeState = obj.dump();
+    
+    this.orig( csv_data_object,path_function,coords_function, rotate_function );
+
+    // now, all artefacts are already created, and we may setup them..
+    obj.vz.createChildrenByDump( subtreeState, obj );
   });
-  
+
   var tmrid;
   obj.chain("reactOnParamChange",function() {
      if (tmrid) clearTimeout( tmrid );
@@ -247,18 +254,13 @@ function addRestoreStateFeature( obj ) {
      tmrid = setTimeout( function() { q(); }, 0 );
   });
   
-  var tmrid2;
-  addTracking( obj,function() {
-    // todo - timer?
-    if (tmrid2) clearTimeout( tmrid2 );
-    tmrid2 = setTimeout( function() {
-      console.log("PPPP");
-      obj.subtreeState = obj.dump();
-    }, 0 );
-    
-  } );
-}
+  // track when object is restored from external sources (for example window hash)
+  obj.chain("restoreFromDump",function(dump) {
+    obj.pendingExternalDump = dump;
+    return  this.orig( dump );
+  });
 
+}
 
 
 ///////////////// helper
@@ -269,6 +271,9 @@ function add_dir_if( path, dir ) {
   if (path[0] == "." && path[1] == "/") path = path.substring( 2 );
   return dir + path;
 }
+
+
+/* unused for now
 
   function addTracking( tobj, fn ) {
     
@@ -309,3 +314,5 @@ function add_dir_if( path, dir ) {
        fn();
     });
   }
+  
+*/  
