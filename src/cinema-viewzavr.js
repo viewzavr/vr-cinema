@@ -230,16 +230,18 @@ function tablica() {
 
 // requirement: when db changes, set it's params to previous db
 // requirement: when system reloads, set params to original state
+// requirement: when user switches to some cinema db, and then to another, and then back to first,
+//              parameters configured for first should be restored!
 function addRestoreStateFeature( obj ) {
 
+  var subtreeState = {};
+
   obj.chain( "assignData",function( csv_data_object,path_function,coords_function, rotate_function ) {
-    var subtreeState;
-    if (obj.pendingExternalDump) { // we need to use external data for the first assignData
-      subtreeState = obj.pendingExternalDump;
-      delete obj["pendingExternalDump"];
-    }
-    else 
-      subtreeState = obj.dump();
+    
+    mergeDeep( subtreeState, obj.dump() );
+    // on every data change, we save it settings in a merged fashion, and then use these settings
+    // to setup new cinema configuration. it is ok if there are some objects missing, they will
+    // be just skipped. Params will be assigned, yep. Todo assign only existing params?..
     
     this.orig( csv_data_object,path_function,coords_function, rotate_function );
 
@@ -256,7 +258,7 @@ function addRestoreStateFeature( obj ) {
   
   // track when object is restored from external sources (for example window hash)
   obj.chain("restoreFromDump",function(dump) {
-    obj.pendingExternalDump = dump;
+    subtreeState = dump;
     return  this.orig( dump );
   });
 
@@ -272,47 +274,34 @@ function add_dir_if( path, dir ) {
   return dir + path;
 }
 
+/**
+ * Simple object check.
+ * @param item
+ * @returns {boolean}
+ */
+export function isObject(item) {
+  return (item && typeof item === 'object' && !Array.isArray(item));
+}
 
-/* unused for now
+/**
+ * Deep merge two objects.
+ * @param target
+ * @param ...sources
+ */
+export function mergeDeep(target, ...sources) {
+  if (!sources.length) return target;
+  const source = sources.shift();
 
-  function addTracking( tobj, fn ) {
-    
-    function myfeature( ob ) {
-      if (ob.added_myfeature) return;
-      ob.added_myfeature = true;
-      
-      var orig0 = ob.setParam;
-      ob.setParam = function(name, value) {
-        var res = orig0( name, value );
-        var p = ob.ns.parent;
-        // console.log("~~~~>",name,value);
-        while (p && p.added_myfeature) {
-          p.signal( "child-param-changed", {child: ob} );
-          p = p.ns.parent;
-        }
-        return res;
-      }
-      
-      var orig =  ob.ns.appendChild;
-      ob.ns.appendChild = function( cobj, name ) {
-        orig( cobj, name );
-        myfeature( cobj );
+  if (isObject(target) && isObject(source)) {
+    for (const key in source) {
+      if (isObject(source[key])) {
+        if (!target[key]) Object.assign(target, { [key]: {} });
+        mergeDeep(target[key], source[key]);
+      } else {
+        Object.assign(target, { [key]: source[key] });
       }
     }
-    
-    myfeature( tobj );
-    
-    // вот мне тут опять надо addFeature? но адд-фича похожа на сигнал..
-    // ну сделал типа фичу, для теста
-    // но на самом деле можно было обойтись вот этот код туды вписать.. мммм...
-    var tmrid;
-    tobj.track("child-param-changed",function(v) {
-       //var total_dump = tobj.dump();
-       //console.log("got dump",total_dump );
-       
-       
-       fn();
-    });
   }
-  
-*/  
+
+  return mergeDeep(target, ...sources);
+}
