@@ -7,10 +7,12 @@ import parse_csv from "./csv.js";
 
 ////////////////////////////
 import * as vz_points from "../views/vz-points.js";
+import * as vz_spheres from "../views/vz-spheres.js";
 import * as vz_lines  from "../views/vz-lines.js";
 import * as vz_triangles  from "../views/vz-triangles.js";
 import * as vz_models from "../views/vz-models.js";
 import * as vz_vrml from "../views/vrml/vz-vrml.js";
+
 
 export function setup( vz ) {
   vz.addItemType( "cinema-view-cinema","Cinema 3d viewer",function( opts ) {
@@ -18,6 +20,7 @@ export function setup( vz ) {
   }, {label:"special"} );
   
   vz_points.setup( vz );
+  vz_spheres.setup( vz );
   vz_lines.setup( vz );
   vz_triangles.setup( vz );
   vz_models.setup( vz );
