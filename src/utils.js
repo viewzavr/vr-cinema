@@ -39,6 +39,7 @@ export function combine( arrays_list ) {
 }
 
 
+// interpolates two 1-dimensional arrays
 export function interp_arr( arr1, arr2, w ) {
   var acc = [];
   if (!arr1) return []; // ну так вот странно пока
@@ -55,6 +56,7 @@ export function interp_arr( arr1, arr2, w ) {
   return acc;
 }
 
+// interpolates dataframe
 export function interp_csv( csv1, csv2, w ) {
   if (!csv1) return { colnames: [], length: 0}
   if (!csv2) return csv1;
@@ -72,6 +74,13 @@ export function interp_csv( csv1, csv2, w ) {
   return res;
 };
 
+/*
+  1 adds params (file1,file2,w) to obj
+  2 loads data from that files,
+  3 parses this data by parser arg func
+  4 interpolates 2 data using iterp arg func
+  5 result is setted as param to obj named dataparam string arg
+*/
 export function file_merge_feature( obj,parser,interp,dataparam ) {
   obj.addFile( "file","",function(v) {
     cachedLoad(v,parser).then(function(dat) {
