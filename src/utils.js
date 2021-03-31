@@ -1,11 +1,13 @@
 var cache = {};
 
-export function cachedLoad( url, transform_func ) {
+export function cachedLoad( url, transform_func,loadfile_func ) {
+
+  if (!loadfile_func) loadfile_func = loadFile; // use viewlang func
 
 function genpromis() {
   return new Promise(
       function( resolv,reject ) {
-        loadFile( url, function(res) {
+        loadfile_func( url, function(res) {
           resolv( transform_func(res) );
         }
         ,
@@ -27,10 +29,13 @@ function genpromis() {
 }
 
 export function combine( arrays_list ) {
-  if (!Array.isArray(arrays_list[0])) return [];
+  var arr0 = arrays_list[0];
+  if (!(Array.isArray(arr0) || arr0 instanceof Float32Array)) {
+    return [];
+  }
 
   var res = [];
-  var len = arrays_list[0].length;
+  var len = arr0.length;
   for (var i=0; i<len; i++) {
     for (var j=0; j<arrays_list.length; j++)
       res.push( arrays_list[j][i] );
@@ -74,23 +79,23 @@ export function interp_csv( csv1, csv2, w ) {
   return res;
 };
 
-/*
-  1 adds params (file1,file2,w) to obj
+/* Generates the following construct:
+  1 adds params (file,file2,w) to obj
   2 loads data from that files,
   3 parses this data by parser arg func
   4 interpolates 2 data using iterp arg func
   5 result is setted as param to obj named dataparam string arg
 */
-export function file_merge_feature( obj,parser,interp,dataparam ) {
+export function file_merge_feature( obj,parser,interp,dataparam,loadfile ) {
   obj.addFile( "file","",function(v) {
-    cachedLoad(v,parser).then(function(dat) {
+    cachedLoad(v,parser,loadfile).then(function(dat) {
       dat1 = dat;
       f(1);
     });
   });
   
   obj.addFile( "file2","",function(v) {
-    cachedLoad(v,parser).then(function(dat) {
+    cachedLoad(v,parser,loadfile).then(function(dat) {
       dat2 = dat;
       f(2);
     });

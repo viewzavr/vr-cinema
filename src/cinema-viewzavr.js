@@ -12,7 +12,7 @@ import * as vz_lines  from "../views/vz-lines.js";
 import * as vz_triangles  from "../views/vz-triangles.js";
 import * as vz_models from "../views/vz-models.js";
 import * as vz_vrml from "../views/vrml/vz-vrml.js";
-
+import * as vz_vtkpoints from "../views/vtkpoints/vtkpoints.js";
 
 export function setup( vz ) {
   vz.addItemType( "cinema-view-cinema","Cinema 3d viewer",function( opts ) {
@@ -25,6 +25,7 @@ export function setup( vz ) {
   vz_triangles.setup( vz );
   vz_models.setup( vz );
   vz_vrml.setup( vz );
+  vz_vtkpoints.setup( vz );  
 }
 
 ////////////////////////////////
