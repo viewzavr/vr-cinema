@@ -42,9 +42,15 @@ export function create( vz,opts ) {
       arrnorm.forEach( function( val, index ) {
         var ci = Math.floor( val * (pal.length-1) );
         var index3 = index*3;
-        res[ index3 ] = pal[ci][0];
-        res[ index3+1 ] = pal[ci][1];
-        res[ index3+2 ] = pal[ci][2];
+        var color = pal[ci];
+        if (!color) 
+          res[ index3 ] = 1.0;
+        else
+        {
+          res[ index3 ]   = color[0];
+          res[ index3+1 ] = color[1];
+          res[ index3+2 ] = color[2];
+        }
       });
   
       return res;

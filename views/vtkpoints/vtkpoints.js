@@ -28,6 +28,8 @@ export function create( vz, opts ) {
   utils.file_merge_feature( obj,parse_vtk, utils.interp_csv, "@dat",loadFileBinary );
   
   var co = vz.createObjByType( {parent:obj, type:"colorize-scalars"} );
+  co.createLinkTo( { param: "input_scalars", from: obj.getPath() + "->visco_coeffs" } );
+  gr.createLinkTo( { param: "colors", from: co.getPath() + "->output_colors" } );
 
   return obj;
 }
@@ -43,7 +45,7 @@ function parse_vtk( data ) {
 
 function deploy_dat_to_params( obj, src ) {
   DF.get_column_names(src).forEach( function(name) {
-      console.log("publishing DF param",name);
+      // console.log("publishing DF param",name);
       obj.setParam( name, DF.get_column(src,name) );
       obj.setParamOption( name,"internal",true );
   });

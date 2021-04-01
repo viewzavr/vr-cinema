@@ -136,7 +136,7 @@ export function create( vz, opts ) {
 
     var sum_dist = dist1 + dist2;
     var w = sum_dist > 0 ? dist1 / sum_dist : 0;
-    console.log("w",w,"found_i1=",found_i1,"dist1=",dist1,"found_i2=",found_i2,"dist2=",dist2,"req=",req);    
+    //console.log("w",w,"found_i1=",found_i1,"dist1=",dist1,"found_i2=",found_i2,"dist2=",dist2,"req=",req);    
 
     obj.cinemadb.getArtNames().forEach( function(name) {
       var artsrc1 = obj.cinemadb.data[ name ][ found_i1 ];
@@ -155,7 +155,12 @@ export function create( vz, opts ) {
         console.error("artefact view not found in art_obj list. name=",name);
       }
       
-      // feature
+      // feature: prefertch
+      var artsrc3 = obj.cinemadb.data[ name ][ found_i2+1 ];
+      if (artsrc3) {
+        artsrc3 = obj.cinemadb_path_function( artsrc3 );
+        linkPrefetchStrategy( artsrc3 );
+      }
 
     });
   };
@@ -315,3 +320,27 @@ export function mergeDeep(target, ...sources) {
 
   return mergeDeep(target, ...sources);
 }
+
+////////////// feature: prefetch
+    function linkPrefetchStrategy0(url) {
+        return new Promise((resolve, reject) => {
+        const link = document.createElement('link');
+        //link.rel = 'prefetch';
+        link.href = url;
+        link.rel = 'preload';
+        link.as = 'fetch'; // https://developer.mozilla.org/en-US/docs/Web/HTML/Preloading_content
+        link.onload = resolve;
+        link.onerror = reject;
+        document.head.appendChild(link);
+        });
+    };
+    
+    // subfeature: prefetch once to avoid page vanishing by links and also chrome logs every prefetch to net log
+    var prefetchedCache = {};
+    function linkPrefetchStrategy(url) {
+      return; // todo debug
+    
+      if (prefetchedCache[url]) return;
+      prefetchedCache[url] = true;
+      linkPrefetchStrategy0(url);
+    }
