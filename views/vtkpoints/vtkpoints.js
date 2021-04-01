@@ -20,11 +20,14 @@ export function create( vz, opts ) {
 
   obj.trackParam( "@dat",function(v) {
     var dat = obj.getParam("@dat");
-
     gr.positions = utils.combine( [dat.X, dat.Y, dat.Z ] );
+    
+    deploy_dat_to_params( obj, dat );
   });
 
   utils.file_merge_feature( obj,parse_vtk, utils.interp_csv, "@dat",loadFileBinary );
+  
+  var co = vz.createObjByType( {parent:obj, type:"colorize-scalars"} );
 
   return obj;
 }
@@ -36,4 +39,12 @@ function parse_vtk( data ) {
   var df = loader.parse( data );
 //  console.log("parse_vtk: df=",df );
   return df;
+}
+
+function deploy_dat_to_params( obj, src ) {
+  DF.get_column_names(src).forEach( function(name) {
+      console.log("publishing DF param",name);
+      obj.setParam( name, DF.get_column(src,name) );
+      obj.setParamOption( name,"internal",true );
+  });
 }
