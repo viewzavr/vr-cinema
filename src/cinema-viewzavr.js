@@ -150,6 +150,8 @@ export function create( vz, opts ) {
       {
         console.error("artefact view not found in art_obj list. name=",name);
       }
+      
+      // feature
 
     });
   };

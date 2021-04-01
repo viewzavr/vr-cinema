@@ -1,3 +1,5 @@
+import * as DF from    "../../../src/df.js";
+
 import {
 	BufferAttribute,
 	BufferGeometry,
@@ -346,6 +348,9 @@ VTKLoader.prototype = Object.assign( Object.create( Loader.prototype ), {
 			var count, pointIndex, i, numberOfPoints, s;
 			var buffer = new Uint8Array( data );
 			var dataView = new DataView( data );
+			
+			var df = DF.create();
+			var insideField = 0;
 
 			// Points and normals, by default, are empty
 			var points = [];
@@ -384,14 +389,14 @@ VTKLoader.prototype = Object.assign( Object.create( Loader.prototype ), {
 				state = findString( buffer, index );
 				line = state.parsedString;
 
-				if ( line.indexOf( 'DATASET' ) === 0 ) {
+				if ( line.startsWith( 'DATASET' ) ) {
 
 					var dataset = line.split( ' ' )[ 1 ];
 
 // pv
 //					if ( dataset !== 'POLYDATA' ) throw new Error( 'Unsupported DATASET type: ' + dataset );
 
-				} else if ( line.indexOf( 'POINTS' ) === 0 ) {
+				} else if ( line.startsWith( 'POINTS' ) ) {
 
 					vtk.push( line );
 					// Add the points
@@ -400,22 +405,30 @@ VTKLoader.prototype = Object.assign( Object.create( Loader.prototype ), {
 					// Each point is 3 4-byte floats
 					count = numberOfPoints * 4 * 3;
 
-					points = new Float32Array( numberOfPoints * 3 );
+					var x = new Float32Array( numberOfPoints );
+					var y = new Float32Array( numberOfPoints );
+					var z = new Float32Array( numberOfPoints );
+					
+					
 
 					pointIndex = state.next;
 					for ( i = 0; i < numberOfPoints; i ++ ) {
 
-						points[ 3 * i ] = dataView.getFloat32( pointIndex, false );
-						points[ 3 * i + 1 ] = dataView.getFloat32( pointIndex + 4, false );
-						points[ 3 * i + 2 ] = dataView.getFloat32( pointIndex + 8, false );
+						x[ i ] = dataView.getFloat32( pointIndex, false );
+						y[ i ] = dataView.getFloat32( pointIndex + 4, false );
+						z[ i ] = dataView.getFloat32( pointIndex + 8, false );
 						pointIndex = pointIndex + 12;
 
 					}
+					DF.add_column( df, "X",x);
+					DF.add_column( df, "Y",y);
+					DF.add_column( df, "Z",z);
 
 					// increment our next pointer
 					state.next = state.next + count + 1;
+					//debugger;
 
-				} else if ( line.indexOf( 'TRIANGLE_STRIPS' ) === 0 ) {
+				} else if ( line.startsWith( 'TRIANGLE_STRIPS' ) ) {
 
 					var numberOfStrips = parseInt( line.split( ' ' )[ 1 ], 10 );
 					var size = parseInt( line.split( ' ' )[ 2 ], 10 );
@@ -464,7 +477,7 @@ VTKLoader.prototype = Object.assign( Object.create( Loader.prototype ), {
 					// increment our next pointer
 					state.next = state.next + count + 1;
 
-				} else if ( line.indexOf( 'POLYGONS' ) === 0 ) {
+				} else if ( line.startsWith( 'POLYGONS' ) ) {
 
 					var numberOfStrips = parseInt( line.split( ' ' )[ 1 ], 10 );
 					var size = parseInt( line.split( ' ' )[ 2 ], 10 );
@@ -502,7 +515,8 @@ VTKLoader.prototype = Object.assign( Object.create( Loader.prototype ), {
 					// increment our next pointer
 					state.next = state.next + count + 1;
 
-				} else if ( line.indexOf( 'POINT_DATA' ) === 0 ) {
+/*				} else if ( line.startsWith( 'POINT_DATA' ) ) {
+// в этом участке проблема - трижс думают что тут нормали, а у нас там скаляры, в итоге мы перепрыгиваем блок данных
 
 					numberOfPoints = parseInt( line.split( ' ' )[ 1 ], 10 );
 
@@ -526,6 +540,57 @@ VTKLoader.prototype = Object.assign( Object.create( Loader.prototype ), {
 					// Increment past our data
 					state.next = state.next + count;
 
+				
+*/				
+				} else if ( line.startsWith( 'FIELD' ) ) {
+				  var numberOfFields = parseInt( line.split( ' ' )[ 2 ], 10 );
+				  insideField =   numberOfFields;
+				  
+				  /*
+				  FIELD FieldData 5
+                  velocity 3 23712 float
+                  ...
+                  density 1 23712 float
+                  ...
+				  */
+				  
+				} else if (insideField > 0) {
+
+				  insideField --;
+				  
+				  var fieldinfo = line.split(' ');
+				  var fieldname = fieldinfo[0];
+				  var numberOfColumns = parseInt( fieldinfo[1], 10 );
+				  var numberOfPoints = parseInt( fieldinfo[2], 10 );
+				  //console.log("welcome field",fieldname );
+				  if (!fieldname) 
+				    debugger;
+				  
+				  count = numberOfColumns * numberOfPoints * 4;
+				  
+				  var lineSize = 4 * numberOfColumns;
+				  
+				  for (var cc=0,shift=0; cc<numberOfColumns; cc++,shift+=4) {
+				    //console.log("parsing column",cc,"of field",fieldname,"points num is",numberOfPoints);
+  				    var f = new Float32Array( numberOfPoints );
+  				    pointIndex = state.next + shift;
+					for ( i = 0; i < numberOfPoints; i ++ ) {
+						f[ i ] = dataView.getFloat32( pointIndex + shift, false );
+						pointIndex = pointIndex + lineSize;
+					}
+					if (numberOfColumns == 1)
+  					  DF.add_column( df, fieldname,f );
+  					else
+  					  DF.add_column( df, fieldname + cc.toString(),f );
+				  }
+				  
+				  state.next = state.next + count + 1; // need +1 to go to next line
+				  
+				} else {
+				  //console.log("VTKLoader: unparsed line",line.length,"IIII");
+//				  if (line.indexOf("FIELD") >= 0 || line.indexOf("FieldData") >=0 ) {
+//				    debugger;
+//				  }
 				}
 
 				// Increment index
@@ -541,7 +606,7 @@ VTKLoader.prototype = Object.assign( Object.create( Loader.prototype ), {
 			
 // pv: no need geometry at all
 
-            return points;
+            return df;
 
 			var geometry = new BufferGeometry();
 			geometry.setIndex( new BufferAttribute( indices, 1 ) );

@@ -33,24 +33,7 @@ import { VTKLoader } from "./threejs-extract/VTKLoader.js";
 
 function parse_vtk( data ) {
   var loader = new VTKLoader();
-  var parsed = loader.parse( data );
-  
-  var num = Math.floor( parsed.length / 3 );
-  var x = new Float32Array( num );
-  var y = new Float32Array( num );
-  var z = new Float32Array( num );
-  
-  for (var i=0,j=0; i<num; i++,j+=3) {
-    x[i] = parsed[ j ];
-    y[i] = parsed[ j+1];
-    z[i] = parsed[ j+2 ];
-  }
-  
-  // convert parsed to dataframe
-  var df = DF.create();
-  DF.add_column( df, "X",x);
-  DF.add_column( df, "Y",y);
-  DF.add_column( df, "Z",z);
-  
+  var df = loader.parse( data );
+//  console.log("parse_vtk: df=",df );
   return df;
 }

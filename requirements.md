@@ -23,4 +23,13 @@ It should be able to turn it off, in case if data is not appropriate for interpo
 # Ideas
 
 * prefetch ongoing views data files?
-(generate html prefetch tags)
+(generate html prefetch tags for all artefacts?)
+https://3perf.com/blog/link-rels/
+or maybe just for ongoing artefacts during animation
+or just load next artefact..
+https://blog.bitsrc.io/faster-page-loads-by-prefetching-links-during-idle-time-5abe42dacf9
+see linkPrefetchStrategy (or preload?)
+
+## R-PAUSE-ANIM-WHILE-LOAD
+We had such feature with TextLoader, and have to port it to current version too.
+

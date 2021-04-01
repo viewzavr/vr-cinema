@@ -8,12 +8,12 @@ function genpromis() {
   return new Promise(
       function( resolv,reject ) {
         loadfile_func( url, function(res) {
-          resolv( transform_func(res) );
+          resolv( [url,transform_func(res)] );
         }
         ,
         function(err) {
           console.error("cachedLoad: error loading file url=",url,"err=",err);
-          resolv( transform_func("") );
+          resolv( [url,transform_func("")] );
         }
         )
         }
@@ -88,16 +88,24 @@ export function interp_csv( csv1, csv2, w ) {
 */
 export function file_merge_feature( obj,parser,interp,dataparam,loadfile ) {
   obj.addFile( "file","",function(v) {
-    cachedLoad(v,parser,loadfile).then(function(dat) {
-      dat1 = dat;
-      f(1);
+    cachedLoad(v,parser,loadfile).then(function(arr) {
+      var fact_v = arr[0];
+      var dat = arr[1];
+      if (fact_v == obj.getParam("file")) { // here we check that loaded data is that needed right now
+        dat1 = dat;
+        f(1);
+      }
     });
   });
   
   obj.addFile( "file2","",function(v) {
-    cachedLoad(v,parser,loadfile).then(function(dat) {
-      dat2 = dat;
-      f(2);
+    cachedLoad(v,parser,loadfile).then(function(arr) {
+      var fact_v = arr[0];
+      var dat = arr[1];
+      if (fact_v == obj.getParam("file2")) {
+        dat2 = dat;
+        f(2);
+      }
     });
   });
   
