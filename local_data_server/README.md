@@ -1,6 +1,10 @@
 # Local data server project
 
-An idea is to:
+Run: 
+* `npx github:viewzavr/vr-cinema`
+* `npx github:viewzavr/vr-cinema path-to-dir`
+
+Project idea:
 1. Serve specific dir on local machine so web browser may access files on that dir.
 2. Be able to run (1) as npx command.
 3. Integrate (2) with shell (explorer, gnome).
@@ -11,6 +15,9 @@ It is currently tied with ../package.json.
 Actually, client's counterpart is done in ../index.html.
 Probably, these all are separate projects - vr-cinema and local-server-powered add-on.
 Also, loading side modules should be considered, for example Dubins.
+
+# Ideas
+* Inspect subdirs to multiple data.csv and show index dir for them with screenshots?
 
 # Requirements and features
 

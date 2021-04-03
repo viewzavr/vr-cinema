@@ -7,7 +7,7 @@
     "example": "examples"
   },
   "bin" : {
-    "vr-cinema2" : "./local_data_server/server.mjs",
+    "vr-cinema" : "./local_data_server/server.mjs",
     "vr-cinema3" : "./local_data_server/server.mjs"
   },
   "scripts": {
