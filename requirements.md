@@ -32,4 +32,4 @@ see linkPrefetchStrategy (or preload?)
 
 ## R-PAUSE-ANIM-WHILE-LOAD
 We had such feature with TextLoader, and have to port it to current version too.
-
+DONE - at viewlang level.
