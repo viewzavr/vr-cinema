@@ -14,7 +14,6 @@ http://viewzavr.com/apps/vr-cinema/
 
 will start local http server for specified dir and open browser with online version of vr-cinema for that database.
 
-
 # implemented features
 
 * Interpolates data from two neighbouring files.
