@@ -3,18 +3,18 @@
 Viewzavr-based CinemaScience 3d viewer and it's components.
 A successor of https://github.com/pavelvasev/38parrots
 
-# features
+# run online
+
+http://viewzavr.com/apps/vr-cinema/
+
+# implemented features
 
 * Interpolates data from two neighbouring files.
 
-# run online
-
-https://viewlang.ru/viewzavr-apps/vr-cinema/
-
 # how to add your own type
 
-Create new viewzavr package and add component types in the form: `cinema-view-MYTYPENAME`.
-Viewzavr-cinema will lookup these types in common type space.
+Create new viewzavr component with type `cinema-view-MYID`.
+Then use that MYID in artefacts names: `FILE_{MYID}_some`, for example: FILE_vtkpoints_lava.
 See [views](views) dir for example.
 
 # copyright
