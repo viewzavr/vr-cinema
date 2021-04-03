@@ -6,6 +6,9 @@
   "directories": {
     "example": "examples"
   },
+  "bin" : {
+    "vr-cinema" : "./local_data_server/server.mjs"
+  },
   "scripts": {
     "start": "node ./local_data_server/server.mjs"
   },
