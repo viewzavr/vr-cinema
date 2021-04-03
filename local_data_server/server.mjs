@@ -1,5 +1,13 @@
 #!/usr/bin/env node
 
+/*
+  https://github.com/cloudhead/node-static
+  https://github.com/jfhbrook/node-ecstatic/issues/259
+  https://www.npmjs.com/package/ws#sending-binary-data
+  https://github.com/pavelvasev/38parrots/blob/master/examples/_tutorial/5-websockets/fun-server.js
+  
+*/
+
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 

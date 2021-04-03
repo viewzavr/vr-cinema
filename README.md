@@ -7,6 +7,14 @@ A successor of https://github.com/pavelvasev/38parrots
 
 http://viewzavr.com/apps/vr-cinema/
 
+# run on local machine
+
+* `npx vr-cinema` (when current directory is CinemaScience database)
+* `npx vr-cinema path-to-dir`
+
+will start local http server for specified dir and open browser with online version of vr-cinema for that database.
+
+
 # implemented features
 
 * Interpolates data from two neighbouring files.
