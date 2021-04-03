@@ -61,30 +61,72 @@
     //////////////////////////// load user script
 
       // use this logic if you want to load app files defined in parameter.
-      // var userurl = getParameterByName("src");
+      
       // if (!userurl) userurl = vz.getDir( import.meta.url ) + "./app.js";
       var userurl = vz.getDir( import.meta.url ) + "./app.js";
 
       console.log("user script url=",userurl );
 
-      var q;
-      if (userurl) {
-        // тут у нас форматирование для загрузки через прокси
-        userurl = formatSrc( userurl );
-        console.log("reformatted:",userurl );
-        q = vzPlayer.loadApp( userurl );
-      }
-      else 
-      {
-        // idea: load empty scene always and then load user scripts into it as a child?
-        console.log("lllloading empty scene..");
-        q = vzPlayer.loadEmptyScene();
-      }
-
-      q.then( function() {
-        vzPlayer.loadFromHash();
-        vzPlayer.startSavingToHash();
+      // тут у нас форматирование для загрузки через прокси
+      userurl = formatSrc( userurl );
+      console.log("reformatted:",userurl );
+      var q = vzPlayer.loadApp( userurl );
+      
+      /*
+      var file = getParameterByName("datapath") || vz.getDir( import.meta.url ) + "./examples/_tutorial/0-points-fly.cdb/data.csv";
+      var obj = vzPlayer.getRoot();
+      obj.setParam("file",file);
+      */
+      
+      /*
+      obj.trackParam( "file",function() {
+        var f = obj.getParam("file");
+        var settings_url = vz.getDir( f ) + "viewzavr-settings.json";
+        vzPlayer.loadJson( settings_url );
       });
+      */
+      
+      // идея - быть может быть это должно сопутсвовать data.csv ? а не плееру?
+      // и быть может даже - сопутсвовать всякой смене data.csv, т.е. уйти на уровень вглюбь viewzavr-cinema?
+      
+      
+      // загрузили приложуху - поехали ставить параметры и путь к файлу
+      q.then( function() {
+        var jsonurl = getParameterByName("settings");
+        var q2 = jsonurl ? vzPlayer.loadJson( jsonurl ) : q;
+        
+        q2.then( () => {
+            var file = getParameterByName("datapath") || vz.getDir( import.meta.url ) + "./examples/_tutorial/0-points-fly.cdb/data.csv";
+            var obj = vzPlayer.getRoot();
+            obj.setParam("file",file);
+            vzPlayer.loadFromHash();
+            vzPlayer.startSavingToHash();
+        } )
+
+      });
+      
+      var storepath = getParameterByName("storepath");
+      // как это сочетается с datapath и settingspath?
+      if (storepath) {
+      
+        var oh = vzPlayer.saveToHash;
+        vzPlayer.saveToHash = function( obj ) {
+          var code = obj.dump();
+        
+          fetch( storepath, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(code,null, '  ')
+          });
+          // послали
+          console.log("settings sent to server");
+        
+          oh( obj );
+        };
+      
+      }
 
   </script>
 
