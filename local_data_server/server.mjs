@@ -18,8 +18,9 @@ console.log("serving dir:",dir );
 var nstatic = require('node-static');
 var opts = {headers: {"Access-Control-Allow-Origin": "*", 
              "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization"},
-             "Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,POST,PUT"
-  } 
+             "Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,POST,PUT",
+            cache: false
+  }
 var fileServer = new nstatic.Server( dir,opts );
 
 var server = require('http').createServer( reqfunc );
