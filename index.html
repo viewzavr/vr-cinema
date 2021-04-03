@@ -96,14 +96,26 @@
         var q2 = jsonurl ? vzPlayer.loadJson( jsonurl ) : q;
         
         q2.then( () => {
-            var file = getParameterByName("datapath") || vz.getDir( import.meta.url ) + "./examples/_tutorial/0-points-fly.cdb/data.csv";
-            var obj = vzPlayer.getRoot();
-            obj.setParam("file",file);
-            vzPlayer.loadFromHash();
-            vzPlayer.startSavingToHash();
-        } )
+            vzPlayer.loadFromHash().then( () => {
+              vzPlayer.startSavingToHash();
+              console.log("we loaded from hash");
+            
+              // datapath from query should be the last!
+              // it should override that what is in params!
+              var file = getParameterByName("datapath") || vz.getDir( import.meta.url ) + "./examples/_tutorial/0-points-fly.cdb/data.csv";
+              var obj = vzPlayer.getRoot();
+              console.log("we set file",file );
+              obj.setParam("file",file);
+            
+              obj.trackParam("file",() => {
+                var v = obj.getParam( "file" );
+                console.log("file changed",v );
+                debugger;
+              });
+            }); //loadFromHash
+        }) //q2
 
-      });
+      }); //q
       
       var storepath = getParameterByName("storepath");
       // как это сочетается с datapath и settingspath?
