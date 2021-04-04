@@ -6,12 +6,15 @@
   "directories": {
     "example": "examples"
   },
-  "bin" : {
-    "vr-cinema" : "./local_data_server/server.mjs",
-    "vr-cinema3" : "./local_data_server/server.mjs"
+  "bin": {
+    "vr-cinema": "./local_data_server/server.mjs",
+    "vr-cinema-setup": "./local_data_server/setup.mjs",
+    "vr-cinema-setup-off": "./local_data_server/setup.mjs off"
   },
   "scripts": {
-    "start": "node ./local_data_server/server.mjs"
+    "start": "node ./local_data_server/server.mjs",
+    "setup": "./local_data_server/setup.mjs",
+    "setupoff": "./local_data_server/setup.mjs off"
   },
   "repository": {
     "type": "git",
