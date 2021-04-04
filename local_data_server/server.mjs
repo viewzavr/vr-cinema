@@ -16,7 +16,7 @@ var dir = process.argv[2] || ".";
 console.log("serving dir:",dir );
 
 var nstatic = require('node-static');
-var opts = {headers: {"Access-Control-Allow-Origin": "*", 
+var opts = {headers: {"Access-Control-Allow-Origin": "https://viewzavr.com",
              "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization"},
              "Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,POST,PUT",
             cache: false
@@ -83,10 +83,7 @@ server.on("listening",() => {
   var opath;
   var datacsv_file_path = path.join( dir, "data.csv" );
   if (fs.existsSync(datacsv_file_path)) {
-    var datapath = `http://${server.address().address}:${server.address().port}/data.csv`;
-    var spath = `http://${server.address().address}:${server.address().port}/viewzavr-player.json`;
-    var storepath = `http://${server.address().address}:${server.address().port}/viewzavr-player.json`;
-    opath = `http://viewzavr.com/apps/vr-cinema?datapath=${datapath}&settings=${spath}&storepath=${storepath}`;  
+    opath = E.vzurl( server,"" );
   }
   else
   {

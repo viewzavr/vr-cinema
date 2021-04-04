@@ -25,7 +25,7 @@ export function vzurl( server, cinema_relative_dir ) {
     var datapath = `http://${server.address().address}:${server.address().port}${cinema_relative_dir}/data.csv`;
     var spath = `http://${server.address().address}:${server.address().port}${cinema_relative_dir}/viewzavr-player.json`;
     var storepath = `http://${server.address().address}:${server.address().port}${cinema_relative_dir}/viewzavr-player.json`;
-    var opath = `http://viewzavr.com/apps/vr-cinema?datapath=${datapath}&settings=${spath}&storepath=${storepath}`;
+    var opath = `https://viewzavr.com/apps/vr-cinema?datapath=${datapath}&settings=${spath}&storepath=${storepath}`;
     return opath;
 }
 
