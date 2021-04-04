@@ -6,8 +6,15 @@ var cmd = "uninstall";
 
 import * as CP from 'child_process';
 
+
+
+import * as path from 'path';
+import { fileURLToPath } from 'url';
+
 function localpath( name ) {
-  return (new URL(name, import.meta.url)).pathname;
+  const __dirname = fileURLToPath(import.meta.url)
+  const d2 = path.dirname( __dirname );
+  return path.join( d2, name );
 }
 
 var isWin = process.platform === "win32";

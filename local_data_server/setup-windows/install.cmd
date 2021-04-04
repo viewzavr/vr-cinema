@@ -1,4 +1,5 @@
 pushd %~dp0
-reg import setup.reg
+rem reg import setup.reg
+start setup.reg
 popd
 
