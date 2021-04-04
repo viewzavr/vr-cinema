@@ -32,7 +32,7 @@ function reqfunc(request, response) {
     console.log(request.url, request.method );
     
     if (request.url == "/")
-      return E.explore( dir, request, response );
+      return E.explore( server, dir, request, response );
     
     if (request.method == "POST") {
       var filepath = dir + request.url;
