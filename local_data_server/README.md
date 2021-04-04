@@ -6,7 +6,7 @@ Run:
 
 # Integrate with windows explorer / gnome
 
-Run `npx -p vr-cinema setup`
+Run `npx -p vr-cinema vr-cinema-setup`
 
 # Idea
 
