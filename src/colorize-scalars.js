@@ -19,17 +19,77 @@ export function create( vz,opts ) {
   obj.setParam("output_colors",[]);
   obj.setParamOption("output_colors","internal",true);
 
-  obj.trackParam("input_scalars",function() {
+  obj.trackParam("input_scalars",recompute )
+  
+  function recompute() {
     //var code = obj.getParam("convert_code");
     //var f = new Function("input","input2","input3");
     //eval( code );
     var arr = obj.getParam("input_scalars");
     if (!arr || !arr.length) return;
-    var arrnorm = compute_normalized_array( arr );
-    var res = convert( arrnorm,palette1 );
+    // var {min,max} = compute_array_minmax( arr );
+    var {min,max} = obj.minmax();
+    var arrnorm = compute_normalized_array( arr,min,max );
+    var res = convert( arrnorm,use_palette ); // link to palette feature
     //var res = convert_red( arrnorm );
     obj.setParam( "output_colors",res );
+  };
+
+  // feature: min max
+  obj.addString( "min","" );
+  obj.addString( "max","" );
+  obj.addLabel( "data-minmax");
+  obj.minmax = function() {
+    var arr = obj.getParam("input_scalars");
+    if (!arr || !arr.length) return { min: 0, max: 1};
+    //var min
+    
+    var {min,max} = compute_array_minmax( arr );
+    obj.setParam("data-minmax",`data min=${min}<br/>data max=${max}` );    
+    
+    var user_min = obj.getParam( "min" ) || "";
+    if (user_min.length > 0) min = parseFloat( user_min );
+    var user_max = obj.getParam( "max" ) || "";
+    if (user_max.length > 0) max = parseFloat( user_max );
+
+    return { min: min, max: max }
+  }
+  obj.trackParam( "min",recompute );
+  obj.trackParam( "max",recompute );
+  
+  // feature: change palette
+  var use_palette = palette1;
+  
+  obj.addCombo("palette",1,["custom","variant1","red","blue-green-red"],function(v) {
+    if (v == 0) {
+      var cp = obj.getParam("custom-palette");
+      var arr = [];
+      for (var i=0;i<cp.length; i+=3)
+        arr.push( [ cp[i], cp[i+1], cp[i+2] ] );
+      //console.log("computed pal:",arr);
+      use_palette = arr;
+    }
+    else
+    {
+      var palette = [null,palette1,palette_red, palette_bgr][v];
+      if (palette) use_palette = palette;
+    }
+
+    //obj.setParamOption("custom-palette","visible",v == 0);
+    obj.setGuiVisible("custom-palette",v == 0);
+    obj.setGuiVisible("copy_to_custom",v != 0);
+    recompute();
   });
+  obj.addCmd("copy_to_custom",function() {
+    obj.setParam("custom-palette",use_palette.flat(2) );
+    obj.setParam("palette",0);
+  });
+  
+  obj.addArray( "custom-palette",[],3,function(v) {
+    //console.log("v=",v);
+    obj.signalTracked( "palette" );
+  } );
+
 
   return obj;
 }
@@ -37,22 +97,31 @@ export function create( vz,opts ) {
 ////////////////////// utils
 
   function convert( arrnorm,pal ) {
+      function mid( a,b,t ) {
+        return (a + (b-a)*t);
+      }
+  
       var res = new Float32Array( arrnorm.length * 3 );
       // rxjs?
       arrnorm.forEach( function( val, index ) {
-        var ci = Math.floor( val * (pal.length-1) );
+        var ci0 = val * (pal.length-1);
+        var ci = Math.floor( ci0 );
+        var ci2 = Math.min( pal.length-1, ci+1 );
+        var t = ci0 - ci;
+        
         var index3 = index*3;
         var color = pal[ci];
-        if (!color) 
+        var color2 = pal[ci2];
+        if (!color)
           res[ index3 ] = 1.0;
         else
         {
-          res[ index3 ]   = color[0];
-          res[ index3+1 ] = color[1];
-          res[ index3+2 ] = color[2];
+          res[ index3 ]   = mid( color[0], color2[0], t );
+          res[ index3+1 ] = mid( color[1], color2[1], t );
+          res[ index3+2 ] = mid( color[2], color2[2], t );
         }
       });
-  
+
       return res;
   }
   
@@ -65,14 +134,17 @@ export function create( vz,opts ) {
       });
       return res;
   }
-
-  function compute_normalized_array( arr ) {
-    var min = 10e10, max = -10e10;
+  
+  function compute_array_minmax( arr,min=10e10,max=-10e10 ) {
     for (var i=0; i<arr.length; i++) {
       var v = arr[i];
       if (v < min) min = v;
       if (v > max) max = v;
     }
+    return {min: min, max:max};
+  }
+
+  function compute_normalized_array( arr,min,max ) {
     var res = new Float32Array( arr.length );
     var diff = max - min;
     for (var i=0,j=0; i<arr.length; i++) {
@@ -341,4 +413,15 @@ var palette1 = [
   [ 0.53565062, 0.00000000, 0.00000000],
   [ 0.51782531, 0.00000000, 0.00000000],
   [ 0.50000000, 0.00000000, 0.00000000]
+]
+
+var palette_red = [
+  [0.0, 0.0, 0.0],
+  [1.0, 0.0, 0.0]
+]
+
+var palette_bgr = [
+  [0.0, 0.0, 1.0],
+  [0.0, 1.0, 0.0],  
+  [1.0, 0.0, 0.0]
 ]

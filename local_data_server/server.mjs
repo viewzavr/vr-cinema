@@ -26,8 +26,13 @@ var fileServer = new nstatic.Server( dir,opts );
 var server = require('http').createServer( reqfunc );
 var fs = require('fs');
 
+import * as E from './explore.mjs';
+
 function reqfunc(request, response) {
     console.log(request.url, request.method );
+    
+    if (request.url == "/")
+      return E.explore( dir, request, response );
     
     if (request.method == "POST") {
       var filepath = dir + request.url;
@@ -71,15 +76,24 @@ server.on('error', (e) => {
 /////////// feature: open bro
 
 var opener = require("opener");
+import * as path from 'path';
+
 server.on("listening",() => {
-  var path = `http://${server.address().address}:${server.address().port}/data.csv`;
-  var spath = `http://${server.address().address}:${server.address().port}/viewzavr-player.json`;
-  
-  var storepath = `http://${server.address().address}:${server.address().port}/viewzavr-player.json`;
-  
-  var opath = `http://viewzavr.com/apps/vr-cinema?datapath=${path}&settings=${spath}&storepath=${storepath}`;
-  console.log("opening in bro:",opath);
-  opener( opath );
+
+  var opath;
+  var datacsv_file_path = path.join( dir, "data.csv" );
+  if (fs.existsSync(datacsv_file_path)) {
+    var datapath = `http://${server.address().address}:${server.address().port}/data.csv`;
+    var spath = `http://${server.address().address}:${server.address().port}/viewzavr-player.json`;
+    var storepath = `http://${server.address().address}:${server.address().port}/viewzavr-player.json`;
+    opath = `http://viewzavr.com/apps/vr-cinema?datapath=${datapath}&settings=${spath}&storepath=${storepath}`;  
+  }
+  else
+  {
+    opath = `http://${server.address().address}:${server.address().port}/`;
+  }
+    console.log("opening in bro:",opath);
+    opener( opath );
 });
 
 
