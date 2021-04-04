@@ -1,3 +1,3 @@
 #!/bin/bash
 
-xterm -e "npx github:viewzavr/vr-cinema $1"
+xterm -e "npx --yes github:viewzavr/vr-cinema $1"

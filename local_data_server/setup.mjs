@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+// this script adds hooks to operating system explorers to start vr-cinema
+
 //console.log( process.argv );
 var cmd = (process.argv[2] == "off" ? "uninstall" : "install");
 

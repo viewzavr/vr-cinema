@@ -9,7 +9,7 @@
   "bin": {
     "vr-cinema": "./local_data_server/server.mjs",
     "vr-cinema-setup": "./local_data_server/setup.mjs",
-    "vr-cinema-setup-off": "./local_data_server/setup.mjs off"
+    "vr-cinema-setup-off": "./local_data_server/setupoff.mjs"
   },
   "scripts": {
     "start": "node ./local_data_server/server.mjs",
