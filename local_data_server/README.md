@@ -4,8 +4,8 @@ Allows to visualize CinemaScience 3d scenes on local computer.
 
 # Installation
 
-Install nodejs from https://nodejs.org/en/download/
-If you use windows 7, use this [installer](https://nodejs.org/download/release/v13.14.0/node-v13.14.0-x64.msi)
+* Install nodejs from https://nodejs.org/en/download/ for linux or windows.
+* If you use windows 7, use this [installer](https://nodejs.org/download/release/v13.14.0/node-v13.14.0-x64.msi)
 
 # Usage
 Run:
