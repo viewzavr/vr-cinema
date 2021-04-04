@@ -51,6 +51,10 @@ We integrate with explorer using reg files.
 Seems simples way is to load ws://...data.csv in current circumstances,
 hovewer to handle other files probably it is better to see on notifiers.
 Probably, should thing of it.
+* Notify server when browser window closes so server may stop?
+Probably it may be tied with previous feature - so server stops when
+all clients closes connections (probably with some elegant manner so we do not
+close server if connection just closed by say hibernation).
 
 # Requirements and features
 
