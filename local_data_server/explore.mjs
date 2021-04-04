@@ -1,4 +1,5 @@
 // feature F-EXPLORE
+// probable bug if search is too deep. maybe restrict it by count or time or depth?
 
 import { readdir } from 'fs/promises';
 import * as path from 'path';
