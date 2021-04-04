@@ -1,7 +1,7 @@
 Windows Registry Editor Version 5.00
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Folder\shell\vrcinema]
-@="Open with VR-Cinema..."
+@="Open with VR-Cinema"
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Folder\shell\vrcinema\command]
-@="npx --yes github:viewzavr/vr-cinema \"%1\""
+@="cmd /c npx github:viewzavr/vr-cinema \"%1\""
