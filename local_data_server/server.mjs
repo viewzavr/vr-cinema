@@ -69,7 +69,7 @@ server.on('error', (e) => {
   if (e.code === 'EADDRINUSE') {
     console.log('Address in use, retrying...');
     port = port+1;
-    server.listen( port,host,listenfunc);
+    server.listen( port,host );
   }
 });
 
@@ -99,9 +99,9 @@ server.on("listening",() => {
 
 ///////////
 
-server.listen( port,host,listenfunc);
+server.listen( port,host );
 
-function listenfunc() {
+server.on("listening",() => {
   console.log('server started: http://%s:%s', server.address().address, server.address().port);
-  console.log(server.address());
-}
+  //console.log(server.address());
+});
