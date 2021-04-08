@@ -57,6 +57,10 @@
     //////////////////////////// library-one
     import * as lib1 from "//viewlang.ru/viewzavr-apps/viewzavr-system-a/lib/library-one/init.js";
     lib1.setup( vz, vzPlayer );
+    
+    // как-то корявенько это все.. промысы эти..
+    // we need almost always that package
+    var q0 = vzPlayer.loadPackage("vis-comps");
 
     //////////////////////////// load user script
 
@@ -70,7 +74,9 @@
       // тут у нас форматирование для загрузки через прокси
       userurl = formatSrc( userurl );
       console.log("reformatted:",userurl );
-      var q = vzPlayer.loadApp( userurl );
+      var q1 = vzPlayer.loadApp( userurl );
+      
+      var q = Promise.allSettled( [q0,q1] );
       
       /*
       var file = getParameterByName("datapath") || vz.getDir( import.meta.url ) + "./examples/_tutorial/0-points-fly.cdb/data.csv";
