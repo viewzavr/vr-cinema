@@ -16,12 +16,12 @@ var dir = process.argv[2] || ".";
 console.log("serving dir:",dir );
 
 var nstatic = require('node-static');
-var opts = {headers: {"Access-Control-Allow-Origin": "https://viewzavr.com",
+var nstatic_opts = {headers: {"Access-Control-Allow-Origin": "https://viewzavr.com",
              "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization"},
              "Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,POST,PUT",
             cache: false
   }
-var fileServer = new nstatic.Server( dir,opts );
+var fileServer = new nstatic.Server( dir,nstatic_opts );
 
 var server = require('http').createServer( reqfunc );
 var fs = require('fs');
@@ -54,7 +54,19 @@ function reqfunc(request, response) {
       });
     }
     else
+    if (request.method == "OPTIONS") {
+          // https://stackoverflow.com/a/55979796
+          // probably we should change our file serving method (e.g. node-static)
+          // response.setHeader( "Allow","OPTIONS, GET, HEAD, POST");
+          // https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/OPTIONS
+          for (var k in nstatic_opts.headers)
+            response.setHeader( k,nstatic_opts.headers[k] );
+          response.write('OK'); 
+          response.end();    
+    }
+    else
     request.addListener('end', function () {
+        console.log("serving as file");
         fileServer.serve(request, response);
     }).resume();
 }
