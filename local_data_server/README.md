@@ -46,7 +46,7 @@ We integrate with explorer using reg files.
 
 # Ideas
 
-* Inspect subdirs to multiple data.csv and show their overview with screenshots?
+
 * Handle file changes and notify client.
 Seems simples way is to load ws://...data.csv in current circumstances,
 hovewer to handle other files probably it is better to see on notifiers.
@@ -73,3 +73,11 @@ Auto-save viewzavr-settings.json (done in ../index.html)
 # R-EASY-START
 User should have an ability to start our CinemaScience viewer with easy on local data files.
 That's why we created this server. However it should be probably integrated with explorer/gnome.
+
+# R-EXPLORE
+It will be easier to use if software may find cinemascience bases automatically.
+
+## F-EXPLORE
+Inspect subdirs to multiple data.csv and show their overview with screenshots.
+Currently if data.csv exist in specified dir, it will start as is.
+In other case, a search of data.csv files is performed and they are shown in index screen.

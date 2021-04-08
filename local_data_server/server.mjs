@@ -16,7 +16,7 @@ var dir = process.argv[2] || ".";
 console.log("serving dir:",dir );
 
 var nstatic = require('node-static');
-var opts = {headers: {"Access-Control-Allow-Origin": "*", 
+var opts = {headers: {"Access-Control-Allow-Origin": "https://viewzavr.com",
              "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization"},
              "Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,POST,PUT",
             cache: false
@@ -32,7 +32,7 @@ function reqfunc(request, response) {
     console.log(request.url, request.method );
     
     if (request.url == "/")
-      return E.explore( dir, request, response );
+      return E.explore( server, dir, request, response );
     
     if (request.method == "POST") {
       var filepath = dir + request.url;
@@ -69,7 +69,7 @@ server.on('error', (e) => {
   if (e.code === 'EADDRINUSE') {
     console.log('Address in use, retrying...');
     port = port+1;
-    server.listen( port,host,listenfunc);
+    server.listen( port,host );
   }
 });
 
@@ -83,10 +83,7 @@ server.on("listening",() => {
   var opath;
   var datacsv_file_path = path.join( dir, "data.csv" );
   if (fs.existsSync(datacsv_file_path)) {
-    var datapath = `http://${server.address().address}:${server.address().port}/data.csv`;
-    var spath = `http://${server.address().address}:${server.address().port}/viewzavr-player.json`;
-    var storepath = `http://${server.address().address}:${server.address().port}/viewzavr-player.json`;
-    opath = `http://viewzavr.com/apps/vr-cinema?datapath=${datapath}&settings=${spath}&storepath=${storepath}`;  
+    opath = E.vzurl( server,"" );
   }
   else
   {
@@ -99,9 +96,9 @@ server.on("listening",() => {
 
 ///////////
 
-server.listen( port,host,listenfunc);
+server.listen( port,host );
 
-function listenfunc() {
+server.on("listening",() => {
   console.log('server started: http://%s:%s', server.address().address, server.address().port);
-  console.log(server.address());
-}
+  //console.log(server.address());
+});
