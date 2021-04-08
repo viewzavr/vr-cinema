@@ -61,6 +61,12 @@ export function interp_arr( arr1, arr2, w ) {
   return acc;
 }
 
+// todo передалать на интерфейс DF
+// interpolates dataframe
+export function interp_df( df1, df2, w ) {
+  return interp_csv( df1, df2, w );
+}
+
 // interpolates dataframe
 export function interp_csv( csv1, csv2, w ) {
   if (!csv1) return { colnames: [], length: 0}

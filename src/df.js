@@ -49,12 +49,14 @@ export function is_string_column( df, name ) {
 
 export function create_from_hash( hash ) {
   var r = create();
+  import_hash( r, hash );
+  return r;
+}
 
+export function import_hash( r, hash ) {
   Object.keys(hash).forEach( function(name) {
       add_column( r, name, hash[name] );
   });
-  
-  return r;
 }
 
 export function update_length( df ) {
