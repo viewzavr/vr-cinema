@@ -1,3 +1,6 @@
+// идея в том что все-таки не использовать DF в этих кодах
+// но согласиться о какой-то раскладке хеша и импортировать его потом эффективно в DF снаружи
+// но пока так.. попробуем на OBJ такое для начала провернуть
 import * as DF from    "../../../src/df.js";
 
 import {
@@ -1229,6 +1232,10 @@ VTKLoader.prototype = Object.assign( Object.create( Loader.prototype ), {
 
 			}
 
+		}
+		
+		if (!data || data.length == 0) {
+		  return DF.create();
 		}
 
 		// get the 5 first lines of the files to check if there is the key word binary

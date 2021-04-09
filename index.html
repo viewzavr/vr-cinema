@@ -77,6 +77,7 @@
       var q1 = vzPlayer.loadApp( userurl );
       
       var q = Promise.allSettled( [q0,q1] );
+      //var q = q1;
       
       /*
       var file = getParameterByName("datapath") || vz.getDir( import.meta.url ) + "./examples/_tutorial/0-points-fly.cdb/data.csv";
@@ -106,18 +107,20 @@
               vzPlayer.startSavingToHash();
               console.log("we loaded from hash");
             
-              // datapath from query should be the last!
+              // datapath from query should be the last in processsing order!
               // it should override that what is in params!
               var file = getParameterByName("datapath") || vz.getDir( import.meta.url ) + "./examples/_tutorial/0-points-fly.cdb/data.csv";
               var obj = vzPlayer.getRoot();
               console.log("we set file",file );
               obj.setParam("file",file);
             
+              /*
               obj.trackParam("file",() => {
                 var v = obj.getParam( "file" );
                 console.log("file changed",v );
                 debugger;
               });
+              */
             }); //loadFromHash
         }) //q2
 
@@ -145,6 +148,8 @@
         };
       
       }
+      
+      import "./file-progress.js";
 
   </script>
 

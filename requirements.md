@@ -30,6 +30,9 @@ or just load next artefact..
 https://blog.bitsrc.io/faster-page-loads-by-prefetching-links-during-idle-time-5abe42dacf9
 see linkPrefetchStrategy (or preload?)
 
+* somehow do that loaders used in vr-cinema will be available in other viewzavr programs?
+
 ## R-PAUSE-ANIM-WHILE-LOAD
 We had such feature with TextLoader, and have to port it to current version too.
 DONE - at viewlang level.
+
