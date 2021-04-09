@@ -6,15 +6,7 @@ import cinema from "./cinema.js";
 import parse_csv from "./csv.js";
 
 ////////////////////////////
-// todo: replace all this with single loadPackage of *.txt
-import * as vz_points from "../views/vz-points.js";
-import * as vz_spheres from "../views/vz-spheres.js";
-import * as vz_lines  from "../views/vz-lines.js";
-import * as vz_triangles  from "../views/vz-triangles.js";
-import * as vz_models from "../views/vz-models.js";
-import * as vz_vrml from "../views/vrml/vz-vrml.js";
-import * as vz_vtkpoints from "../views/vtkpoints/vz-vtkpoints.js";
-import * as vz_obj from "../views/obj/vz-obj.js";
+import * as views from "../views/init.js";
 
 import * as colorize_scalars from "./colorize-scalars.js";
 
@@ -22,16 +14,7 @@ export function setup( vz ) {
   vz.addItemType( "cinema-view-cinema","Cinema 3d viewer",function( opts ) {
     return create( vz, opts );
   }, {label:"special"} );
-  
-  vz_points.setup( vz );
-  vz_spheres.setup( vz );
-  vz_lines.setup( vz );
-  vz_triangles.setup( vz );
-  vz_models.setup( vz );
-  vz_vrml.setup( vz );
-  vz_vtkpoints.setup( vz );
-  vz_obj.setup( vz );
-  
+  views.setup( vz );
   colorize_scalars.setup( vz );
 }
 

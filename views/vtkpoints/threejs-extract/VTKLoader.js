@@ -1233,6 +1233,10 @@ VTKLoader.prototype = Object.assign( Object.create( Loader.prototype ), {
 			}
 
 		}
+		
+		if (!data || data.length == 0) {
+		  return DF.create();
+		}
 
 		// get the 5 first lines of the files to check if there is the key word binary
 		var meta = LoaderUtils.decodeText( new Uint8Array( data, 0, 250 ) ).split( '\n' );
