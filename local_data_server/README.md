@@ -81,3 +81,8 @@ It will be easier to use if software may find cinemascience bases automatically.
 Inspect subdirs to multiple data.csv and show their overview with screenshots.
 Currently if data.csv exist in specified dir, it will start as is.
 In other case, a search of data.csv files is performed and they are shown in index screen.
+
+# R-FRESH-FILES
+When sending files, it should be served with valid responce headers so browser will cache
+them smartly, say with e-tag of if-modified-since checking on each ongoing request to same
+resource.

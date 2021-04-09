@@ -17,10 +17,12 @@ console.log("serving dir:",dir );
 
 var nstatic = require('node-static');
 var nstatic_opts = {headers: {"Access-Control-Allow-Origin": "https://viewzavr.com",
-             "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization"},
+             "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control, If-Modified-Since, ETag",
              "Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,POST,PUT",
-            cache: false
+            },
+            cache: 0 // should be 0 so node-static will respond with Cache-control: max-age=0 and that is what we need, F-FRESH-FILES
   }
+  
 var fileServer = new nstatic.Server( dir,nstatic_opts );
 
 var server = require('http').createServer( reqfunc );
