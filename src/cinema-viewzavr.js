@@ -79,7 +79,7 @@ export function create( vz, opts ) {
     obj.params_obj = vz.create_obj( {}, {parent:obj,name:"params"});
     obj.cinemadb.getParamNames().forEach( function(name) {
       var vals = obj.cinemadb.getDifferentParamValues( name );
-      console.log("name=",name,"vals=",vals );
+      console.log("generating param: name=",name,"vals=",vals );
       var min = vals[0];
       var max = vals[ vals.length-1 ];
       // todo check if string - setup combo..
@@ -222,7 +222,7 @@ function tablica() {
   }
   
   addRestoreStateFeature( obj );
-  addUpdateFeature( obj );
+  addUpdateFeature( obj ); // update-feature should be after "restore-state" feature
 
   return obj;
 }

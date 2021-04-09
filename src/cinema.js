@@ -33,6 +33,7 @@ export default function cinema() {
     return obj.artnames;
   }  
   
+  // request, distance_func -> line-number-nearest-to-request
   obj.findNearest = function( req, distfunc ) {
     if (!distfunc) distfunc = distf;
     var nearest_i=-1;

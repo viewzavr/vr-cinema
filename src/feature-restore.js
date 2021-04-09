@@ -18,7 +18,7 @@ export default function addRestoreStateFeature( obj ) {
     this.orig( csv_data_object,path_function,coords_function, rotate_function );
 
     // now, all artefacts are already created, and we may setup them..
-    obj.vz.createChildrenByDump( subtreeState, obj );
+    return obj.vz.createChildrenByDump( subtreeState, obj );
   });
 
   var tmrid;

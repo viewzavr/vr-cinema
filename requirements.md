@@ -39,3 +39,7 @@ DONE - at viewlang level.
 ## R-REFRESH
 We should be able to reload data.csv with easy.
 Branch: do it automatically by some sort of signal.
+
+## R-FOLLOW-GROW
+When refreshing in R-REFRESH, if we were in some sense "last" position of some parameter (maybe primary/first)
+then refreshing should switch to next (newer, maybe last) paremeter value, if one is determined after refresh process.
