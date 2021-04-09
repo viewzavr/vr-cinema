@@ -7,8 +7,9 @@ import parse_csv from "./csv.js";
 
 ////////////////////////////
 import * as views from "../views/init.js";
-
 import * as colorize_scalars from "./colorize-scalars.js";
+import addUpdateFeature from "./feature-update.js";
+import addRestoreStateFeature from "./feature-restore.js";
 
 export function setup( vz ) {
   vz.addItemType( "cinema-view-cinema","Cinema 3d viewer",function( opts ) {
@@ -161,11 +162,9 @@ export function create( vz, opts ) {
   obj.generateArtefacts = function() {
     if (obj.art_obj) obj.art_obj.remove();
     obj.art_obj = vz.create_obj( {}, {parent:obj,name:"artefacts"});
-    
-    obj.art_obj.cinemadb_path_function = obj.cinemadb_path_function; // loaders need this
-    
 
-    
+    obj.art_obj.cinemadb_path_function = obj.cinemadb_path_function; // loaders need this
+
     obj.cinemadb.getArtNames().forEach( function(name) {
       //var nama = name.split("FILE_")[1];
       var nama = name;
@@ -223,46 +222,9 @@ function tablica() {
   }
   
   addRestoreStateFeature( obj );
+  addUpdateFeature( obj );
 
   return obj;
-}
-
-///////////////// feature
-
-// requirement: when db changes, set it's params to previous db
-// requirement: when system reloads, set params to original state
-// requirement: when user switches to some cinema db, and then to another, and then back to first,
-//              parameters configured for first should be restored!
-function addRestoreStateFeature( obj ) {
-
-  var subtreeState = {};
-
-  obj.chain( "assignData",function( csv_data_object,path_function,coords_function, rotate_function ) {
-    
-    mergeDeep( subtreeState, obj.dump() );
-    // on every data change, we save it settings in a merged fashion, and then use these settings
-    // to setup new cinema configuration. it is ok if there are some objects missing, they will
-    // be just skipped. Params will be assigned, yep. Todo assign only existing params?..
-    
-    this.orig( csv_data_object,path_function,coords_function, rotate_function );
-
-    // now, all artefacts are already created, and we may setup them..
-    obj.vz.createChildrenByDump( subtreeState, obj );
-  });
-
-  var tmrid;
-  obj.chain("reactOnParamChange",function() {
-     if (tmrid) clearTimeout( tmrid );
-     var q = this.orig;
-     tmrid = setTimeout( function() { q(); }, 0 );
-  });
-  
-  // track when object is restored from external sources (for example window hash)
-  obj.chain("restoreFromDump",function(dump) {
-    subtreeState = dump;
-    return  this.orig( dump );
-  });
-
 }
 
 
@@ -273,38 +235,6 @@ function add_dir_if( path, dir ) {
   if (path.match(/\w+\:\/\//)) return path;
   if (path[0] == "." && path[1] == "/") path = path.substring( 2 );
   return dir + path;
-}
-
-/**
- * Simple object check.
- * @param item
- * @returns {boolean}
- */
-export function isObject(item) {
-  return (item && typeof item === 'object' && !Array.isArray(item));
-}
-
-/**
- * Deep merge two objects.
- * @param target
- * @param ...sources
- */
-export function mergeDeep(target, ...sources) {
-  if (!sources.length) return target;
-  const source = sources.shift();
-
-  if (isObject(target) && isObject(source)) {
-    for (const key in source) {
-      if (isObject(source[key])) {
-        if (!target[key]) Object.assign(target, { [key]: {} });
-        mergeDeep(target[key], source[key]);
-      } else {
-        Object.assign(target, { [key]: source[key] });
-      }
-    }
-  }
-
-  return mergeDeep(target, ...sources);
 }
 
 ////////////// feature: prefetch

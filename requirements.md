@@ -36,3 +36,6 @@ see linkPrefetchStrategy (or preload?)
 We had such feature with TextLoader, and have to port it to current version too.
 DONE - at viewlang level.
 
+## R-REFRESH
+We should be able to reload data.csv with easy.
+Branch: do it automatically by some sort of signal.
