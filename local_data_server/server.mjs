@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+
+
 /*
   https://github.com/cloudhead/node-static
   https://github.com/jfhbrook/node-ecstatic/issues/259
@@ -34,10 +36,11 @@ function reqfunc(request, response) {
     console.log(request.url, request.method );
     
     if (request.url == "/")
-      return E.explore( server, dir, request, response );
+      return E.explore( server, dir, request, response,{watcher_port:watcher_port}  );
     
     if (request.method == "POST") {
-      var filepath = dir + request.url;
+      var filepath = dir + request.url; // TODO fix this! to be file inside url
+      
       let body = '';
       console.log("method is post, will write file",filepath);
       request.on('data', (chunk) => {
@@ -76,8 +79,7 @@ function reqfunc(request, response) {
 var port = 0; // auto-detect
 var host = 'localhost'; // only local iface
 
-
-// feature: port scan. initial port value should be non 0
+//////////// feature: port scan. initial port value should be non 0
 port = 8080;
 server.on('error', (e) => {
   if (e.code === 'EADDRINUSE') {
@@ -86,6 +88,10 @@ server.on('error', (e) => {
     server.listen( port,host );
   }
 });
+
+/////////// feature: watch files
+import WF from "./feature-watch-file.mjs";
+var watcher_port = WF( dir );
 
 /////////// feature: open bro
 
@@ -97,7 +103,7 @@ server.on("listening",() => {
   var opath;
   var datacsv_file_path = path.join( dir, "data.csv" );
   if (fs.existsSync(datacsv_file_path)) {
-    opath = E.vzurl( server,"" );
+    opath = E.vzurl( server,"",{watcher_port:watcher_port} );
   }
   else
   {
@@ -108,7 +114,7 @@ server.on("listening",() => {
 });
 
 
-///////////
+//////////////////////////
 
 server.listen( port,host );
 
