@@ -149,6 +149,12 @@
       
       }
       
+      import CS from "./commands-socket.js";
+      var cmdpath = getParameterByName("cmdpath");
+      if (cmdpath) {
+        CS(cmdpath);
+      }
+      
       import "./file-progress.js";
 
   </script>

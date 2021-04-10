@@ -36,3 +36,15 @@ see linkPrefetchStrategy (or preload?)
 We had such feature with TextLoader, and have to port it to current version too.
 DONE - at viewlang level.
 
+## R-REFRESH
+We should be able to reload data.csv with easy.
+Branch: do it automatically by some sort of signal.
+
+### R-FOLLOW-GROW
+When refreshing in R-REFRESH, if we were in some sense "last" position of some parameter (maybe primary/first)
+then refreshing should switch to next (newer, maybe last) paremeter value, if one is determined after refresh process.
+
+### R-CLEAR-CACHE
+We should clear file cache when refreshing data.csv in R-REFRESH. E.g. files loaded again with same name should
+be at least fetched again (maybe with 304 reponse). This is because these files actually might change too,
+and because we cache parsed objects from them in utils.js in memory, we need to consider all this.

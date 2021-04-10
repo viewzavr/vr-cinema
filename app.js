@@ -12,5 +12,8 @@ export function create( vz, opts ) {
   var ci = cv.create( vz, opts );
 //  var file = getParameterByName("datapath") || "./examples/_tutorial/0-points-fly.cdb/data.csv";
 //  ci.setParam("file",file);
+//  ci.addParam("update",function() {
+//  });
+
   return ci;
 }
