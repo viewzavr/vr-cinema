@@ -1,8 +1,11 @@
-// R-REFRESH, R-FOLLOW-GROW
+import * as utils from "./utils.js";
+
+// R-REFRESH, R-FOLLOW-GROW, R-CLEAR-CACHE
 
 // вот надо вызывать.. а так может быть она на уровне прототипа смогла бы?..
 export default function install( obj ) {
   obj.addCmd("refresh",function() {
+    // R-FOLLOW-GROW
     tracking = null;
     var names = obj.cinemadb.getParamNames();
     if (names[0]) {
@@ -18,11 +21,16 @@ export default function install( obj ) {
       }
       
     }
+    // R-CLEAR-CACHE
+    utils.clearCache();
+    
+    // R-REFRESH
     obj.signalTracked("file");
   });
 
   var tracking;
   
+  // R-FOLLOW-GROW
   obj.chain( "assignData",function( csv_data_object,path_function,coords_function, rotate_function ) {
     console.time("ASSIGNDATA");
     var promis = this.orig( csv_data_object,path_function,coords_function, rotate_function );

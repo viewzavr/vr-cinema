@@ -1,5 +1,9 @@
 var cache = {};
 
+export function clearCache() {
+  cache = {}
+}
+
 export function cachedLoad( url, transform_func,loadfile_func ) {
 
   if (!loadfile_func) loadfile_func = loadFile; // use viewlang func
@@ -51,11 +55,20 @@ export function interp_arr( arr1, arr2, w ) {
 //  if (!arr1) arr1=arr2;
   if (!arr2) arr2=arr1;
 //  if (!arr1) return []; // ну так вот странно пока
+
+  // ***********************
+
+  // TODO обработать различие длин массивов - интерполировать только общую часть, а хвост копировать
+  // сейчас как-то так и делается но абы как и только если второй массив длинее первого
+  
+  if (typeof(arr1[0]) == "string" || typeof(arr2[0]) == "string") return arr1;
    
   for (var i=0; i<arr1.length; i++) {
-    if (typeof(arr1[i]) == "string") // todo optimize 
-      acc.push( arr1[i] );
-    else
+//    if (typeof(arr1[i]) == "string") 
+// todo optimize - вынести флаг проверку первого аргумента наружу. а точнее вообще отдельную ветку сделать.. типа if (typeof(arr1[i]) == "string") return arr1;
+// DONE см выше
+//      acc.push( arr1[i] );
+//    else
       acc.push( arr1[i] + w * (arr2[i] - arr1[i]) );
   }
   return acc;

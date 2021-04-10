@@ -8,8 +8,8 @@ import parse_csv from "./csv.js";
 ////////////////////////////
 import * as views from "../views/init.js";
 import * as colorize_scalars from "./colorize-scalars.js";
-import addUpdateFeature from "./feature-update.js";
-import addRestoreStateFeature from "./feature-restore.js";
+import addUpdateFeature from "./feature-refresh.js";
+import addRestoreStateFeature from "./feature-restore-on-base-change.js";
 
 export function setup( vz ) {
   vz.addItemType( "cinema-view-cinema","Cinema 3d viewer",function( opts ) {
