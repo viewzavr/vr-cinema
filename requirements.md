@@ -20,6 +20,10 @@ Vrml surface should have flat shading by default, required for Dubins car visual
 ## R-INTERPOLATION-IS-A-FEATURE
 It should be able to turn it off, in case if data is not appropriate for interpolation.
 
+## R-KEEP-SLIDER-IN-RANGE
+If data is reloaded, sometimes current parameter values in gui goes out of range.
+This situation should be tracked and current gui param value should go into new range.
+
 # Ideas
 
 * prefetch ongoing views data files?
@@ -48,3 +52,4 @@ then refreshing should switch to next (newer, maybe last) paremeter value, if on
 We should clear file cache when refreshing data.csv in R-REFRESH. E.g. files loaded again with same name should
 be at least fetched again (maybe with 304 reponse). This is because these files actually might change too,
 and because we cache parsed objects from them in utils.js in memory, we need to consider all this.
+

@@ -19,11 +19,10 @@ export default function install( obj ) {
         console.log("tracking assigned");
         tracking = pn;
       }
-      
     }
     // R-CLEAR-CACHE
     utils.clearCache();
-    
+
     // R-REFRESH
     obj.signalTracked("file");
   });
@@ -32,7 +31,7 @@ export default function install( obj ) {
   
   // R-FOLLOW-GROW
   obj.chain( "assignData",function( csv_data_object,path_function,coords_function, rotate_function ) {
-    console.time("ASSIGNDATA");
+    if (tracking) console.time("ASSIGNDATA");
     var promis = this.orig( csv_data_object,path_function,coords_function, rotate_function );
     if (tracking) {
       var vals = obj.cinemadb.getDifferentParamValues( tracking );

@@ -92,7 +92,16 @@ export function create( vz, opts ) {
       }
       else
       obj.params_obj.addSlider( name, min, min, max, 0.01, function(v) {
-        obj.reactOnParamChange();
+        // R-KEEP-SLIDER-IN-RANGE
+        // strange construction to keep parameter in ranges
+        // todo move this as somewhat feature of parameter behaviour
+        // maybe turned on optionally
+        if (v < min) 
+          obj.params_obj.setParam( name, min );
+        else
+          if (v > max) obj.params_obj.setParam( name, max );
+        else
+          obj.reactOnParamChange();
       });
       obj.params_obj.setParamOption( name,"sliding",false );
     });
