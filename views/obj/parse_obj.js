@@ -9,13 +9,8 @@
 export function parse_obj(lines) {
   console.time("parse_obj");
   
-  var x=[];
-  var y=[];
-  var z=[];
-  var i1=[];
-  var i2=[];
-  var i3=[];
-  
+  var xyz=[];
+  var iii=[];
 
 /* идея была хороша, но пуша там нет  
   var x = new Float32Array();
@@ -43,10 +38,10 @@ export function parse_obj(lines) {
           if(toks.length < 3) {
             throw new Error("parse-obj: Invalid vertex :" + line)
           }
-          x.push(+toks[1]);
-          y.push(+toks[2]);
-          z.push(+toks[3]);
-          //v.push([+toks[1], +toks[2], +toks[3]])
+          xyz.push(+toks[1]);
+          xyz.push(+toks[2]);
+          xyz.push(+toks[3]);
+          //xyz.push([+toks[1], +toks[2], +toks[3]])
         break
 
         case "vn":
@@ -66,9 +61,9 @@ export function parse_obj(lines) {
         break
 
         case "f":
-          i1.push( parseInt(toks[1])-1 );
-          i2.push( parseInt(toks[2])-1 );
-          i3.push( parseInt(toks[3])-1 );
+          iii.push( parseInt(toks[1])-1 );
+          iii.push( parseInt(toks[2])-1 );
+          iii.push( parseInt(toks[3])-1 );
           //i1.push( (toks[2].split("/")[0]|0)-1 );
           break; // лесом все
           var normal = new Array(toks.length-1)
@@ -105,10 +100,14 @@ export function parse_obj(lines) {
   }
   console.timeEnd("parse_obj");
   
+  var res = { XYZ: new Float32Array(xyz), indices: new Uint32Array(iii) }
+
+/*  
   var res = {
         X:x, Y:y, Z:z,
         I1:i1, I2:i2, I3:i3
   }
+*/
   /*        
   var res = {        
         positions: v,
