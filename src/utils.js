@@ -37,14 +37,15 @@ export function combine( arrays_list ) {
   if (!(Array.isArray(arr0) || arr0 instanceof Float32Array)) {
     return [];
   }
-  
-  // todo: optimise to Float32Array (maybe always for simplicity)
 
-  var res = [];
-  var len = arr0.length;
+  const len = arr0.length;
+  const len2 = arrays_list.length;  
+  var res = new Float32Array( len * len2 );
+
+  var k = 0;
   for (var i=0; i<len; i++) {
-    for (var j=0; j<arrays_list.length; j++)
-      res.push( arrays_list[j][i] );
+    for (var j=0; j<len2; j++,k++)
+      res[k] = arrays_list[j][i];
   }
   return res;
 }
