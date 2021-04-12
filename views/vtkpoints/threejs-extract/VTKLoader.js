@@ -292,6 +292,13 @@ VTKLoader.prototype = Object.assign( Object.create( Loader.prototype ), {
 				}
 
 			}
+			
+			//qqq
+			var df = DF.create();
+			DF.add_column( df, "XYZ",new Float32Array(positions) );
+			return df;
+			
+			// no need that
 
 			var geometry = new BufferGeometry();
 			geometry.setIndex( indices );
