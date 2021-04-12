@@ -24,15 +24,21 @@ function findFiles( startdir, cb )
   return res;
 }
 
-export function vzurl( server, cinema_relative_dir ) {
+export function vzurl( server, cinema_relative_dir,options={} ) {
     var datapath = `http://${server.address().address}:${server.address().port}${cinema_relative_dir}/data.csv`;
     var spath = `http://${server.address().address}:${server.address().port}${cinema_relative_dir}/viewzavr-player.json`;
     var storepath = `http://${server.address().address}:${server.address().port}${cinema_relative_dir}/viewzavr-player.json`;
     var opath = `https://viewzavr.com/apps/vr-cinema?datapath=${datapath}&settings=${spath}&storepath=${storepath}`;
+    // +feature watch file
+    if (options.watcher_port) {
+       var wpath = `ws://${server.address().address}:${options.watcher_port}${cinema_relative_dir}/data.csv`;
+       opath = opath + `&cmdpath=${wpath}`;
+       // может быть нужен другой подход.. сделать за всеми data.csv...?
+    }
     return opath;
 }
 
-export function explore( server, dir, request, response )
+export function explore( server, dir, request, response, options={} )
 {
   var txt = "";
   var counter=0;
