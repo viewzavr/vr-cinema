@@ -91,12 +91,17 @@ server.on('error', (e) => {
 
 /////////// feature: watch files
 import WF from "./feature-watch-file.mjs";
-var watcher_port = WF( dir );
+var watcher_server = WF( dir, host );
+var watcher_port = 0;
 
 /////////// feature: open bro
 
 var opener = require("opener");
 import * as path from 'path';
+
+watcher_server.on("listening",() => {
+ watcher_port = watcher_server.address().port;
+ console.log("websocket server listening on port",watcher_port );
 
 server.on("listening",() => {
 
@@ -111,6 +116,7 @@ server.on("listening",() => {
   }
     console.log("opening in bro:",opath);
     opener( opath );
+});
 });
 
 

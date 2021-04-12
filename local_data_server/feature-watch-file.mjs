@@ -6,23 +6,23 @@
 import WS from 'ws';
 import * as FS from 'fs';
 import * as path from 'path';
+import * as http from 'http';
 
-export default function startWatcherService(basedir) {
+export default function startWatcherService(basedir,host) {
   //console.log(WS);
 
   // подключённые клиенты
   var clients = {};
   var fileSubscriptions = {}; // mapping filename => client_id (or client?)
-  var webSocketServer = alloc( 5555);
-  
-  console.log( "started websocket server",webSocketServer.options.port );
+  var srv = alloc( 5555, host, (webSocketServer) =>{
+
+  //console.log( "started websocket server",webSocketServer._server );
 
   webSocketServer.on('connection', function(ws,request,client) {
 
     var id = Math.random();
     clients[id] = ws;
     console.log("новое соединение " + id, request.url );
-    
     
     var filepath = path.join( basedir, request.url );
     console.log("starting watch to",filepath);
@@ -37,25 +37,45 @@ export default function startWatcherService(basedir) {
     });
 
   });
+  
+  } );
 
-  return webSocketServer.options.port;
+  return srv;
 }
 
-function alloc(port,left=3000) {
-  try {
-     var p = new WS.Server({
-       port: port
-     });
-     return p;
-  }
-  catch(err) {
-    console.log(err);
-    if (left < 0) {
-      console.log("cannot find port for ws",err);
-      return null;
+function alloc(port,host,cb) {
+
+  // we create http server manually and pass it to WS.Server because
+  // we need to allocate any available port and this is the only way
+  // to do this is manually
+
+  // from node_modules/ws/lib/websocket-server.js
+  var server = http.createServer((req, res) => {
+        const body = STATUS_CODES[426];
+
+        res.writeHead(426, {
+          'Content-Length': body.length,
+          'Content-Type': 'text/plain'
+        });
+        res.end(body);
+  });
+  
+  server.on('error', (e) => {
+    if (e.code === 'EADDRINUSE') {
+      console.log('WS Address in use, retrying...');
+      port = port+1;
+      server.listen( port,host, null );
+      console.log("new listen established");
     }
-    return alloc( port+1, left-1 );
-  }
+  });
+  server.listen( port,host, null );
+  
+  server.on("listening",() => {
+    var p = new WS.Server({ server: server} );
+    cb(p);
+  });
+  
+  return server;
 }
 
 ////////////////////////////////////////
