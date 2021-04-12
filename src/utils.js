@@ -58,6 +58,7 @@ export function interp_arr( arr1, arr2, w ) {
 //  if (!arr1) arr1=arr2;
   if (!arr2) arr2=arr1;
 //  if (!arr1) return []; // ну так вот странно пока
+  if (arr1 === arr2) return arr1;
 
   // ***********************
 

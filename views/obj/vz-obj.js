@@ -22,9 +22,10 @@ export function create( vz, opts ) {
 
   obj.trackParam( "@dat",function(v) {
     var dat = obj.getParam("@dat");
-    gr.positions = utils.combine( [dat.X, dat.Y, dat.Z ] );
-    surf.positions = gr.positions;
-    surf.indices = utils.combine( [dat.I1, dat.I2, dat.I3] );
+    gr.positions = dat.XYZ;
+    surf.positions = dat.XYZ;
+    surf.indices = dat.indices;
+
     deploy_dat_to_params( obj, dat );
   });
 
@@ -46,13 +47,12 @@ function parse_obj_to_df( data ) {
 function interp( v1, v2, w ) {
   if (!v2) return v1;
   if (!v1) return v2;
-  if (!v1 && !v2) return { X:[], Y: [], Z: [], I1: [], I2: [], I3: [] };
+  if (!v1 && !v2) return { XYZ:[], indices: [] };
+  if (v1 === v2) return v1;
 
   var dat = {
-    X: utils.interp_arr( v1.X, v2.X, w),
-    Y: utils.interp_arr( v1.Y, v2.Y, w),
-    Z: utils.interp_arr( v1.Z, v2.Z, w),
-    I1: v1.I1, I2: v1.I2,  I3: v1.I3
+    XYZ: utils.interp_arr( v1.XYZ, v2.XYZ, w),
+    indices: v1.indices
   }
   return dat;
 }
