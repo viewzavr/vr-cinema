@@ -89,7 +89,7 @@ export function parse_obj(lines) {
         break
 
         default:
-          throw new Error("parse-obj: Unrecognized directive: '" + toks[0] + "'")
+          //throw new Error("parse-obj: Unrecognized directive: '" + toks[0] + "'")
       } // switch
     }
     
