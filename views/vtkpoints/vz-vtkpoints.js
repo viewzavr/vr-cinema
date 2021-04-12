@@ -20,7 +20,8 @@ export function create( vz, opts ) {
 
   obj.trackParam( "@dat",function(v) {
     var dat = obj.getParam("@dat");
-    gr.positions = utils.combine( [dat.X, dat.Y, dat.Z ] );
+    //gr.positions = utils.combine( [dat.X, dat.Y, dat.Z ] );
+    gr.positions = dat.XYZ;
     
     deploy_dat_to_params( obj, dat );
   });

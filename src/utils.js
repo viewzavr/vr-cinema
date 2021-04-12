@@ -37,6 +37,8 @@ export function combine( arrays_list ) {
   if (!(Array.isArray(arr0) || arr0 instanceof Float32Array)) {
     return [];
   }
+  
+  // todo: optimise to Float32Array (maybe always for simplicity)
 
   var res = [];
   var len = arr0.length;
@@ -50,7 +52,7 @@ export function combine( arrays_list ) {
 
 // interpolates two 1-dimensional arrays
 export function interp_arr( arr1, arr2, w ) {
-  var acc = [];
+  //var acc = [];
   if (!arr1) return []; // ну так вот странно пока
 //  if (!arr1) arr1=arr2;
   if (!arr2) arr2=arr1;
@@ -63,13 +65,16 @@ export function interp_arr( arr1, arr2, w ) {
   
   if (typeof(arr1[0]) == "string" || typeof(arr2[0]) == "string") return arr1;
    
-  for (var i=0; i<arr1.length; i++) {
+  const count = arr1.length;
+  var acc = new Float32Array( count );
+  for (var i=0; i<count; i++) {
 //    if (typeof(arr1[i]) == "string") 
 // todo optimize - вынести флаг проверку первого аргумента наружу. а точнее вообще отдельную ветку сделать.. типа if (typeof(arr1[i]) == "string") return arr1;
 // DONE см выше
 //      acc.push( arr1[i] );
 //    else
-      acc.push( arr1[i] + w * (arr2[i] - arr1[i]) );
+//      acc.push( arr1[i] + w * (arr2[i] - arr1[i]) );
+      acc[i] = arr1[i] + w * (arr2[i] - arr1[i]);
   }
   return acc;
 }
@@ -84,6 +89,7 @@ export function interp_df( df1, df2, w ) {
 export function interp_csv( csv1, csv2, w ) {
   if (!csv1) return { colnames: [], length: 0}
   if (!csv2) return csv1;
+  if (csv1 === csv2) return csv1; // in case of same data provided
   
   var res = {};
   res.colnames = csv1.colnames;

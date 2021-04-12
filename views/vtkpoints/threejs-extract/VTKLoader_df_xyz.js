@@ -408,32 +408,24 @@ VTKLoader.prototype = Object.assign( Object.create( Loader.prototype ), {
 					// Each point is 3 4-byte floats
 					count = numberOfPoints * 4 * 3;
 
-					var xyz = new Float32Array( numberOfPoints*3 );
-					//var y = new Float32Array( numberOfPoints );
-					//var z = new Float32Array( numberOfPoints );
-										
+					var x = new Float32Array( numberOfPoints );
+					var y = new Float32Array( numberOfPoints );
+					var z = new Float32Array( numberOfPoints );
+					
+					
 
 					pointIndex = state.next;
-					for ( i = 0,j=0; i < numberOfPoints; i ++,j+=3 ) {
+					for ( i = 0; i < numberOfPoints; i ++ ) {
 
-/*						x[ i ] = dataView.getFloat32( pointIndex, false );
+						x[ i ] = dataView.getFloat32( pointIndex, false );
 						y[ i ] = dataView.getFloat32( pointIndex + 4, false );
 						z[ i ] = dataView.getFloat32( pointIndex + 8, false );
-*/						
-                        xyz[ j ] = dataView.getFloat32( pointIndex, false );
-						xyz[ j+1 ] = dataView.getFloat32( pointIndex + 4, false );
-						xyz[ j+2 ] = dataView.getFloat32( pointIndex + 8, false );
 						pointIndex = pointIndex + 12;
 
 					}
-					DF.add_column( df, "XYZ",xyz);
-//					DF.add_column( df, "Y",y);
-//					DF.add_column( df, "Z",z);
-/*					
 					DF.add_column( df, "X",x);
 					DF.add_column( df, "Y",y);
 					DF.add_column( df, "Z",z);
-*/					
 
 					// increment our next pointer
 					state.next = state.next + count + 1;
