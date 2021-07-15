@@ -1,7 +1,9 @@
 # viewzavr-cinema
 
 Viewzavr-based CinemaScience 3d viewer and it's components.
-A successor of https://github.com/pavelvasev/38parrots
+
+This is a new version that is being developed. For more examples and images please visit previous project
+ https://github.com/pavelvasev/38parrots
 
 # run online
 
