@@ -2,7 +2,7 @@
 
 Viewzavr-based CinemaScience 3d viewer and it's components.
 
-This is a new version that is being developed. For more examples and images please visit previous project
+This is a new project that is being developed. For more examples and images please visit previous project
  https://github.com/pavelvasev/38parrots
 
 # run online
