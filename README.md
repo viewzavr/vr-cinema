@@ -1,20 +1,24 @@
 # viewzavr-cinema
 
-Viewzavr-based CinemaScience 3d viewer and it's components.
+Viewzavr-based CinemaScience 3D viewer.
 
-This is a new project that is being developed. For more examples and images please visit previous project
- https://github.com/pavelvasev/38parrots
+# How to use
 
-# run online
+## Prepare
+1. Create a CinemaScience database with 3D scene according to docs on https://github.com/pavelvasev/38parrots
+2. Install latest nodejs and npm https://nodejs.org/en/download/
+
+## Run
+
+Execute in command line:
+* `npx vr-cinema` to open visualization for cinemascience 3d scene in current directory.
+* `npx vr-cinema path-to-dir` to open visualization from another directory.
+
+This will start local http server for specified dir and open browser with online version of vr-cinema for that database.
+
+# Online version
 
 http://viewzavr.com/apps/vr-cinema/
-
-# run on local machine
-
-* `npx vr-cinema` (when current directory is CinemaScience database)
-* `npx vr-cinema path-to-dir`
-
-will start local http server for specified dir and open browser with online version of vr-cinema for that database.
 
 # implemented features
 
