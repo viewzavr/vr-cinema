@@ -3,6 +3,9 @@
 ## R-INTERPOLATION
 Interpolation mode required for views.
 
+## R-INTERPOLATION-OPTIONAL
+Interpolation should be optional, selectable by user.
+
 ## R-RESTORE
 Cinema views should restore their params from window hash.
 
