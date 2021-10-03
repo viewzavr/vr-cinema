@@ -3,9 +3,6 @@
 ## R-INTERPOLATION
 Interpolation mode required for views.
 
-## R-INTERPOLATION-OPTIONAL
-Interpolation should be optional, selectable by user.
-
 ## R-RESTORE
 Cinema views should restore their params from window hash.
 
@@ -20,8 +17,14 @@ for new line.
 ## R-FLATSHADING-VRML-DEFAULT
 Vrml surface should have flat shading by default, required for Dubins car visualization (ehh).
 
-## R-INTERPOLATION-IS-A-FEATURE
+## R-INTERPOLATION-OPTIONAL
 It should be able to turn it off, in case if data is not appropriate for interpolation.
+
+## R-USABLE-NAVIGATION
+Navigation in scene is sometimes not usable thanks to default behaviour of orbitcontrol.
+=>
+## F-CAMERA-CHANGE-FOCUSPOINT
+Intersect current camera ray with visual objects in scene and focus rotation on nearest point of intersection.
 
 ## R-KEEP-SLIDER-IN-RANGE
 If data is reloaded, sometimes current parameter values in gui goes out of range.
