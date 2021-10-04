@@ -18,7 +18,7 @@ var dir = process.argv[2] || ".";
 console.log("serving dir:",dir );
 
 var nstatic = require('node-static');
-var nstatic_opts = {headers: {"Access-Control-Allow-Origin": "https://viewzavr.com",
+var nstatic_opts = {headers: {"Access-Control-Allow-Origin": "http://viewzavr.com",
              "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control, If-Modified-Since, ETag",
              "Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,POST,PUT",
             },
@@ -77,7 +77,7 @@ function reqfunc(request, response) {
 }
 
 var port = 0; // auto-detect
-var host = 'localhost'; // only local iface
+var host = process.env.VR_HOST || '127.0.0.1'; // only local iface
 
 //////////// feature: port scan. initial port value should be non 0
 port = 8080;

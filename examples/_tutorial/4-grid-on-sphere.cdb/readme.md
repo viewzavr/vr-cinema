@@ -1,3 +1,9 @@
+# Important!
+
+This example contains huge files. Run `ruby generate.rb` to generate files for this example.
+
+# Example
+
 > [Run online](http://tinyurl.com/te3bsoh), then press button according to example's name.
 
 In this example, we desire to visualize a cubical 3d regular grid using points.

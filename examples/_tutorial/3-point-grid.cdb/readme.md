@@ -1,3 +1,9 @@
+# Important!
+
+This example contains huge files. un `ruby generate.rb` to generate files for this example.
+
+# Example
+
 > [Run online](http://tinyurl.com/te3bsoh), then press button according to example's name.
 
 In this example, we desire to visualize a grid of points in range (1..`ax`, 1..`ay`).

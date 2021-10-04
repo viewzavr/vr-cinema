@@ -12,6 +12,13 @@ Run:
 * `npx vr-cinema`
 * `npx vr-cinema path-to-dir`
 
+Will run vr-cinema on local interface 127.0.0.1.
+
+# Options
+
+* Bind to specific interface: `VR_HOST=some-interface npx vr-cinema`.
+Examples: `VR_HOST=myhost.com npx vr-cinema`, `VR_HOST=192.168.0.5 npx vr-cinema`.
+
 # Integrate with windows explorer / gnome
 
 ## Linux
@@ -58,31 +65,52 @@ close server if connection just closed by say hibernation).
 
 # Requirements and features
 
-# R-FRESH-DATA
+## R-FRESH-DATA
 Data should be displayed fresh, as on disks.
 
-## F-CACHE
+### F-CACHE
 Cache should be 0 with e-tags, so new data will.
 
-# R-SAVE-SETTINGS
+## R-SAVE-SETTINGS
 User should be able to save settings while navigating scene.
 
-## F-AUTOSAVE
+### F-AUTOSAVE
 Auto-save viewzavr-settings.json (done in ../index.html)
 
-# R-EASY-START
+## R-EASY-START
 User should have an ability to start our CinemaScience viewer with easy on local data files.
 That's why we created this server. However it should be probably integrated with explorer/gnome.
 
-# R-EXPLORE
+## R-EXPLORE
 It will be easier to use if software may find cinemascience bases automatically.
 
-## F-EXPLORE
+### F-EXPLORE
 Inspect subdirs to multiple data.csv and show their overview with screenshots.
 Currently if data.csv exist in specified dir, it will start as is.
 In other case, a search of data.csv files is performed and they are shown in index screen.
 
-# R-FRESH-FILES
+## R-FRESH-FILES
 When sending files, it should be served with valid responce headers so browser will cache
 them smartly, say with e-tag of if-modified-since checking on each ongoing request to same
 resource.
+
+## R-INTERFACES-BIND
+We should somehow configure which interfaces should server listen on.
+Options file? Env? (seems env is simpler, then go to options file).
+Additionally, if we serve from 0.0.0.0, url to files in explore mode 
+should point to some accessible address.
+## F-INTERFACES-BIND [x]
+Implemented option VR_HOST. It was an option for VR_BIND, but seems `host` is more intuitive for user.
+
+## F-CORS
+We should respond to requester host in cors.
+
+## R-SECURE
+If started from user home dir, an ssh key is also served. Do something with this.
+
+## F-SERVER-CINEMA-LOCAL
+Technically we may serve vr-cinema project locally, without
+going to viewzavr.com project at all, for example from /vr-cinema path.
+Then, probably, we may even hook viewzavr-system-a too as a submodule
+(seems this is a best way).
+But this will work only in http mode, which is problem for WebVR.
