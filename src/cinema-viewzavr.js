@@ -49,6 +49,8 @@ export function create( vz, opts ) {
     });
   });
   
+  obj.addCheckbox("interpolation",true);
+  
   // это здесь для файла?
   obj.newContent = function(txt) {
       obj.assignData( parse_csv(txt),function(path) {
@@ -133,6 +135,9 @@ export function create( vz, opts ) {
     var sum_dist = dist1 + dist2;
     var w = sum_dist > 0 ? dist1 / sum_dist : 0;
     //console.log("w",w,"found_i1=",found_i1,"dist1=",dist1,"found_i2=",found_i2,"dist2=",dist2,"req=",req);    
+    
+    // feature: interpolation is optional
+    if (!obj.params.interpolation) w = 0;
 
     obj.cinemadb.getArtNames().forEach( function(name) {
       var artsrc1 = obj.cinemadb.data[ name ][ found_i1 ];
