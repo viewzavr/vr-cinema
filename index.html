@@ -85,22 +85,16 @@
       obj.setParam("file",file);
       */
       
-      /*
-      obj.trackParam( "file",function() {
-        var f = obj.getParam("file");
-        var settings_url = vz.getDir( f ) + "viewzavr-settings.json";
-        vzPlayer.loadJson( settings_url );
-      });
-      */
+
       
       // идея - быть может быть это должно сопутсвовать data.csv ? а не плееру?
       // и быть может даже - сопутсвовать всякой смене data.csv, т.е. уйти на уровень вглюбь viewzavr-cinema?
-      
-      
+
       // загрузили приложуху - поехали ставить параметры и путь к файлу
       q.then( function() {
-        var jsonurl = getParameterByName("settings");
-        var q2 = jsonurl ? vzPlayer.loadJson( jsonurl ) : q;
+        // var jsonurl = getParameterByName("settings");
+        //var q2 = jsonurl ? vzPlayer.loadJson( jsonurl ) : q;
+        var q2 = q;
         
         q2.then( () => {
             vzPlayer.loadFromHash().then( () => {
@@ -111,7 +105,34 @@
               // it should override that what is in params!
               var file = getParameterByName("datapath") || vz.getDir( import.meta.url ) + "./examples/_tutorial/0-points-fly.cdb/data.csv";
               var obj = vzPlayer.getRoot();
-              console.log("we set file",file );
+              
+      obj.trackParam( "file",function() {
+        var f = obj.getParam("file");
+        var settings_url = vz.getDir( f ) + "viewzavr-player.json";
+        /*
+        setTimeout( () => {
+          console.log("SETTINGS: source file changed, restoring settings from server",settings_url );
+          //vzPlayer.loadJson( settings_url );
+        }, 500 ); // give time for cinema to respond to file change..
+        */
+        
+        // see also: feature-restore-on-base-change.js
+        console.log("SETTINGS: source file changed, fetching settings from server",settings_url );
+        loadJson2( settings_url ).then( (data) =>  {
+          setTimeout( () => {
+            // need erase incoming url from settings - we have own one
+            if (typeof( data?.children?.scene?.params?.file ) !== "undefined")
+              delete data.children.scene.params['file'];
+            
+          
+            console.log("SETTINGS: source file changed, applying settings from server",settings_url,data );
+            vzPlayer.restoreFromDump( data, true );
+          }, 500 );
+        }).catch( (err) => {} );
+        
+      });              
+      
+      console.log("we set file",file );
               obj.setParam("file",file);
             
               /*
@@ -142,7 +163,7 @@
             body: JSON.stringify(code,null, '  ')
           });
           // послали
-          console.log("settings sent to server");
+          console.log("SETTINGS: sent to server",storepath);
         
           oh( obj );
         };
@@ -156,6 +177,35 @@
       }
       
       import "./file-progress.js";
+      
+    function loadJson2( url ) {
+     return new Promise( function( resolv, rej ) {
+      fetch(url).then((response) => {
+          if (!response.ok) {
+            console.error("loadJson2 fetch not ok:",response.statusText)
+            //throw "fetch error";
+            rej( "response not ok" );
+          }
+
+          return response.json();
+        },
+        (reason) => {
+          console.log("loadJson2 error: ",reason); // Ошибка!
+          rej( reason )
+          //resolv( {} );
+          return {};
+        }
+      )
+      .then((data) => {
+        //console.log(data);
+        //console.log("loadJson: loaded, syncing");
+          resolv( data );
+      }
+      ,(err) => { console.error("loadJson2 parse error",err); rej(err); }
+      );
+     });
+  }
+
 
   </script>
 

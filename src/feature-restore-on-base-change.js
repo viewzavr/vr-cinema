@@ -4,6 +4,7 @@
 // requirement: when system reloads, set params to original state
 // requirement: when user switches to some cinema db, and then to another, and then back to first,
 //              parameters configured for first should be restored!
+
 export default function addRestoreStateFeature( obj ) {
 
   var subtreeState = {};
@@ -29,9 +30,9 @@ export default function addRestoreStateFeature( obj ) {
   });
 
   // track when object is restored from external sources (for example window hash)
-  obj.chain("restoreFromDump",function(dump) {
+  obj.chain("restoreFromDump",function(dump,...rest) {
     subtreeState = dump;
-    return  this.orig( dump );
+    return  this.orig( dump,...rest );
   });
 
 }
