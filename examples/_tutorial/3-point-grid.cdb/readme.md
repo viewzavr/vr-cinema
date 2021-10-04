@@ -1,7 +1,3 @@
-# Important!
-
-This example contains huge files. un `ruby generate.rb` to generate files for this example.
-
 # Example
 
 > [Run online](http://tinyurl.com/te3bsoh), then press button according to example's name.
