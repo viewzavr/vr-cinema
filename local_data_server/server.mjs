@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-
+import * as path from 'path';
 
 /*
   https://github.com/cloudhead/node-static
@@ -11,35 +11,63 @@
 
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
+var fs = require('fs');
+var process = require('process');
 
-const process = require('process');
 var dir = process.argv[2] || ".";
 //console.log( process.argv );
 console.log("serving dir:",dir );
 
+// R-SECURE
+if (fs.existsSync( path.join( dir,".ssh"))) {
+  console.log("It seems you are running from user home dir. This is not recommended because all your files might be visible via HTTP. Exiting." );
+  process.exit(1);
+}
+
 var nstatic = require('node-static');
-var nstatic_opts = {headers: {"Access-Control-Allow-Origin": "http://viewzavr.com",
+var nstatic_opts = {
+                     cache: 0 // should be 0 so node-static will respond with Cache-control: max-age=0 and that is what we need, F-FRESH-FILES
+                   }
+/*  
+var headers = {
+             "Access-Control-Allow-Origin" : "*",
              "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control, If-Modified-Since, ETag",
              "Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,POST,PUT",
-            },
-            cache: 0 // should be 0 so node-static will respond with Cache-control: max-age=0 and that is what we need, F-FRESH-FILES
-  }
+            }  
+*/            
   
 var fileServer = new nstatic.Server( dir,nstatic_opts );
 
 var server = require('http').createServer( reqfunc );
-var fs = require('fs');
+
 
 import * as E from './explore.mjs';
+//import url from 'url';
 
 function reqfunc(request, response) {
     console.log(request.url, request.method );
     
+    //for (var k in nstatic_opts.headers) 
+    if (request.headers.origin) {
+        //const u =  url.parse ( request.headers.referer );
+        response.setHeader( "Access-Control-Allow-Origin",request.headers.origin );
+        response.setHeader( "Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control, If-Modified-Since, ETag" );
+        response.setHeader( "Access-Control-Allow-Methods","GET,HEAD,OPTIONS,POST,PUT" );
+    }
+    
     if (request.url == "/")
-      return E.explore( server, dir, request, response,{watcher_port:watcher_port}  );
+      return E.explore( server, dir, request, response, explore_params );
     
     if (request.method == "POST") {
       var filepath = dir + request.url; // TODO fix this! to be file inside url
+      // R-SECURE
+      var relative = path.relative( dir, filepath );
+      var is_inside = relative && !relative.startsWith('..') && !path.isAbsolute(relative);
+      if (path.basename( filepath ) != "viewzavr-player.json" || !is_inside) {
+        console.log("POST to invalid url, breaking");
+        response.end();
+        return;
+      }      
       
       let body = '';
       console.log("method is post, will write file",filepath);
@@ -53,8 +81,8 @@ function reqfunc(request, response) {
           } );
           
           //console.log(body);
-          response.setHeader( "Access-Control-Allow-Origin","*");
-          response.write('OK'); 
+          //response.setHeader( "Access-Control-Allow-Origin","*");
+          //response.write('OK');
           response.end();
       });
     }
@@ -64,10 +92,9 @@ function reqfunc(request, response) {
           // probably we should change our file serving method (e.g. node-static)
           // response.setHeader( "Allow","OPTIONS, GET, HEAD, POST");
           // https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/OPTIONS
-          for (var k in nstatic_opts.headers)
-            response.setHeader( k,nstatic_opts.headers[k] );
-          response.write('OK'); 
-          response.end();    
+          //for (var k in nstatic_opts.headers) response.setHeader( k,nstatic_opts.headers[k] );
+          // response.write('OK'); 
+          response.end();
     }
     else
     request.addListener('end', function () {
@@ -79,6 +106,15 @@ function reqfunc(request, response) {
 var port = 0; // auto-detect
 var host = process.env.VR_HOST || '127.0.0.1'; // only local iface
 
+/////////// feature: watch files
+import WF from "./feature-watch-file.mjs";
+var watcher_server = WF( dir, host );
+var watcher_port = 0;
+
+///////////
+var vr_cinema_url = (host == "127.0.0.1" ? "https://viewzavr.com/apps/vr-cinema" : "http://viewzavr.com/apps/vr-cinema");
+var explore_params = {watcher_port, vr_cinema_url};
+
 //////////// feature: port scan. initial port value should be non 0
 port = 8080;
 server.on('error', (e) => {
@@ -89,15 +125,10 @@ server.on('error', (e) => {
   }
 });
 
-/////////// feature: watch files
-import WF from "./feature-watch-file.mjs";
-var watcher_server = WF( dir, host );
-var watcher_port = 0;
-
 /////////// feature: open bro
 
 var opener = require("opener");
-import * as path from 'path';
+
 
 watcher_server.on("listening",() => {
  watcher_port = watcher_server.address().port;
@@ -108,7 +139,7 @@ server.on("listening",() => {
   var opath;
   var datacsv_file_path = path.join( dir, "data.csv" );
   if (fs.existsSync(datacsv_file_path)) {
-    opath = E.vzurl( server,"",{watcher_port:watcher_port} );
+    opath = E.vzurl( server,"",explore_params );
   }
   else
   {

@@ -28,7 +28,8 @@ export function vzurl( server, cinema_relative_dir,options={} ) {
     var datapath = `http://${server.address().address}:${server.address().port}${cinema_relative_dir}/data.csv`;
     var spath = `http://${server.address().address}:${server.address().port}${cinema_relative_dir}/viewzavr-player.json`;
     var storepath = `http://${server.address().address}:${server.address().port}${cinema_relative_dir}/viewzavr-player.json`;
-    var opath = `https://viewzavr.com/apps/vr-cinema?datapath=${datapath}&settings=${spath}&storepath=${storepath}`;
+    var viewzavr_player_url = options.vr_cinema_url || "https://viewzavr.com/apps/vr-cinema";
+    var opath = `${viewzavr_player_url}?datapath=${datapath}&settings=${spath}&storepath=${storepath}`;
     // +feature watch file
     if (options.watcher_port) {
        var wpath = `ws://${server.address().address}:${options.watcher_port}${cinema_relative_dir}/data.csv`;
@@ -48,7 +49,7 @@ export function explore( server, dir, request, response, options={} )
       console.log("match",f);
       var rel = path.relative( dir, f );
       var reldir = path.dirname( rel );
-      var url = vzurl( server,"/"+reldir );
+      var url = vzurl( server,"/"+reldir, options );
       txt = txt + `<a target='_blank' href='${url}'>${reldir}</a> `
       counter++;
     }
