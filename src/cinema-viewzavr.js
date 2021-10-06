@@ -49,6 +49,17 @@ export function create( vz, opts ) {
     });
   });
   
+  obj.addCheckbox("interpolation",false, () => {
+     //obj.refresh();
+     
+      if (!obj.cinemadb) return;
+      if (!obj.cinemadb.getParamNames()) return;
+      obj.generateParams()
+      obj.generateArtefacts();
+      obj.reactOnParamChange();
+      
+  } );
+  
   // это здесь для файла?
   obj.newContent = function(txt) {
       obj.assignData( parse_csv(txt),function(path) {
@@ -73,6 +84,14 @@ export function create( vz, opts ) {
     obj.generateArtefacts();
     obj.reactOnParamChange();
   }
+  
+  obj.interpolationMode = () => obj.params.interpolation;
+  
+  obj.useConcreteValues = (name) => {
+    if (obj.interpolationMode())
+      return obj.cinemadb.isStringColumn(name);
+    return true;
+  }
 
   obj.generateParams = function() {
     if (obj.params_obj) obj.params_obj.remove();
@@ -84,7 +103,7 @@ export function create( vz, opts ) {
       var max = vals[ vals.length-1 ];
       // todo check if string - setup combo..
       
-      if (obj.cinemadb.isStringColumn(name)) {
+      if (obj.useConcreteValues( name )) {
         obj.params_obj.addCombo( name, 0,vals, function(v) {
           obj.reactOnParamChange();
         });
@@ -105,6 +124,7 @@ export function create( vz, opts ) {
       });
       obj.params_obj.setParamOption( name,"sliding",false );
     });
+    //obj.params_obj.addCheckbox("interpolation",true, obj.generateParams);
   }
 
   obj.reactOnParamChange = function() {
@@ -113,7 +133,7 @@ export function create( vz, opts ) {
     var req = {};
     obj.cinemadb.getParamNames().forEach( function(name) {
 
-      if (obj.cinemadb.isStringColumn(name)) {
+      if (obj.useConcreteValues(name)) {
         var index = obj.params_obj.getParam( name );
         req[name] = obj.params_obj.getParamOption( name,"values" )[ index ];
       }
@@ -133,6 +153,9 @@ export function create( vz, opts ) {
     var sum_dist = dist1 + dist2;
     var w = sum_dist > 0 ? dist1 / sum_dist : 0;
     //console.log("w",w,"found_i1=",found_i1,"dist1=",dist1,"found_i2=",found_i2,"dist2=",dist2,"req=",req);    
+    
+    // feature: interpolation is optional
+    if (!obj.interpolationMode()) w = 0;
 
     obj.cinemadb.getArtNames().forEach( function(name) {
       var artsrc1 = obj.cinemadb.data[ name ][ found_i1 ];

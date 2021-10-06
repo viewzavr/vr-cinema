@@ -141,7 +141,7 @@ export function file_merge_feature( obj,parser,interp,dataparam,loadfile ) {
     f(4); // this should not be called if files are still loaded!
   });
   
-  var dat1, dat2, w
+  var dat1, dat2, w=0;
   var f = function() {
     if (obj.removed) return;
   
