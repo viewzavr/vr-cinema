@@ -1,5 +1,8 @@
 #!/usr/bin/ruby
 
+require 'fileutils'
+FileUtils.mkdir_p( "files" )
+
 f = File.open("data.csv","w")
 
 f.puts "z,FILE_points_my"

@@ -1,6 +1,6 @@
 # Flying points example
 
-> [Run online](https://viewzavr.com/apps/vr-cinema/?datapath=./examples/_tutorial/0-points-fly.cdb/data.csv)
+> [Run online](https://viewzavr.com/apps/vr-cinema/?datapath=./examples/tutorial/0-points-fly.cdb/data.csv)
 
 In this example we visualize a set of points, whose cooridinates change during time.
 

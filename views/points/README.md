@@ -2,12 +2,10 @@
 
 Purpose: render a set of points given in a csv file.
 
-Solution.
-
-A csv file should contain columns:
+A csv file may contain columns:
 * X,Y,Z - coordinates of points. Required.
-* R,G,B - red green blue color components. Float number from 0 to 1 each.
-* RADIUS - desired radius of points's representation.
+* R,G,B - red green blue color components. Float number from 0 to 1 each. Optional
+* RADIUS - desired radius of points's representation. Optional.
 
 Example input:
 ```

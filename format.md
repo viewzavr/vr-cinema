@@ -42,7 +42,7 @@ Here we define:
 
 VR-Cinema will generate graphical interface for `time`, allow to select its value, and show correspoding point cloud.
 
-[Run online](https://viewzavr.com/apps/vr-cinema/?datapath=./examples/_tutorial/0-points-fly.cdb/data.csv) | [More details on this example](./examples/_tutorial/0-points-fly.cdb)
+[Run online](https://viewzavr.com/apps/vr-cinema/?datapath=./examples/tutorial/0-points-fly.cdb/data.csv) | [More details on this example](./examples/tutorial/0-points-fly.cdb)
 
 ## Multiple parameters and visual objects
 You may define arbitrary number of parameters and visual objects. Example of **data.csv**:
