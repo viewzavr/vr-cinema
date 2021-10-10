@@ -12,9 +12,15 @@ Thus **data.csv** derermines:
 * and a relation between parameters values and artifacts. 
 -->
 
+<!--
 VR-Cinema extends CinemaScience format by the following:
 1. It allows to specify 3D visual objects as artifacts. To specify type of visual object, place it right after FILE_ prefix and surround with \_. For example, FILE_lines_beta defines visual object of type `lines`.
 2. It generates GUI controls to select current paramerers values in interface. Then it shows 3D visual objects according to selected values.
+-->
+
+VR-Cinema allows to specify 3D visual objects as artifacts. To specify type of visual object, place it right after FILE_ prefix and surround with \_. For example, `FILE_lines_beta` defines visual object of type `lines`.
+
+VR-Cinema generates GUI controls to select current paramerers values in interface. Then it shows 3D visual objects according to selected values.
 
 ## Example
 
@@ -26,7 +32,7 @@ time, FILE_points_alfa
 30, t-30.csv
 ...
 ```
-Here we defined:
+Here we define:
 1. One parameter named `time`.
 2. Values for that parameter (10,20,30,...)
 3. One visual object of type `points` named alfa.
