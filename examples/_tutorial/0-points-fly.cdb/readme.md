@@ -17,20 +17,22 @@ X, Y, Z
 
 Then we create `data.csv` file (eg. cinema database) of following content.
 ```
-T,FILE_points_my1
-0,00.csv
-1,01.csv
-2,02.csv
-3,03.csv
+time, FILE_points_alfa
+0,  dat/00.csv
+10, dat/01.csv
+20, dat/02.csv
+30, dat/03.csv
 ...
 ```
+
+> Here we use a subdirectory named `dat` for storing actual data files. You may use any directories or not use them at all.
 
 Thus we achieve following visualization:
 
 ![](http://showtime.lact.in/resizer_st/fit/340/340//files/visual/2020-03-13/2020-03-13-at-12-32-28.png)
 ![](http://showtime.lact.in/resizer_st/fit/340/340//files/visual/2020-03-14/2020-03-14-at-22-29-47.png)
 
-38parrots generate slider interface for parameter T, and user might change parameter value using that slider,
+Software generates slider interface for parameter T, and user might change parameter value using that slider,
 and see how points change their coordinates:
 
 ![](http://showtime.lact.in/resizer_st/fit/340/340//files/visual/2020-03-14/2020-03-14-at-22-44-22.png[0])

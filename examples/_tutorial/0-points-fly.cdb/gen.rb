@@ -1,13 +1,13 @@
 
 def writepts( t,x,y,z,datacsv ) 
-  pname = "points/#{'%02.0f' %t}.csv"
+  pname = "dat/#{'%02.0f' %t}.csv"
   File.open( pname,"w" ) do |f|
     f.puts "X, Y, Z"
     for i in 0...x.length do
       f.puts "#{'%.2f' % x[i]}, #{'%.2f' % y[i]}, #{'%.2f' % z[i]}"
     end
   end
-  datacsv.puts "#{t},#{pname}"
+  datacsv.puts "#{t*10}, #{pname}"
 end
 
 def step( x,y,z,rstep )
@@ -27,7 +27,7 @@ z = Array.new(n) { rand*r }
 puts x.inspect
 
 datacsv = File.open("data.csv","w")
-datacsv.puts "T,FILE_points_my1"
+datacsv.puts "time, FILE_points_alfa"
 
 while t<15 do
   writepts( t,x,y,z,datacsv )

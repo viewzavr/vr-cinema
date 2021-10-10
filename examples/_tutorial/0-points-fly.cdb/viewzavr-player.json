@@ -1,0 +1,59 @@
+{
+  "children": {
+    "state": {
+      "children": {
+        "camera": {
+          "params": {
+            "cameraPos": [
+              17.91758399398723,
+              18.111653556281023,
+              28.275199508906205
+            ],
+            "cameraCenter": [
+              4.123321602724835,
+              1.3061823818709997,
+              -2.5036926363475716
+            ]
+          }
+        }
+      }
+    },
+    "scene": {
+      "params": {
+        "interpolation": true
+      },
+      "module_url": "https://viewzavr.com/apps/vr-cinema/./app.js",
+      "children": {
+        "params": {
+          "params": {
+            "T": 0
+          }
+        },
+        "artefacts": {
+          "children": {
+            "FILE_points_my1": {
+              "children": {
+                "points": {
+                  "params": {
+                    "radius": 6.4,
+                    "color": [
+                      0.06,
+                      1,
+                      1
+                    ],
+                    "shape": 2
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "packages": {
+    "codes": [],
+    "urls": []
+  },
+  "viewzavr_player_flags": 1
+}
