@@ -42,6 +42,16 @@ VR-Cinema will generate graphical interface for `time`, allow to select its valu
 
 [Run online](https://viewzavr.com/apps/vr-cinema/?datapath=./examples/_tutorial/0-points-fly.cdb/data.csv) | [More details on this example](./examples/_tutorial/0-points-fly.cdb)
 
+## Multiple parameters and visual objects
+You may define arbitrary number of parameters and visual objects. Example of **data.csv**:
+```
+alfa, beta, FILE_points_alfa, FILE_lines_beta, FILE_points_teta, FILE_obj_surf
+10, 0.15, 1.csv, lines-1.csv, pts-beta.csv, constant-surf.obj
+20, 0.15, 2.csv, lines-1.csv, pts-beta.csv, constant-surf.obj
+20, 0.25, 2-0.25.csv, lines-1.csv, pts-beta.csv, constant-surf.obj
+...
+```
+
 ## List of supported 3D visual objects
 
 * Points
