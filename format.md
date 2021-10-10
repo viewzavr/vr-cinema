@@ -13,7 +13,7 @@ Thus **data.csv** derermines:
 -->
 
 VR-Cinema extends CinemaScience format by the following:
-1. It allows to specify 3D visual objects in artifacts. To specify type of visual object, place it right after FILE_ prefix and surround with \_. For example, FILE_lines_beta defines visual object of type `lines`.
+1. It allows to specify 3D visual objects as artifacts. To specify type of visual object, place it right after FILE_ prefix and surround with \_. For example, FILE_lines_beta defines visual object of type `lines`.
 2. It generates GUI controls to select current paramerers values in interface. Then it shows 3D visual objects according to selected values.
 
 ## Example
