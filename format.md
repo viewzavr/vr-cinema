@@ -40,6 +40,8 @@ Here we define:
 
 VR-Cinema will generate graphical interface for `time`, allow to select its value, and show correspoding point cloud.
 
+[Run online](https://viewzavr.com/apps/vr-cinema/?datapath=./examples/_tutorial/0-points-fly.cdb/data.csv) | [More details on this example](./examples/_tutorial/0-points-fly.cdb)
+
 ## List of supported 3D visual objects
 
 * Points
