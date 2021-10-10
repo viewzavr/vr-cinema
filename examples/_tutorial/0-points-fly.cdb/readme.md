@@ -35,6 +35,6 @@ Thus we achieve following visualization:
 Software generates slider interface for parameter T, and user might change parameter value using that slider,
 and see how points change their coordinates:
 
-![](http://showtime.lact.in/resizer_st/fit/340/340//files/visual/2020-03-14/2020-03-14-at-22-44-22.png[0])
-![](http://showtime.lact.in/resizer_st/fit/340/340//files/visual/2020-03-14/2020-03-14-at-22-44-27.png[0])
-![](http://showtime.lact.in/resizer_st/fit/340/340//files/visual/2020-03-14/2020-03-14-at-22-44-29.png[0])
+![](http://showtime.lact.in/resizer_st/fit/340/340//files/visual/2020-03-14/2020-03-14-at-22-44-22.png)
+![](http://showtime.lact.in/resizer_st/fit/340/340//files/visual/2020-03-14/2020-03-14-at-22-44-27.png)
+![](http://showtime.lact.in/resizer_st/fit/340/340//files/visual/2020-03-14/2020-03-14-at-22-44-29.png)
