@@ -1,6 +1,6 @@
-# viewzavr-cinema
+# vr-cinema
 
-Viewzavr-based CinemaScience 3D viewer.
+VR-Cinema is a 3D scientific visualization software. It works in a web browser, and utilizes CinemaScience-based scene format for input.
 
 
 ![](http://showtime.lact.in/resizer_st/fit/160/160//files/visual/2020-03-12/2020-03-12-at-11-47-04.gif)
@@ -17,21 +17,24 @@ Viewzavr-based CinemaScience 3D viewer.
 
 # How to use
 
-## Prepare
-1. Create a CinemaScience database with 3D scene according to docs on https://github.com/pavelvasev/38parrots
-2. Install latest nodejs and npm https://nodejs.org/en/download/
+### 1. Prepare computer
+Install latest nodejs https://nodejs.org/en/download/
 
-## Run
+### 2. Prepare scene
+
+Create a file with scene description. See [format documentation](format.md) for details.
+
+### 3. Start visualization
 
 Execute in command line:
-* `npx vr-cinema` to open visualization for cinemascience 3d scene in current directory.
-* `npx vr-cinema path-to-dir` to open visualization from another directory.
+* `npx vr-cinema` to start visualization in current directory.
+* `npx vr-cinema path-to-dir` to start visualization from another directory.
 
-This will start local http server for specified dir and open browser with online version of vr-cinema for that database.
+This will start local http server and open browser with VR-Cinema for specified CinemaScience database.
 
 # Online version
 
-http://viewzavr.com/apps/vr-cinema/
+You may use online demo of VR-Cinema to visualize your data: http://viewzavr.com/apps/vr-cinema/
 
 # implemented features
 
