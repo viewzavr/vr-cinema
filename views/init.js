@@ -1,4 +1,4 @@
-import * as vz_points from "./vz-points.js";
+
 import * as vz_spheres from "./vz-spheres.js";
 import * as vz_lines  from "./vz-lines.js";
 import * as vz_triangles  from "./vz-triangles.js";
@@ -9,7 +9,6 @@ import * as vz_obj from "./obj/vz-obj.js";
 import * as vz_quads from "./vz-quads.js";
 
 export function setup( vz ) {
-  vz_points.setup( vz );
   vz_spheres.setup( vz );
   vz_lines.setup( vz );
   vz_triangles.setup( vz );
@@ -18,4 +17,6 @@ export function setup( vz ) {
   vz_vrml.setup( vz );
   vz_vtkpoints.setup( vz );
   vz_obj.setup( vz );
+
+  return vzPlayer.loadPackage( vz.getDir( import.meta.url ) + "./list.txt" );
 }

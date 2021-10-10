@@ -15,8 +15,8 @@ export function setup( vz ) {
   vz.addItemType( "cinema-view-cinema","Cinema 3d viewer",function( opts ) {
     return create( vz, opts );
   }, {label:"special"} );
-  views.setup( vz );
   colorize_scalars.setup( vz );
+  return views.setup( vz );
 }
 
 ////////////////////////////////

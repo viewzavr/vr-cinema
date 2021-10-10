@@ -58,9 +58,10 @@
     import * as lib1 from "//viewlang.ru/viewzavr-apps/viewzavr-system-a/lib/library-one/init.js";
     lib1.setup( vz, vzPlayer );
     
-    // как-то корявенько это все.. промысы эти..
+    //////////////////////////// required packages
     // we need almost always that package
-    var q0 = vzPlayer.loadPackage("vis-comps");
+    // var q0 = vzPlayer.loadPackage( ["vis-comps", vz.getDir( import.meta.url ) + "/views/list.txt"]);
+    var q0 = vzPlayer.loadPackage( "vis-comps" );
 
     //////////////////////////// load user script
 

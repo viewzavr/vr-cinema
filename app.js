@@ -6,6 +6,8 @@ import * as cv from "./src/cinema-viewzavr.js";
 
 export function setup( vz ) {
   cv.setup( vz );
+
+  return vzPlayer.loadPackage( vz.getDir( import.meta.url ) + "./views/list.txt" );
 }
 
 export function create( vz, opts ) {
