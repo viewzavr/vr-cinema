@@ -25,11 +25,13 @@ VR-Cinema generates GUI controls to select current paramerers values in interfac
 ## Example
 
 Let we need to visualize a point cloud which is changing in time. We write **data.csv** file of following content:
+
 ```
 time, FILE_points_alfa
-10, t-10.csv
-20, t-20.csv
-30, t-30.csv
+0,  00.csv
+10, 01.csv
+20, 02.csv
+30, 03.csv
 ...
 ```
 Here we define:
