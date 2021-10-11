@@ -1,1 +1,4 @@
 points/vz-points.js
+triangles/vz-triangles.js
+quads/vz-quads.js
+spheres/vz-spheres.js

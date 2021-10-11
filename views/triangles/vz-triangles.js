@@ -1,5 +1,5 @@
-import parse_csv from "../src/csv.js";
-import * as utils from "../src/utils.js";
+import parse_csv from "../../src/csv.js";
+import * as utils from "../../src/utils.js";
 
 
 export function setup( vz ) {

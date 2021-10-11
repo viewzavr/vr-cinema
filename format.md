@@ -57,9 +57,9 @@ alfa, beta, FILE_points_alfa, FILE_lines_beta, FILE_points_teta, FILE_obj_surf
 ## List of supported 3D visual objects
 
 * [Points](views/points)
-* Spheres
+* [Spheres](views/spheres)
 * Lines
-* Triangles
-* Quads
+* [Triangles](views/triangles)
+* [Quads](views/quads)
 * OBJ files
 * VRML files

@@ -1,7 +1,7 @@
 // прикольная версия через морфинг csv-данных..
 
-import parse_csv from "../src/csv.js";
-import * as utils from "../src/utils.js";
+import parse_csv from "../../src/csv.js";
+import * as utils from "../../src/utils.js";
 
 export function setup( vz ) {
   vz.addItemType( "cinema-view-spheres","Cinema: spheres", function( opts ) {
