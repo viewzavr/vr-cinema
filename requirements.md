@@ -59,3 +59,23 @@ We should clear file cache when refreshing data.csv in R-REFRESH. E.g. files loa
 be at least fetched again (maybe with 304 reponse). This is because these files actually might change too,
 and because we cache parsed objects from them in utils.js in memory, we need to consider all this.
 
+### R-MULTIPLE
+Allow to specify multiple inputs for visual object. E.g data.csv:
+```
+FILE_points_a
+alfa.csv
+beta.csv
+```
+in that case both alfa.csv and beta.csv should be shown. Same if some parameter corresponds to multiple values.
+This will allow to generate complex scenes of objects of same nature, for example chess game.
+
+### R-CINEMA-CINEMA
+Provide a cinema artefact, e.g. cinema db referring to cinema db in artifact column.
+
+### R-ROTATE-OBJ
+There is a need to show obj file rotated by 90.
+### R-POSITION-GLTF
+There is a need to position and rotate gltf file.
+### F-ARTIFACT-PARAMS
+To solve R-ROTATE-OBJS and R-POSITION-GLTF, provide a way to setup params for artifacts. 
+E.g. FILE_points_a->rotatex, and this corresponds to setting some parameter (attitribute) of visual objects.
