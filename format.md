@@ -58,8 +58,10 @@ alfa, beta, FILE_points_alfa, FILE_lines_beta, FILE_points_teta, FILE_obj_surf
 
 * [Points](views/points)
 * [Spheres](views/spheres)
-* Lines
+* [Lines](views/lines)
 * [Triangles](views/triangles)
 * [Quads](views/quads)
-* OBJ files
-* VRML files
+* [OBJ files](views/obj)
+* [VRML files](views/vrml)
+* [VTKpoints files](views/vtkpoints)
+* [GLTF files](views/gltf)

@@ -6,7 +6,7 @@ export default function go( socket_path ) {
     if (rootobj)
       rootobj.signalTracked("refresh");
   });
-  
+
 }
 
 /*

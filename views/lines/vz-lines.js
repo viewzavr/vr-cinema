@@ -1,5 +1,5 @@
-import parse_csv from "../src/csv.js";
-import * as utils from "../src/utils.js";
+import parse_csv from "../../src/csv.js";
+import * as utils from "../../src/utils.js";
 
 export function setup( vz ) {
   vz.addItemType( "cinema-view-lines","Cinema: lines", function( opts ) {
@@ -15,7 +15,10 @@ export function create( vz, opts ) {
   obj.trackParam( "@dat",function(v) {
     var dat = obj.getParam("@dat");
     gr.positions = utils.combine( [ dat.X, dat.Y, dat.Z, dat.X2, dat.Y2, dat.Z2 ] );
-    gr.colors = utils.combine( [ dat.R, dat.G, dat.B,dat.R2, dat.G2, dat.B2 ] );
+    if (dat.R2)
+      gr.colors = utils.combine( [ dat.R, dat.G, dat.B,dat.R2, dat.G2, dat.B2 ] );
+    else
+      gr.colors = utils.combine( [ dat.R, dat.G, dat.B, dat.R, dat.G, dat.B ] ); 
     gr.radiuses = dat.RADIUS || [];
     obj.signal("changed");
   });

@@ -2,3 +2,8 @@ points/vz-points.js
 triangles/vz-triangles.js
 quads/vz-quads.js
 spheres/vz-spheres.js
+lines/vz-lines.js
+vrml/vz-vrml.js
+obj/vz-obj.js
+gltf/vz-gltf.js
+vtkpoints/vz-vtkpoints.js

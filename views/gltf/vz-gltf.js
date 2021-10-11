@@ -1,8 +1,8 @@
-import parse_csv from "../src/csv.js";
-import * as utils from "../src/utils.js";
+import parse_csv from "../../src/csv.js";
+import * as utils from "../../src/utils.js";
 
 export function setup( vz ) {
-  vz.addItemType( "cinema-view-models","Cinema: gltf models", function( opts ) {
+  vz.addItemType( "cinema-view-gltf","Cinema: gltf files", function( opts ) {
     return create( vz, opts );
   } );
 }
