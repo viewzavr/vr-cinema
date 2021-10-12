@@ -10,7 +10,7 @@ export function setup( vz ) {
 export function create( vz, opts ) {
 
   var obj = vz.createObj( opts );
-  var nobj = vz.vis.addGltf( obj.models_obj );
+  var nobj = vz.vis.addGltf( obj );
 
   obj.trackParam( "file",function(v) {
         nobj.setParam( "src",v );

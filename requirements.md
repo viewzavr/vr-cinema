@@ -86,3 +86,7 @@ Probably good idea - a button to show current data csv. For learning and control
 ## F-PARAMS-FIRST [x]
 If parameter is specified after artefact, it should be dropped. This is according to CinemaScience spec.
 First parameters list, then artefacts list.
+
+## F-CINEMA-CLONE-PARAMS [x]
+If loading cinema from cinema, clone parameters to upper cinema.
+So they all are joined. Same for "interpolation" mode.

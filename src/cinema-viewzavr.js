@@ -11,11 +11,14 @@ import * as colorize_scalars from "./colorize-scalars.js";
 import addUpdateFeature from "./feature-refresh.js";
 import addRestoreStateFeature from "./feature-restore-on-base-change.js";
 
+import * as vzextras from "./vz-extras.js"
+
 export function setup( vz ) {
   vz.addItemType( "cinema-view-cinema","Cinema 3d viewer",function( opts ) {
     return create( vz, opts );
   }, {label:"special"} );
   colorize_scalars.setup( vz );
+  vzextras.setup( vz );
   return views.setup( vz );
 }
 
@@ -125,6 +128,8 @@ export function create( vz, opts ) {
       obj.params_obj.setParamOption( name,"sliding",false );
     });
     //obj.params_obj.addCheckbox("interpolation",true, obj.generateParams);
+    
+    obj.emit("params-generated");
   }
 
   obj.reactOnParamChange = function() {
@@ -213,18 +218,30 @@ export function create( vz, opts ) {
       
       
       var artfunc = obj.getArtFunc( type );
+      var art;
       if (!artfunc) {
         console.error("cinema-viewavr: no type func for type=",type );
       }
       else 
       {
-        var art = artfunc( {parent:obj.art_obj, name:nama} );
+        art = artfunc( {parent:obj.art_obj, name:nama} );
         art.cinemadb_path_function = obj.cinemadb_path_function;
         art.cinemadb_coords_function = obj.cinemadb_coords_function;
         art.cinemadb_rotate_function = obj.cinemadb_rotate_function;
       }
-      //vz.create_obj( {}, {parent:obj.art_obj,name:nama} );
-      // ...
+      
+      // F-CINEMA-CLONE-PARAMS
+      if (type == "cinema") {
+        art.on("params-generated", () => {
+          for (var n of art.cinemadb.getParamNames()) {
+            //art.items.params
+            obj.items.params.addParamMirror( n, art.getPath() + "/params->" + n);
+          }
+        });
+        art.linkParam("interpolation",obj.getPath()+"->interpolation");
+      }
+      
+
     });
     
 
