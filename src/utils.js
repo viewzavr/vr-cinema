@@ -125,18 +125,18 @@ export function file_merge_feature( obj,parser,interp,dataparam,loadfile ) {
     });
   });
   
-  obj.addFile( "file2","",function(v) {
+  obj.addFile( "file_interpolate_2","",function(v) {
     cachedLoad(v,parser,loadfile).then(function(arr) {
       var fact_v = arr[0];
       var dat = arr[1];
-      if (fact_v == obj.getParam("file2")) {
+      if (fact_v == obj.getParam("file_interpolate_2")) {
         dat2 = dat;
         f(2);
       }
     });
   });
   
-  obj.addSlider( "w",0,0,1,0.01,function(v) {
+  obj.addSlider( "interpolate_w",0,0,1,0.01,function(v) {
     w=v;
     f(4); // this should not be called if files are still loaded!
   });
@@ -159,7 +159,7 @@ export function file_merge_feature( obj,parser,interp,dataparam,loadfile ) {
   // idea: create promises for each file, and reassign them to some vars
   
   obj.trackParam("file",function() { data_pending = data_pending | 1; } );
-  obj.trackParam("file2",function() { data_pending = data_pending | 2; } );
+  obj.trackParam("file_interpolate_2",function() { data_pending = data_pending | 2; } );
   var data_pending=0;
   
   var orig_f = f;

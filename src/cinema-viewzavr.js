@@ -162,23 +162,27 @@ export function create( vz, opts ) {
       artsrc1 = obj.cinemadb_path_function( artsrc1 );
       var artsrc2 = obj.cinemadb.data[ name ][ found_i2 ];
       artsrc2 = obj.cinemadb_path_function( artsrc2 );
+      
+      var [nama, param] = getArtParts( name ); // F-ARTIFACT-PARAMS
 
-      var art = obj.art_obj.ns.getChildByName(name);
+      var art = obj.art_obj.ns.getChildByName(nama);
       if (art) {
-        art.setParam("file",artsrc1 );
-        art.setParam("file2",artsrc2 );
-        art.setParam("w",w );
+        art.setParam(param,artsrc1 );
+        art.setParam(param + "_interpolate_2",artsrc2 );
+        art.setParam("interpolate_w",w );
       }
       else
       {
         console.error("artefact view not found in art_obj list. name=",name);
       }
-      
+
       // feature: prefertch
-      var artsrc3 = obj.cinemadb.data[ name ][ found_i2+1 ];
-      if (artsrc3) {
-        artsrc3 = obj.cinemadb_path_function( artsrc3 );
-        linkPrefetchStrategy( artsrc3 );
+      if (param == "file") { // F-ARTIFACT-PARAMS
+        var artsrc3 = obj.cinemadb.data[ name ][ found_i2+1 ];
+        if (artsrc3) {
+          artsrc3 = obj.cinemadb_path_function( artsrc3 );
+          linkPrefetchStrategy( artsrc3 );
+        }
       }
 
     });
@@ -199,9 +203,11 @@ export function create( vz, opts ) {
 
     obj.cinemadb.getArtNames().forEach( function(name) {
       //var nama = name.split("FILE_")[1];
-      var nama = name;
+      var [nama, param] = getArtParts( name );
+      if (param != "file") return; // F-ARTIFACT-PARAMS
       
-      var type = name.split("_")[1];
+      var type = nama.split("_")[1];
+      
       
       var artfunc = obj.getArtFunc( type );
       if (!artfunc) {
@@ -292,3 +298,9 @@ function add_dir_if( path, dir ) {
       prefetchedCache[url] = true;
       linkPrefetchStrategy0(url);
     }
+    
+///////////////////// feature: artifact parameters F-ARTIFACT-PARAMS
+function getArtParts( record ) {
+  let arr = record.split("->");
+  return [ arr[0], arr[1] || "file" ];
+}
