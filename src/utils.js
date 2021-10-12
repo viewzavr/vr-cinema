@@ -41,11 +41,15 @@ export function combine( arrays_list ) {
   const len = arr0.length;
   const len2 = arrays_list.length;  
   var res = new Float32Array( len * len2 );
+  
+  // F-COMBINE-EMPTY-COLUMNS
+  for (var j=0; j<len2; j++)
+    if (!arrays_list[j]) arrays_list[j] = [];
 
   var k = 0;
   for (var i=0; i<len; i++) {
     for (var j=0; j<len2; j++,k++)
-      res[k] = arrays_list[j][i];
+      res[k] = arrays_list[j][i] || 0; // F-COMBINE-EMPTY-VALUES
   }
   return res;
 }

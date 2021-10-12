@@ -90,3 +90,10 @@ First parameters list, then artefacts list.
 ## F-CINEMA-CLONE-PARAMS [x]
 If loading cinema from cinema, clone parameters to upper cinema.
 So they all are joined. Same for "interpolation" mode.
+
+## F-COMBINE-EMTPY-COLUMNS
+During combine of columns of source file of visual object,
+if some required column is absent, consider it as columns of zeroes.
+
+## F-COMBINE-EMPTY-VALUES
+If during combine value is absent, consider it zero.
