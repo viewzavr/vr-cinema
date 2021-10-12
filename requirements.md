@@ -79,3 +79,6 @@ There is a need to position and rotate gltf file.
 ### F-ARTIFACT-PARAMS
 To solve R-ROTATE-OBJS and R-POSITION-GLTF, provide a way to setup params for artifacts. 
 E.g. FILE_points_a->rotatex, and this corresponds to setting some parameter (attitribute) of visual objects.
+
+## I-SHOW-DATACSV
+Probably good idea - a button to show current data csv. For learning and control purposes.
