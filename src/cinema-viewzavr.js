@@ -159,11 +159,14 @@ export function create( vz, opts ) {
 
     obj.cinemadb.getArtNames().forEach( function(name) {
       var artsrc1 = obj.cinemadb.data[ name ][ found_i1 ];
-      artsrc1 = obj.cinemadb_path_function( artsrc1 );
       var artsrc2 = obj.cinemadb.data[ name ][ found_i2 ];
-      artsrc2 = obj.cinemadb_path_function( artsrc2 );
-      
+
       var [nama, param] = getArtParts( name ); // F-ARTIFACT-PARAMS
+
+      if (param == "file") {
+        artsrc1 = obj.cinemadb_path_function( artsrc1 );
+        artsrc2 = obj.cinemadb_path_function( artsrc2 );
+      }
 
       var art = obj.art_obj.ns.getChildByName(nama);
       if (art) {

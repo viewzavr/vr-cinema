@@ -169,3 +169,27 @@ export function file_merge_feature( obj,parser,interp,dataparam,loadfile ) {
     orig_f();
   }
 }
+
+
+export function add_param_interpolation( obj,param,outputparam,f ) {
+  obj.trackParam( param,u );
+  var param2 = param + "_interpolate_2";
+  obj.trackParam( param2,u );
+  obj.addSlider( "interpolate_w",0,0,1,0.01,u );
+  
+  function u() {
+    var v1 = obj.params[param];
+    var v2 = obj.params[param2];
+    var w = obj.params.interpolate_w;
+    var res;
+    if (w == 0 || typeof(v2) == "undefined" || !isFinite(v1))
+       res = v1;
+       else
+       res = v1 + (v2-v1)*w;
+    if (typeof(res) != "undefined") { // mm?
+      obj.setParam( outputparam, res );
+      if (f) f( res );
+    }
+  }
+
+}

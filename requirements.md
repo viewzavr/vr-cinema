@@ -82,3 +82,7 @@ E.g. FILE_points_a->rotatex, and this corresponds to setting some parameter (att
 
 ## I-SHOW-DATACSV
 Probably good idea - a button to show current data csv. For learning and control purposes.
+
+## F-PARAMS-FIRST [x]
+If parameter is specified after artefact, it should be dropped. This is according to CinemaScience spec.
+First parameters list, then artefacts list.

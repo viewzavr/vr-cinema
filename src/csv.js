@@ -58,7 +58,8 @@ export default function parse_csv(data,separator) { // data is text blob
         // хотя.. может быть стоит сделать такую штуку, которая потом уже csv прочитанный таким методом оснащает данными (парсит)
         // float?
 
-        if (/^[+-]?([0-9]*[.])?[0-9]+((e[+-]?\d+)?)$/.test(item)) // https://stackoverflow.com/questions/12643009/regular-expression-for-floating-point-numbers
+        // feature: both e and E might occure
+        if (/^[+-]?([0-9]*[.])?[0-9]+(((e|E)[+-]?\d+)?)$/.test(item)) // https://stackoverflow.com/questions/12643009/regular-expression-for-floating-point-numbers
           return parseFloat( item );
         // date?
         if (/^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/.test(item)) // 2019-10-18

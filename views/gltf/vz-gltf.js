@@ -27,6 +27,40 @@ export function create( vz, opts ) {
 */
 
   });
+
+  utils.add_param_interpolation( obj,"X","X_",(v) => {
+    let arr = Array.isArray(nobj.positions) && nobj.positions.length >= 3 ? nobj.positions.slice() : [0,0,0];
+    arr[0]=v;
+    nobj.positions = arr;
+  });
+  utils.add_param_interpolation( obj,"Y","Y_",(v) => {
+    let arr = Array.isArray(nobj.positions) && nobj.positions.length >= 3 ? nobj.positions.slice() : [0,0,0];
+    arr[1]=v;
+    nobj.positions = arr;
+  });  
+  utils.add_param_interpolation( obj,"Z","Z_",(v) => {
+    let arr = Array.isArray(nobj.positions) && nobj.positions.length >= 3 ? nobj.positions.slice() : [0,0,0];
+    arr[2]=v;
+    nobj.positions = arr;
+  });
+  utils.add_param_interpolation( obj,"ROTATEX","ROTATEX_",(v) => {
+    let arr = nobj.rotations;
+    arr = Array.isArray(arr) && arr.length >= 3 ? arr.slice() : [0,0,0];
+    arr[0]=v * Math.PI / 180;
+    nobj.rotations = arr;
+  });
+  utils.add_param_interpolation( obj,"ROTATEY","ROTATEY_",(v) => {
+    let arr = nobj.rotations;
+    arr = Array.isArray(arr) && arr.length >= 3 ? arr.slice() : [0,0,0];
+    arr[1]=v * Math.PI / 180;
+    nobj.rotations = arr;
+  });  
+  utils.add_param_interpolation( obj,"ROTATEZ","ROTATEZ_",(v) => {
+    let arr = nobj.rotations;
+    arr = Array.isArray(arr) && arr.length >= 3 ? arr.slice() : [0,0,0];
+    arr[2]=v * Math.PI / 180;
+    nobj.rotations = arr;
+  });  
   
   //utils.file_merge_feature( obj,parse_csv, utils.interp_csv, "@dat" );
 

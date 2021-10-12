@@ -18,11 +18,16 @@ export default function cinema() {
     obj.datalen = df.get_length( obj.data );
     obj.paramnames = [];
     obj.artnames = [];
+    let artefacts_started=false; // F-PARAMS-FIRST
     df.get_column_names( obj.data ).forEach( function(v) { 
-      if (/^FILE_/.test(v))
+      if (/^FILE_/.test(v)) {
         obj.artnames.push(v)
-      else
-        obj.paramnames.push(v);
+        artefacts_started=true; // F-PARAMS-FIRST
+      }
+      else {
+        if (!artefacts_started) // F-PARAMS-FIRST
+             obj.paramnames.push(v);
+      }
     });
   }
   
