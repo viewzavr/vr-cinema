@@ -139,7 +139,9 @@ export function setup(vz) {
           o.setParam(arr[1],vv);
         }
         obj.addGui( {...gr,name:toname, fn:undefined, value: undefined } );
-        obj.linkParam( toname, source );
+        var olink = obj.linkParam( toname, source );
+        // feature: if source object removed, forget link to its param
+        o.on("remove", () => olink.remove() );
         o.linkParam( arr[1], obj.getPath() + "->"+toname );
         // todo здесь надо что-то другое, история с visible
       } )
