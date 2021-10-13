@@ -105,8 +105,10 @@ Implemented option VR_HOST. It was an option for VR_BIND, but seems `host` is mo
 ## F-CORS
 We should respond to requester host in cors.
 
-## R-SECURE
+## R-SECURE [x]
 If started from user home dir, an ssh key is also served. Do something with this.
+## F-SECURE
+If see .ssh folder in startup, stop.
 
 ## F-SERVER-CINEMA-LOCAL
 Technically we may serve vr-cinema project locally, without
@@ -114,3 +116,10 @@ going to viewzavr.com project at all, for example from /vr-cinema path.
 Then, probably, we may even hook viewzavr-system-a too as a submodule
 (seems this is a best way).
 But this will work only in http mode, which is problem for WebVR.
+
+# I-UPPER-SETTINGS
+If file viewzavr-settings.json not present in cur folder, look in upper folders.
+
+# I-UPPER-FILES
+If loading file that is relative and upper to current cinema dir on disk,
+allow loading it if it is referenced in data.csv.
