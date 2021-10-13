@@ -97,3 +97,6 @@ if some required column is absent, consider it as columns of zeroes.
 
 ## F-COMBINE-EMPTY-VALUES
 If during combine value is absent, consider it zero.
+
+## F-BLANK
+if blank path specified, that means no data should be displayed in artifact.
