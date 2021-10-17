@@ -11,7 +11,7 @@ y = sin t
 z = cos^2 t
 t ∈ [0,2π]
 ```
-Then, 30 steps of wave fronts was computed.
+In current study, 30 steps of wave fronts was computed.
 
 To visualize it, the following [Cinema database](https://viewzavr.com/apps/vr-cinema-samples/wafe-fronts/) was created.
 It's [data.csv](https://viewzavr.com/apps/vr-cinema-samples/wafe-fronts/data.csv) file of following content was created:
