@@ -107,10 +107,27 @@ export function create( vz, opts ) {
       // todo check if string - setup combo..
       
       if (obj.useConcreteValues( name )) {
-        obj.params_obj.addCombo( name, 0,vals, function(v) {
+        obj.params_obj.addSlider( name, 0,0, vals.length-1, 1, function(v) {
           obj.reactOnParamChange();
         });
         obj.params_obj.setParamOption(name,"values",vals );
+/*      
+        obj.params_obj.addCombo( name, 0,vals, function(v) {
+          obj.reactOnParamChange();
+        });
+        obj.params_obj.setParamOption(name,"values",vals );      
+      
+        // feature: for numeric values, show both combo AND slider.
+        if (obj.cinemadb.isStringColumn(name)) {
+          obj.params_obj.addSlider( name + "_index", 0,0, vals.length-1, 1, function(v) {
+            obj.params_obj.setParam( name,v,true );
+          });
+          obj.params_obj.setParamOption( name,"internal",true ); // feature: save only NAME_index param in state
+          obj.params_obj.trackParam( name, (v) => {
+            obj.params_obj.setParam( name+"_index",v,true );
+          });
+        }
+*/        
       }
       else
       obj.params_obj.addSlider( name, min, min, max, 0.01, function(v) {
