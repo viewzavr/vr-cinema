@@ -11,7 +11,7 @@ y = sin t
 z = cos^2 t
 t ∈ [0,2π]
 ```
-In current study, 30 steps of wave fronts was computed [1].
+In current study, 30 sections of growing wave fronts was computed and approximated with triangles [1].
 
 To visualize it, the following [Cinema database](https://viewzavr.com/apps/vr-cinema-samples/wafe-fronts/) was created.
 It's [data.csv](https://viewzavr.com/apps/vr-cinema-samples/wafe-fronts/data.csv) has following content:
@@ -25,7 +25,7 @@ n,	FILE_triangles_surf
 ```
 
 That is, in this file we declared one parameter `n` and one visual object of type triangles (`FILE_triangles_surf`).
-The  files  in  subdirectory `surface` ([1.txt](https://viewzavr.com/apps/vr-cinema-samples/wafe-fronts/surface/1.txt) ...  [30.txt](https://viewzavr.com/apps/vr-cinema-samples/wafe-fronts/surface/30.txt)) which represents steps of wave fronts  have  the  following  form  of content:
+The  files  in  subdirectory `surface` ([1.txt](https://viewzavr.com/apps/vr-cinema-samples/wafe-fronts/surface/1.txt) ...  [30.txt](https://viewzavr.com/apps/vr-cinema-samples/wafe-fronts/surface/30.txt)) represent sections of wave fronts and  have  the  following  form  of content:
 ```
 X,Y,Z,X2,Y2,Z2,X3,Y3,Z3
 -1.858, -0.0137, 0.8582, -1.8535, -0.0425, 0.8554, -1.8332, -0.0432, 0.8793
