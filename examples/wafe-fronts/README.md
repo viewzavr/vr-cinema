@@ -11,8 +11,10 @@ y = sin t
 z = cos^2 t
 t ∈ [0,2π]
 ```
+Then, 30 steps of wave fronts was computed.
 
-To visualize this, the [data.csv](https://viewzavr.com/apps/vr-cinema-samples/wafe-fronts/data.csv) file of following content was created:
+To visualize it, the following [Cinema database](https://viewzavr.com/apps/vr-cinema-samples/wafe-fronts/) was created.
+It's [data.csv](https://viewzavr.com/apps/vr-cinema-samples/wafe-fronts/data.csv) file of following content was created:
 ```
 n,	FILE_triangles_surf 1,	surface/1.txt
 2,	surface/2.txt
@@ -22,7 +24,7 @@ n,	FILE_triangles_surf 1,	surface/1.txt
 ```
 
 That is, we declared one parameter `n` and one visual object of type triangles (`FILE_triangles_surf`).
-The  files  in  subdirectory `surface` ([1.txt](https://viewzavr.com/apps/vr-cinema-samples/wafe-fronts/surface/1.txt) ...  [30.txt](https://viewzavr.com/apps/vr-cinema-samples/wafe-fronts/surface/30.txt))  have  the  following  form  of content:
+The  files  in  subdirectory `surface` ([1.txt](https://viewzavr.com/apps/vr-cinema-samples/wafe-fronts/surface/1.txt) ...  [30.txt](https://viewzavr.com/apps/vr-cinema-samples/wafe-fronts/surface/30.txt)) which represetns steps of wave fronts  have  the  following  form  of content:
 ```
 X,Y,Z,X2,Y2,Z2,X3,Y3,Z3
 -1.858, -0.0137, 0.8582, -1.8535, -0.0425, 0.8554, -1.8332, -0.0432, 0.8793
@@ -31,8 +33,11 @@ X,Y,Z,X2,Y2,Z2,X3,Y3,Z3
 ```
 
 These files defines coordinates for triangles that forms the surface of given front. 
-With data.csv they provide enough information for creating visualization. 
+With data.csv they provide enough information for creating visualization.
+
 A mathematicial running visualization then is able to choose value of parameter `n` and see corresponding wave front.
 
+Citation:
 > A. A. Uspenskii, P. D. Lebedev, On the structure of the singular set of solutions in one class of 3d time-optimal control problems, 
 > Vestnik Udmurtskogo Universiteta. Matematika. Mekhanika. Kompyuternye Nauki 31 (2021) 471–486. doi:[10.35634/vm210309](http://dx.doi.org/10.35634/vm210309).
+
