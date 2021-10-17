@@ -78,20 +78,11 @@
       var q1 = vzPlayer.loadApp( userurl );
       
       var q = Promise.allSettled( [q0,q1] );
-      //var q = q1;
-      
-      /*
-      var file = getParameterByName("datapath") || vz.getDir( import.meta.url ) + "./examples/_tutorial/0-points-fly.cdb/data.csv";
-      var obj = vzPlayer.getRoot();
-      obj.setParam("file",file);
-      */
-      
-
-      
+    
       // идея - быть может быть это должно сопутсвовать data.csv ? а не плееру?
       // и быть может даже - сопутсвовать всякой смене data.csv, т.е. уйти на уровень вглюбь viewzavr-cinema?
 
-      // загрузили приложуху - поехали ставить параметры и путь к файлу
+      // приложение загружено
       q.then( function() {
         // var jsonurl = getParameterByName("settings");
         //var q2 = jsonurl ? vzPlayer.loadJson( jsonurl ) : q;
@@ -104,28 +95,19 @@
             
               // datapath from query should be the last in processsing order!
               // it should override that what is in params!
-              var file = getParameterByName("datapath") || vz.getDir( import.meta.url ) + "./examples/_tutorial/0-points-fly.cdb/data.csv";
+              var file = getParameterByName("datapath") || vz.getDir( import.meta.url ) + "./examples/tutorial/0-points-fly.cdb/data.csv";
               var obj = vzPlayer.getRoot();
               
       obj.trackParam( "file",function() {
         var f = obj.getParam("file");
         var settings_url = vz.getDir( f ) + "viewzavr-player.json";
-        /*
-        setTimeout( () => {
-          console.log("SETTINGS: source file changed, restoring settings from server",settings_url );
-          //vzPlayer.loadJson( settings_url );
-        }, 500 ); // give time for cinema to respond to file change..
-        */
-        
         // see also: feature-restore-on-base-change.js
         console.log("SETTINGS: source file changed, fetching settings from server",settings_url );
-        loadJson2( settings_url ).then( (data) =>  {
+        vzPlayer.loadJson2( settings_url ).then( (data) =>  {
           setTimeout( () => {
             // need erase incoming url from settings - we have own one
             if (typeof( data?.children?.scene?.params?.file ) !== "undefined")
               delete data.children.scene.params['file'];
-            
-          
             console.log("SETTINGS: source file changed, applying settings from server",settings_url,data );
             vzPlayer.restoreFromDump( data, true );
           }, 500 );
@@ -133,16 +115,12 @@
         
       });              
       
-      console.log("we set file",file );
-              obj.setParam("file",file);
-            
-              /*
-              obj.trackParam("file",() => {
-                var v = obj.getParam( "file" );
-                console.log("file changed",v );
-                debugger;
-              });
-              */
+      if ((obj?.params?.file || "") == "") {
+        console.log("we set file",file );
+        obj.setParam("file",file);
+      }
+    
+
             }); //loadFromHash
         }) //q2
 
