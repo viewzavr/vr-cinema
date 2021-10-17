@@ -9,10 +9,10 @@ of a unit radius centered at the origin is considered. As the initial set, we co
 x = 2 cos t
 y = sin t
 z = cos^2 t
-where t from [0, 2 Pi ]
+t ∈ [0,2π]
 ```
 
-To visualize this, the data.csv file of following content was created:
+To visualize this, the [data.csv](https://viewzavr.com/apps/vr-cinema-samples/wafe-fronts/data.csv) file of following content was created:
 ```
 n,	FILE_triangles_surf 1,	surface/1.txt
 2,	surface/2.txt
@@ -22,7 +22,7 @@ n,	FILE_triangles_surf 1,	surface/1.txt
 ```
 
 That is, we declared one parameter `n` and one visual object of type triangles (`FILE_triangles_surf`).
-The  files  in  subdirectory `surface` (`1.txt` ...  `30.txt`)  have  the  following  form  of content:
+The  files  in  subdirectory `surface` ([1.txt](https://viewzavr.com/apps/vr-cinema-samples/wafe-fronts/surface/1.txt) ...  [30.txt](https://viewzavr.com/apps/vr-cinema-samples/wafe-fronts/surface/30.txt))  have  the  following  form  of content:
 ```
 X,Y,Z,X2,Y2,Z2,X3,Y3,Z3
 -1.858, -0.0137, 0.8582, -1.8535, -0.0425, 0.8554, -1.8332, -0.0432, 0.8793
