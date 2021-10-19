@@ -20,6 +20,12 @@ const require = createRequire(import.meta.url);
 var fs = require('fs');
 var process = require('process');
 
+//import {version} from './../package.json';
+const version = process.env.npm_package_version;
+console.log("VR-Cinema local_data_server ", version || "");
+
+//////////////////////////
+
 var dir = process.argv[2] || ".";
 //console.log( process.argv );
 console.log("serving dir:",dir );
