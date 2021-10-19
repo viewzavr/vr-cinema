@@ -1,0 +1,3 @@
+[submodule "lib/viewzavr-system-a"]
+	path = lib/viewzavr-system-a
+	url = ../viewzavr-system-a

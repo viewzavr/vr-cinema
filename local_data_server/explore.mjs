@@ -50,13 +50,13 @@ export function explore( server, dir, request, response, options={} )
       var rel = path.relative( dir, f );
       var reldir = path.dirname( rel );
       var url = vzurl( server,"/"+reldir, options );
-      txt = txt + `<a target='_blank' href='${url}'>${reldir}</a> `
+      txt = txt + `<li><a target='_blank' href='${url}'>${reldir}</a></li>`
       counter++;
     }
   }).then( function() {
       response.setHeader('Content-Type', 'text/html');
-      txt = `<h3>There are ${counter} CinemaScience database(s) found</h3>` + txt;
-      console.log("fin");
+      txt = `<h3>There are ${counter} CinemaScience database(s) found</h3> <ul class='list_noimages'>${txt}</ul>`;
+      console.log("listing sent");
       response.end( txt );
   });
 }

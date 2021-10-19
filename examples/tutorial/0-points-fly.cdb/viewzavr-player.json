@@ -28,25 +28,6 @@
           "params": {
             "T": 0
           }
-        },
-        "artefacts": {
-          "children": {
-            "FILE_points_my1": {
-              "children": {
-                "points": {
-                  "params": {
-                    "radius": 6.4,
-                    "color": [
-                      0.06,
-                      1,
-                      1
-                    ],
-                    "shape": 2
-                  }
-                }
-              }
-            }
-          }
         }
       }
     }
@@ -54,6 +35,5 @@
   "packages": {
     "codes": [],
     "urls": []
-  },
-  "viewzavr_player_flags": 1
+  }
 }
