@@ -2,12 +2,6 @@
 
 import * as path from 'path';
 
-// F_LOCAL_CINEMA {
-  import { URL } from 'url'; // in Browser, the URL in native accessible on window
-  const __filename = new URL('', import.meta.url).pathname;
-  const __dirname = new URL('.', import.meta.url).pathname; // Will contain trailing slash
-// F_LOCAL_CINEMA }
-
 /*
   https://github.com/cloudhead/node-static
   https://github.com/jfhbrook/node-ecstatic/issues/259
@@ -20,9 +14,11 @@ const require = createRequire(import.meta.url);
 var fs = require('fs');
 var process = require('process');
 
+
+// F-PRINT-PROJECT-VERSION
 //import {version} from './../package.json';
 const version = process.env.npm_package_version;
-console.log("VR-Cinema local_data_server ", version || "");
+console.log("VR-Cinema local_data_server", version || "");
 
 //////////////////////////
 
@@ -49,8 +45,15 @@ var headers = {
 */            
   
 var fileServer = new nstatic.Server( dir,nstatic_opts );
-console.log("project dir:",__dirname + "/../")
-var fileServerCinema = new nstatic.Server( __dirname + "/../",nstatic_opts ); // F-LOCAL-CINEMA
+
+// F_LOCAL_CINEMA {
+  import { URL } from 'url'; // in Browser, the URL in native accessible on window
+  const __filename = new URL('', import.meta.url).pathname;
+  const __dirname = new URL('.', import.meta.url).pathname; // Will contain trailing slash
+  var projectDir = path.resolve( __dirname + "/../" );  
+  console.log("project dir:",projectDir)
+  var fileServerCinema = new nstatic.Server( projectDir,nstatic_opts ); // F-LOCAL-CINEMA
+// F_LOCAL_CINEMA }
 
 var server = require('http').createServer( reqfunc );
 

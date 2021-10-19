@@ -137,3 +137,8 @@ Count clients and close server? // Ws
 If there is only 1 scene, auto open it instead of listing.
 Clarified: open scene, only if data.csv is located in dir.
 Else, start scan and show even 0 or 1 scenes, but always in listing mode;
+
+# R-PRINT-PROJECT-VERSION
+We need somehow to check which version of server/project is running.
+## F-PRINT-PROJECT-VERSION
+Print server version from package.json / npm env.
