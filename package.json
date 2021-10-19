@@ -1,6 +1,6 @@
 {
   "name": "vr-cinema",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "description": "Viewzavr-based CinemaScience 3d viewer and it's components. A successor of https://github.com/pavelvasev/38parrots",
   "main": "app.js",
   "directories": {
@@ -28,8 +28,7 @@
   "homepage": "https://github.com/viewzavr/vr-cinema#readme",
   "dependencies": {
     "node-static": "^0.7.11",
-    "opener": "^1.5.2",
-    "vr-cinema": "^1.0.14",
+    "opener": "^1.5.2"
     "ws": "^7.4.4"
   }
 }
