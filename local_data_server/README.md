@@ -117,6 +117,9 @@ Then, probably, we may even hook viewzavr-system-a too as a submodule
 (seems this is a best way).
 But this will work only in http mode, which is problem for WebVR.
 
+# F-SORT-LISTING
+When showing listing of scenes, sort them using pathes to dirs.
+
 # I-UPPER-SETTINGS
 If file viewzavr-settings.json not present in cur folder, look in upper folders.
 
@@ -130,11 +133,7 @@ VR-Cinema should be server from local installation, not internet-hosted one.
 # I-AUTOCLOSE-SERVER
 Count clients and close server? // Ws
 
-# I-AUTOOPEN-ONCE-SCENE
-If there is only 1 scene, auto open it instead of listing?
-
-# I-SAVE-THUMBS
-Together with viewzavr-player.json, save thumb files.
-
-# I-KEEP-HISTORY
-Maybe, keep a history of viewzavr-player.json. Maybe in separate files, or maybe in 1 big file (including thumbs?)
+# F-AUTOOPEN-ONE-SCENE
+If there is only 1 scene, auto open it instead of listing.
+Clarified: open scene, only if data.csv is located in dir.
+Else, start scan and show even 0 or 1 scenes, but always in listing mode;

@@ -29,6 +29,10 @@ export function vzurl( server, cinema_relative_dir,options={} ) {
     var spath = `http://${server.address().address}:${server.address().port}${cinema_relative_dir}/viewzavr-player.json`;
     var storepath = `http://${server.address().address}:${server.address().port}${cinema_relative_dir}/viewzavr-player.json`;
     var viewzavr_player_url = options.vr_cinema_url || "https://viewzavr.com/apps/vr-cinema";
+    if (typeof(viewzavr_player_url) == "function") {
+        viewzavr_player_url = viewzavr_player_url( `http://${server.address().address}:${server.address().port}` );
+    }
+
     var opath = `${viewzavr_player_url}?datapath=${datapath}&settings=${spath}&storepath=${storepath}`;
     // +feature watch file
     if (options.watcher_port) {
@@ -43,6 +47,8 @@ export function explore( server, dir, request, response, options={} )
 {
   var txt = "";
   var counter=0;
+  //var lasturl; // I-AUTOOPEN-ONCE-SCENE
+  var urls = [];
   findFiles( dir, function(f) {
     //console.log(f,path.basename(f).toLowerCase());
     if (path.basename(f).toLowerCase() == "data.csv") {
@@ -50,13 +56,30 @@ export function explore( server, dir, request, response, options={} )
       var rel = path.relative( dir, f );
       var reldir = path.dirname( rel );
       var url = vzurl( server,"/"+reldir, options );
-      txt = txt + `<li><a target='_blank' href='${url}'>${reldir}</a></li>`
+      urls.push( {url,reldir} );
+      //lasturl = url; // I-AUTOOPEN-ONCE-SCENE
+      //txt = txt + `<li><a target='_blank' href='${url}'>${reldir}</a></li>`
       counter++;
     }
   }).then( function() {
-      response.setHeader('Content-Type', 'text/html');
-      txt = `<h3>There are ${counter} CinemaScience database(s) found</h3> <ul class='list_noimages'>${txt}</ul>`;
-      console.log("listing sent");
-      response.end( txt );
+    /*
+      if (counter == 1) { // I-AUTOOPEN-ONCE-SCENE
+        response.writeHead(301,{Location: url});
+        response.end();
+      }
+      else
+      {
+        */
+        urls = urls.sort( (r1, r2) => {
+            if (r1.reldir > r2.reldir) return 1;
+            if (r1.reldir < r2.reldir) return -1;
+            return 0;
+        });
+        var txt = urls.map( (rec) => `<li><a target='_blank' href='${rec.url}'>${rec.reldir}</a></li>`).join("\n");
+        response.setHeader('Content-Type', 'text/html');
+        txt = `<h3>There are ${counter} CinemaScience database(s) found</h3> <ul class='list_noimages'>${txt}</ul>`;
+        console.log("listing sent");
+        response.end( txt );
+      //}
   });
 }

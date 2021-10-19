@@ -131,7 +131,7 @@ var watcher_port = 0;
 
 ///////////
 //var vr_cinema_url = (host == "127.0.0.1" ? "https://viewzavr.com/apps/vr-cinema" : "http://viewzavr.com/apps/vr-cinema");
-var vr_cinema_url = "/local-vr-cinema/index.html"; // F-LOCAL-CINEMA
+var vr_cinema_url = (serveraddr) => `${serveraddr}/local-vr-cinema/index.html`; // F-LOCAL-CINEMA
 var explore_params = {watcher_port, vr_cinema_url};
 
 //////////// feature: port scan. initial port value should be non 0
@@ -156,7 +156,7 @@ watcher_server.on("listening",() => {
 server.on("listening",() => {
 
   var opath;
-  var datacsv_file_path = path.join( dir, "data.csv" );
+  var datacsv_file_path = path.join( dir, "data.csv" ); // F-AUTOOPEN-ONE-SCENE
   if (fs.existsSync(datacsv_file_path)) {
     opath = E.vzurl( server,"",explore_params );
   }

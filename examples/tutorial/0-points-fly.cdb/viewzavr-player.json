@@ -22,7 +22,7 @@
       "params": {
         "interpolation": true
       },
-      "module_url": "http://127.0.0.1:8081/./app.js",
+      "module_url": "http://127.0.0.1:8081/local-vr-cinema/./app.js",
       "children": {
         "params": {
           "params": {
