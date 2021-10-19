@@ -28,7 +28,7 @@
   "homepage": "https://github.com/viewzavr/vr-cinema#readme",
   "dependencies": {
     "node-static": "^0.7.11",
-    "opener": "^1.5.2"
+    "opener": "^1.5.2",
     "ws": "^7.4.4"
   }
 }
