@@ -43,7 +43,7 @@ var headers = {
 */            
   
 var fileServer = new nstatic.Server( dir,nstatic_opts );
-//console.log("project dir",__dirname + "/../")
+console.log("project dir:",__dirname + "/../")
 var fileServerCinema = new nstatic.Server( __dirname + "/../",nstatic_opts ); // F-LOCAL-CINEMA
 
 var server = require('http').createServer( reqfunc );
@@ -131,7 +131,7 @@ var watcher_port = 0;
 
 ///////////
 //var vr_cinema_url = (host == "127.0.0.1" ? "https://viewzavr.com/apps/vr-cinema" : "http://viewzavr.com/apps/vr-cinema");
-var vr_cinema_url = "/local-vr-cinema"; // F-LOCAL-CINEMA
+var vr_cinema_url = "/local-vr-cinema/index.html"; // F-LOCAL-CINEMA
 var explore_params = {watcher_port, vr_cinema_url};
 
 //////////// feature: port scan. initial port value should be non 0
