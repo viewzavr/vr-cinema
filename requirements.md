@@ -86,6 +86,9 @@ If during combine value is absent, consider it zero.
 ## F-BLANK [x]
 if blank path specified, that means no data should be displayed in artifact.
 
+## F-LOCAL-VIEWZAVR
+index.html should use local viewzavr, not internet-based.
+
 # Ideas
 
 * prefetch ongoing views data files?
@@ -100,3 +103,10 @@ see linkPrefetchStrategy (or preload?)
 
 ## I-SHOW-DATACSV
 Probably good idea - a button to show current data csv. For learning and control purposes.
+
+
+# I-SAVE-THUMBS
+Together with viewzavr-player.json, save thumb files.
+
+# I-KEEP-HISTORY
+Maybe, keep a history of viewzavr-player.json. Maybe in separate files, or maybe in 1 big file (including thumbs?)

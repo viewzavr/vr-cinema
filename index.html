@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
-  <script src="//viewlang.ru/viewzavr-apps/viewzavr-system-a/lib/viewlang/code/depends/jquery-2.1.4.js"></script>
+  <script src="./lib/viewzavr-system-a/lib/viewlang/code/depends/jquery-2.1.4.js"></script>
 
-  <script src="//viewlang.ru/viewzavr-apps/viewzavr-system-a/lib/viewlang/code//depends/qmlweb/src/parser.js"></script>
-  <script src="//viewlang.ru/viewzavr-apps/viewzavr-system-a/lib/viewlang/code//depends/qmlweb/src/process.js"></script>
-  <script src="//viewlang.ru/viewzavr-apps/viewzavr-system-a/lib/viewlang/code//depends/qmlweb/src/import.js"></script>
-  <script src="//viewlang.ru/viewzavr-apps/viewzavr-system-a/lib/viewlang/code//depends/qmlweb/src/qtcore.js"></script>
+  <script src="./lib/viewzavr-system-a/lib/viewlang/code//depends/qmlweb/src/parser.js"></script>
+  <script src="./lib/viewzavr-system-a/lib/viewlang/code//depends/qmlweb/src/process.js"></script>
+  <script src="./lib/viewzavr-system-a/lib/viewlang/code//depends/qmlweb/src/import.js"></script>
+  <script src="./lib/viewzavr-system-a/lib/viewlang/code//depends/qmlweb/src/qtcore.js"></script>
 
-  <script src="//viewlang.ru/viewzavr-apps/viewzavr-system-a/lib/viewlang/code//base.js"></script>
+  <script src="./lib/viewzavr-system-a/lib/viewlang/code//base.js"></script>
 <head>
 </head>
 <body>
@@ -27,35 +27,35 @@
   body { margin: 0; }
   </style>
 
-  <script src="//viewlang.ru/viewzavr-apps/viewzavr-system-a/lib/viewlang/code//threejs_driver/init.js"></script>
+  <script src="./lib/viewzavr-system-a/lib/viewlang/code//threejs_driver/init.js"></script>
 
   <script type="module">
 
     ///////////////////////////// qmlweb and viewlang (required for viewzavr-system-a implementation)
     
-    import * as Viewlang from "//viewlang.ru/viewzavr-apps/viewzavr-system-a/lib/viewlang/code/embed2/init.js"
+    import * as Viewlang from "./lib/viewzavr-system-a/lib/viewlang/code/embed2/init.js"
     window.qmlEngine = new QMLEngine( document.getElementById( "qmlSpace" ) );
     Viewlang.setup_qmlweb( qmlEngine );
     
     ///////////////////////////// viewzavr
     
-    import * as Viewzavr from "//viewlang.ru/viewzavr-apps/viewzavr-system-a/lib/viewzavr-core/init.js";
+    import * as Viewzavr from "./lib/viewzavr-system-a/lib/viewzavr-core/init.js";
 
     var vz = Viewzavr.create();
     // window.vz = vz;
     
     //////////////////////////// player
     
-    import * as Player from "//viewlang.ru/viewzavr-apps/viewzavr-system-a/player/init.js";
+    import * as Player from "./lib/viewzavr-system-a/player/init.js";
     var vzPlayer = Player.create( vz, qmlEngine );
     window.vzPlayer = vzPlayer;
     
     //////////////////////////// graphical api
-    import * as VisAPI from "//viewlang.ru/viewzavr-apps/viewzavr-system-a/graphical-api/init.js";
+    import * as VisAPI from "./lib/viewzavr-system-a/graphical-api/init.js";
     VisAPI.setup( vz );
 
     //////////////////////////// library-one
-    import * as lib1 from "//viewlang.ru/viewzavr-apps/viewzavr-system-a/lib/library-one/init.js";
+    import * as lib1 from "./lib/viewzavr-system-a/lib/library-one/init.js";
     lib1.setup( vz, vzPlayer );
     
     //////////////////////////// required packages

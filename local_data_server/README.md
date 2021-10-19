@@ -102,12 +102,12 @@ should point to some accessible address.
 ## F-INTERFACES-BIND [x]
 Implemented option VR_HOST. It was an option for VR_BIND, but seems `host` is more intuitive for user.
 
-## F-CORS
-We should respond to requester host in cors.
+## F-REQUESTER-CORS [x]
+We should respond to requester host in cors. This is required for https operation.
 
 ## R-SECURE [x]
 If started from user home dir, an ssh key is also served. Do something with this.
-## F-SECURE
+## F-SECURE [x]
 If see .ssh folder in startup, stop.
 
 ## F-SERVER-CINEMA-LOCAL
@@ -123,3 +123,18 @@ If file viewzavr-settings.json not present in cur folder, look in upper folders.
 # I-UPPER-FILES
 If loading file that is relative and upper to current cinema dir on disk,
 allow loading it if it is referenced in data.csv.
+
+## F-LOCAL-CINEMA
+VR-Cinema should be server from local installation, not internet-hosted one.
+
+# I-AUTOCLOSE-SERVER
+Count clients and close server? // Ws
+
+# I-AUTOOPEN-ONCE-SCENE
+If there is only 1 scene, auto open it instead of listing?
+
+# I-SAVE-THUMBS
+Together with viewzavr-player.json, save thumb files.
+
+# I-KEEP-HISTORY
+Maybe, keep a history of viewzavr-player.json. Maybe in separate files, or maybe in 1 big file (including thumbs?)

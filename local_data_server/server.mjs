@@ -2,6 +2,12 @@
 
 import * as path from 'path';
 
+// F_LOCAL_CINEMA {
+  import { URL } from 'url'; // in Browser, the URL in native accessible on window
+  const __filename = new URL('', import.meta.url).pathname;
+  const __dirname = new URL('.', import.meta.url).pathname; // Will contain trailing slash
+// F_LOCAL_CINEMA }
+
 /*
   https://github.com/cloudhead/node-static
   https://github.com/jfhbrook/node-ecstatic/issues/259
@@ -20,7 +26,7 @@ console.log("serving dir:",dir );
 
 // R-SECURE
 if (fs.existsSync( path.join( dir,".ssh"))) {
-  console.log("It seems you are running from user home dir. This is not recommended because all your files might be visible via HTTP. Exiting." );
+  console.log("It seems you are running from user home dir. This is not recommended because all your files might be visible via HTTP, including .ssh credentials. Exiting." );
   process.exit(1);
 }
 
@@ -37,6 +43,8 @@ var headers = {
 */            
   
 var fileServer = new nstatic.Server( dir,nstatic_opts );
+//console.log("project dir",__dirname + "/../")
+var fileServerCinema = new nstatic.Server( __dirname + "/../",nstatic_opts ); // F-LOCAL-CINEMA
 
 var server = require('http').createServer( reqfunc );
 
@@ -50,7 +58,7 @@ function reqfunc(request, response) {
     //for (var k in nstatic_opts.headers) 
     if (request.headers.origin) {
         //const u =  url.parse ( request.headers.referer );
-        response.setHeader( "Access-Control-Allow-Origin",request.headers.origin );
+        response.setHeader( "Access-Control-Allow-Origin",request.headers.origin ); // F-REQESTER-CORS
         response.setHeader( "Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control, If-Modified-Since, ETag" );
         response.setHeader( "Access-Control-Allow-Methods","GET,HEAD,OPTIONS,POST,PUT" );
     }
@@ -98,8 +106,18 @@ function reqfunc(request, response) {
     }
     else
     request.addListener('end', function () {
-        console.log("serving as file");
-        fileServer.serve(request, response);
+
+        let url = new URL(request.url,'http://localhost');
+        if (url.pathname.startsWith("/local-vr-cinema")) {
+          url.pathname = url.pathname.substring(16);
+          request.url = url.toString();
+          console.log("serving as project file");
+          fileServerCinema.serve(request, response); // F-LOCAL-CINEMA
+        }
+        else {
+          console.log("serving as dir file");
+          fileServer.serve(request, response);
+        }
     }).resume();
 }
 
@@ -112,7 +130,8 @@ var watcher_server = WF( dir, host );
 var watcher_port = 0;
 
 ///////////
-var vr_cinema_url = (host == "127.0.0.1" ? "https://viewzavr.com/apps/vr-cinema" : "http://viewzavr.com/apps/vr-cinema");
+//var vr_cinema_url = (host == "127.0.0.1" ? "https://viewzavr.com/apps/vr-cinema" : "http://viewzavr.com/apps/vr-cinema");
+var vr_cinema_url = "/local-vr-cinema"; // F-LOCAL-CINEMA
 var explore_params = {watcher_port, vr_cinema_url};
 
 //////////// feature: port scan. initial port value should be non 0
