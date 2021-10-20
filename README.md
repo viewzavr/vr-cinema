@@ -36,12 +36,18 @@ This will start local http server and open browser with VR-Cinema for specified 
 
 You may use online demo of VR-Cinema to visualize your data: http://viewzavr.com/apps/vr-cinema/
 
-# Windows Explorer menu / GNOME Nautilus menu
+# Windows Explorer menu
 
-You may add "Open with VR-Cinema..." menu for Explorer in Windows and in Nautilus in GNOME/Linux
-to start VR-Cinema. Use following commands:
+You may add "Open with VR-Cinema..." to Explorer menu, use command:
 * `npx -p vr-cinema vr-cinema-setup` - add menu
 * `npx -p vr-cinema vr-cinema-setup-off` - remove menu
+
+This also works in Linux for GNOME Nautilus explorer.
+
+## Shell script
+Also, you may create shell script (for example `vis.cmd`) that executes npx vr-cinema.
+VR-Cinema scans internal directories on startup, and allows to choose which one to visualuze,
+thus this script may be placed somewhere in root of your project.
 
 # Features
 
