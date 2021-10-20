@@ -1,6 +1,6 @@
-# vr-cinema
+# VR-CINEMA
 
-VR-Cinema is a 3D scientific visualization software. It works in a web browser, and utilizes CinemaScience-based scene format for input.
+VR-Cinema is a 3D scientific visualization software with super-simple input scene format.
 
 
 ![](http://showtime.lact.in/resizer_st/fit/160/160//files/visual/2020-03-12/2020-03-12-at-11-47-04.gif)
@@ -16,9 +16,12 @@ VR-Cinema is a 3D scientific visualization software. It works in a web browser, 
 
 # Features
 
+* Loads 3D scenes in CinemaScience-based scene format ([format documentation](format.md)).
 * 10+ visual object types (points, lines, triangles, ..., graphical files, ...).
 * Animations across selected Cinema parameter, and video movies.
 * Interpolation of input files, allowing to see transitions between your data. May be turned ON/OFF.
+* Web-based, may load local and remote data scenes.
+* VR mode, tested with Oculus Quest.
 
 # How to use
 
