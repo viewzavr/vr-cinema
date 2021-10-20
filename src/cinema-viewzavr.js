@@ -11,14 +11,11 @@ import * as colorize_scalars from "./colorize-scalars.js";
 import addUpdateFeature from "./feature-refresh.js";
 import addRestoreStateFeature from "./feature-restore-on-base-change.js";
 
-import * as vzextras from "./vz-extras.js"
-
 export function setup( vz ) {
   vz.addItemType( "cinema-view-cinema","Cinema 3d viewer",function( opts ) {
     return create( vz, opts );
   }, {label:"special"} );
   colorize_scalars.setup( vz );
-  vzextras.setup( vz );
   return views.setup( vz );
 }
 
@@ -248,11 +245,12 @@ export function create( vz, opts ) {
       }
       
       // F-CINEMA-CLONE-PARAMS
+      obj.params_obj.feature("param_mirror");
       if (type == "cinema") {
         art.on("params-generated", () => {
           for (var n of art.cinemadb.getParamNames()) {
             //art.items.params
-            obj.items.params.addParamMirror( n, art.getPath() + "/params->" + n);
+            obj.params_obj.addParamMirror( n, art.getPath() + "/params->" + n);
           }
         });
         art.linkParam("interpolation",obj.getPath()+"->interpolation");
