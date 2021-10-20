@@ -28,7 +28,7 @@ Create a file with scene description. See [format documentation](format.md) for 
 
 Execute in command line:
 * `npx vr-cinema` to start visualization in current directory.
-* `npx vr-cinema path-to-dir` to start visualization from another directory.
+* `npx vr-cinema -d path-to-dir` to start visualization from another directory.
 
 This will start local http server and open browser with VR-Cinema for specified CinemaScience database.
 

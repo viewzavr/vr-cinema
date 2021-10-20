@@ -22,7 +22,7 @@
       "params": {
         "interpolation": true
       },
-      "module_url": "https://viewzavr.com/apps/vr-cinema/./app.js",
+      "module_url": "http://127.0.0.1:8083/local-vr-cinema/./app.js",
       "children": {
         "params": {
           "params": {

@@ -20,9 +20,13 @@ var process = require('process');
 const version = process.env.npm_package_version;
 console.log("VR-Cinema local_data_server", version || "");
 
-//////////////////////////
 
-var dir = process.argv[2] || ".";
+var dir = ".";
+for (let i=2; i<process.argv.length; i++)
+ if (process.argv[i] == "-d") {
+    dir = process.argv[i+1];
+    break;
+ }
 //console.log( process.argv );
 console.log("serving dir:",dir );
 
