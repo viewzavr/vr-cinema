@@ -89,6 +89,9 @@ if blank path specified, that means no data should be displayed in artifact.
 ## F-LOCAL-VIEWZAVR
 index.html should use local viewzavr, not internet-based.
 
+## [x] F-PREVIEW-SCENES
+Save preview images to Cinema scenes and show them in explore screen.
+
 # Ideas
 
 * prefetch ongoing views data files?
@@ -103,7 +106,6 @@ see linkPrefetchStrategy (or preload?)
 
 ## I-SHOW-DATACSV
 Probably good idea - a button to show current data csv. For learning and control purposes.
-
 
 # I-SAVE-THUMBS
 Together with viewzavr-player.json, save thumb files.

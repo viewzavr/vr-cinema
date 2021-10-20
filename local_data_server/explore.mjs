@@ -2,6 +2,7 @@
 // probable bug if search is too deep. maybe restrict it by count or time or depth?
 
 import { readdir } from 'fs/promises';
+import * as fs from 'fs'; // F-PREVIEW-SCENES
 import * as path from 'path';
 
 function findFiles( startdir, cb )
@@ -56,7 +57,15 @@ export function explore( server, dir, request, response, options={} )
       var rel = path.relative( dir, f );
       var reldir = path.dirname( rel );
       var url = vzurl( server,"/"+reldir, options );
-      urls.push( {url,reldir} );
+
+      // F-PREVIEW-SCENES {
+      var preview_url;
+      let preview_path = path.join( path.dirname(f), "preview.png" );
+      if (fs.existsSync(preview_path))
+        preview_url = "/"+reldir + "/preview.png"; 
+      // F-PREVIEW-SCENES }
+
+      urls.push( {url,reldir,preview_url} );
       //lasturl = url; // I-AUTOOPEN-ONCE-SCENE
       //txt = txt + `<li><a target='_blank' href='${url}'>${reldir}</a></li>`
       counter++;
@@ -75,11 +84,59 @@ export function explore( server, dir, request, response, options={} )
             if (r1.reldir < r2.reldir) return -1;
             return 0;
         });
-        var txt = urls.map( (rec) => `<li><a target='_blank' href='${rec.url}'>${rec.reldir}</a></li>`).join("\n");
+        
+        var txt = vis2( urls );
+
         response.setHeader('Content-Type', 'text/html');
-        txt = `<h3>There are ${counter} CinemaScience database(s) found</h3> <ul class='list_noimages'>${txt}</ul>`;
         console.log("listing sent");
         response.end( txt );
       //}
   });
+}
+
+function vis0( urls ) {
+  var counter = urls.length;
+  var txt = urls.map( (rec) => `<li><a target='_blank' href='${rec.url}'>${rec.reldir}</a></li>`).join("\n");
+  txt = `<h3>There are ${counter} CinemaScience database(s) found</h3> <ul class='list_noimages'>${txt}</ul> ${txtimg}`;
+  return txt;
+}
+
+
+function vis1( urls ) { // F-PREVIEW-SCENES
+  var counter = urls.length;
+var txt = urls.map( (rec) => {
+          let i = rec.preview_url ? `<br/> <img src='${rec.preview_url}' width=240/>` : "";
+          let ii = rec.preview_url ? "with_img" : "";
+          return `<li class='${ii}'><a target='_blank' href='${rec.url}'>${rec.reldir} ${i}</a></li>`
+        } ).join("\n");
+        txt = `<h3>There are ${counter} CinemaScience database(s) found</h3> 
+<style>
+  ul li.with_img { 
+    display: inline-block; 
+  }
+</style>        
+<ul class='list_noimages'>${txt}</ul>`;
+
+return txt;
+}
+
+function vis2( urls ) { // F-PREVIEW-SCENES
+  var counter = urls.length;
+var txt = "", txtimg = "";
+        urls.forEach( (rec) => {
+          if (rec.preview_url)
+            txtimg += `
+<a style="display:inline-block" target='_blank' href='${rec.url}'>
+  <span>
+    <img src='${rec.preview_url}' width=240/>
+    <br/>
+    ${rec.reldir}
+  </span>
+</a>
+  `;
+          else
+            txt += `<li><a target='_blank' href='${rec.url}'>${rec.reldir}</a></li>`
+        })
+        txt = `<h3>There are ${counter} CinemaScience database(s) found</h3> <ul class='list_noimages'>${txt}</ul> ${txtimg}`;  
+return txt;
 }

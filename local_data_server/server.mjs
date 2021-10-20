@@ -80,28 +80,29 @@ function reqfunc(request, response) {
       return E.explore( server, dir, request, response, explore_params );
     
     if (request.method == "POST") {
-      var filepath = dir + request.url; // TODO fix this! to be file inside url
+      var filepath = path.join(dir,request.url);
       // R-SECURE
       var relative = path.relative( dir, filepath );
       var is_inside = relative && !relative.startsWith('..') && !path.isAbsolute(relative);
-      if (path.basename( filepath ) != "viewzavr-player.json" || !is_inside) {
+
+      // F-PREVIEW-SCENES
+      if (["viewzavr-player.json","preview.jpg","preview.png"].indexOf(path.basename( filepath )) < 0 || !is_inside) {
         console.log("POST to invalid url, breaking");
         response.end();
         return;
-      }      
+      }
       
-      let body = '';
+      let body = new Buffer('');
       console.log("method is post, will write file",filepath);
       request.on('data', (chunk) => {
-          body += chunk;
+          body = Buffer.concat([body, chunk]);
       });
       request.on('end', () => {
           fs.writeFile( filepath,body, function (err) {
             if (err) return console.log(err);
             console.log("data saved");
           } );
-          
-          //console.log(body);
+
           //response.setHeader( "Access-Control-Allow-Origin","*");
           //response.write('OK');
           response.end();
