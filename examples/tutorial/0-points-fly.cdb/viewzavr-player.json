@@ -5,14 +5,14 @@
         "camera": {
           "params": {
             "cameraPos": [
-              -3.444962093983145,
-              11.39124803186495,
-              38.84964063624744
+              21.23132565046697,
+              12.802194829315109,
+              21.349170377757872
             ],
             "cameraCenter": [
-              15.240102137467963,
-              1.5403243897641936,
-              -31.453877188401098
+              3.553643829270414,
+              3.4944887894557755,
+              -7.28740800536814
             ]
           }
         }
@@ -22,28 +22,7 @@
       "params": {
         "interpolation": true
       },
-      "module_url": "http://127.0.0.1:8083/local-vr-cinema/./app.js",
-      "children": {
-        "params": {
-          "params": {
-            "T": 0
-          }
-        },
-        "artefacts": {
-          "children": {
-            "FILE_points_alfa": {
-              "children": {
-                "points": {
-                  "params": {
-                    "radius": 10.3,
-                    "shape": 3
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+      "module_url": "http://127.0.0.1:8083/local-vr-cinema/./app.js"
     }
   },
   "packages": {
