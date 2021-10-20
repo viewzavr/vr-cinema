@@ -4,6 +4,8 @@
 // requirement: when system reloads, set params to original state
 // requirement: when user switches to some cinema db, and then to another, and then back to first,
 //              parameters configured for first should be restored!
+// requirement: when user refreshes db, viewzavr should use previous state
+//              (it should return to it's original parameters and attributes of visual objects.)
 
 export default function addRestoreStateFeature( obj ) {
 
@@ -18,6 +20,7 @@ export default function addRestoreStateFeature( obj ) {
 
     this.orig( csv_data_object,path_function,coords_function, rotate_function );
 
+    console.log("FEATURE-RESTORE: restoring state",subtreeState)
     // now, all artefacts are already created, and we may setup them..
     return obj.vz.createChildrenByDump( subtreeState, obj );
   });

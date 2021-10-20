@@ -98,9 +98,17 @@
               var file = getParameterByName("datapath") || vz.getDir( import.meta.url ) + "./examples/tutorial/0-points-fly.cdb/data.csv";
               var obj = vzPlayer.getRoot();
               
+      var loaded_settings_url;
       obj.trackParam( "file",function() {
         var f = obj.getParam("file");
         var settings_url = vz.getDir( f ) + "viewzavr-player.json";
+
+        if (settings_url == loaded_settings_url) {
+          console.log("SETTINGS: source file changed, but settings path not, SO NOT fetching settings from server",settings_url );
+          return;
+        }
+        loaded_settings_url = settings_url;
+
         // see also: feature-restore-on-base-change.js
         console.log("SETTINGS: source file changed, fetching settings from server",settings_url );
         vzPlayer.loadJson2( settings_url ).then( (data) =>  {

@@ -7,7 +7,7 @@ export default function install( obj ) {
   obj.addCmd("refresh",function() {
     // R-FOLLOW-GROW
     tracking = null;
-    var names = obj.cinemadb.getParamNames();
+    var names = obj.cinemadb.getParamNames() || [];
     if (names[0]) {
       var pn = names[0];
       var vals = obj.cinemadb.getDifferentParamValues( pn );

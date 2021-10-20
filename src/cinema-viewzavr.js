@@ -23,7 +23,12 @@ export function setup( vz ) {
 export function create( vz, opts ) {
   if (!opts.name) opts.name = "cinema";
   var obj = vz.create_obj( {}, opts );
-  
+
+  // if object is removed, stop reacting on new data loads (which may occure after file is loaded)
+  obj.on("remove",() => {
+    obj.assignData = () => {};
+  })
+
   obj.cinemadb = cinema();
   
   obj.addFile("file","",function(v) {
@@ -50,13 +55,15 @@ export function create( vz, opts ) {
   });
   
   obj.addCheckbox("interpolation",false, () => {
-     //obj.refresh();
+     obj.refresh();
+     /*
      
       if (!obj.cinemadb) return;
       if (!obj.cinemadb.getParamNames()) return;
       obj.generateParams()
       obj.generateArtefacts();
       obj.reactOnParamChange();
+      */
       
   } );
   
@@ -74,6 +81,8 @@ export function create( vz, opts ) {
   
   // csv_data_object это по факту data-frame
   obj.assignData = function( csv_data_object,path_function,coords_function, rotate_function ) {
+    //console.log("ASSIGNDATA called",{csv_data_object})
+
     obj.cinemadb.setDbContent( csv_data_object );
     obj.cinemadb_path_function = path_function;
     obj.cinemadb_coords_function = coords_function || function(coords) { return coords; };
@@ -104,9 +113,18 @@ export function create( vz, opts ) {
       // todo check if string - setup combo..
       
       if (obj.useConcreteValues( name )) {
-        obj.params_obj.addSlider( name, 0,0, vals.length-1, 1, function(v) {
-          obj.reactOnParamChange();
-        });
+
+        if (obj.cinemadb.isStringColumn(name)) {
+          obj.params_obj.addCombo( name, 0,vals, function(v) {
+            obj.reactOnParamChange();
+          });
+        }
+        else
+        {
+          obj.params_obj.addSlider( name, 0,0, vals.length-1, 1, function(v) {
+            obj.reactOnParamChange();
+          });
+        }
         obj.params_obj.setParamOption(name,"values",vals );
 /*      
         obj.params_obj.addCombo( name, 0,vals, function(v) {
@@ -126,19 +144,22 @@ export function create( vz, opts ) {
         }
 */        
       }
-      else
-      obj.params_obj.addSlider( name, min, min, max, 0.01, function(v) {
-        // R-KEEP-SLIDER-IN-RANGE
-        // strange construction to keep parameter in ranges
-        // todo move this as somewhat feature of parameter behaviour
-        // maybe turned on optionally
-        if (v < min) 
-          obj.params_obj.setParam( name, min );
-        else
-          if (v > max) obj.params_obj.setParam( name, max );
-        else
-          obj.reactOnParamChange();
-      });
+      else {
+        obj.params_obj.addSlider( name, min, min, max, 0.01, function(v) {
+          // R-KEEP-SLIDER-IN-RANGE
+          // strange construction to keep parameter in ranges
+          // todo move this as somewhat feature of parameter behaviour
+          // maybe turned on optionally
+          if (v < min) 
+            obj.params_obj.setParam( name, min );
+          else
+            if (v > max) obj.params_obj.setParam( name, max );
+          else
+            obj.reactOnParamChange();
+        });
+      }
+
+
       obj.params_obj.setParamOption( name,"sliding",false );
     });
     //obj.params_obj.addCheckbox("interpolation",true, obj.generateParams);
