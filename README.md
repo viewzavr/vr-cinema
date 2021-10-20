@@ -43,9 +43,11 @@ to start VR-Cinema. Use following commands:
 * `npx -p vr-cinema vr-cinema-setup` - add menu
 * `npx -p vr-cinema vr-cinema-setup-off` - remove menu
 
-# implemented features
+# Features
 
-* Interpolates data from two neighbouring files.
+* 10+ visual object types (points, lines, triangles, ..., graphical files, ...).
+* Animations across selected Cinema parameter, and video movies.
+* Interpolation of input files, allowing to see transitions between your data. May be turned ON/OFF.
 
 # how to add your own type
 
