@@ -1,6 +1,6 @@
-# vr-cinema
+# VR-CINEMA
 
-VR-Cinema is a 3D scientific visualization software. It works in a web browser, and utilizes CinemaScience-based scene format for input.
+VR-Cinema is a 3D scientific visualization software with super-simple input scene format.
 
 
 ![](http://showtime.lact.in/resizer_st/fit/160/160//files/visual/2020-03-12/2020-03-12-at-11-47-04.gif)
@@ -14,6 +14,14 @@ VR-Cinema is a 3D scientific visualization software. It works in a web browser, 
 ![](http://showtime.lact.in/resizer_st/fit/160/160//files/visual/2020-03-02/2020-03-02-at-22-47-20.png)
 ![](http://showtime.lact.in/resizer_st/fit/160/160//files/visual/2020-03-02/2020-03-02-at-20-29-14.png)
 
+# Features
+
+* Loads 3D scenes in CinemaScience-based scene format ([format documentation](format.md)).
+* 10+ visual object types (points, lines, triangles, ..., graphical files, ...).
+* Animations across selected Cinema parameter, and video movies.
+* Interpolation of input files, allowing to see transitions between your data. May be turned ON/OFF.
+* Web-based, may load local and remote data scenes.
+* VR mode, tested with Oculus Quest.
 
 # How to use
 
@@ -45,15 +53,9 @@ You may add "Open with VR-Cinema..." to Explorer menu, use command:
 This also works in Linux for GNOME Nautilus explorer.
 
 ## Shell script
-Also, you may create shell script (for example `vis.cmd`) that executes npx vr-cinema.
+Also, you may create shell script (for example `vis.cmd`) that executes `npx vr-cinema` command.
 VR-Cinema scans internal directories on startup, and allows to choose which one to visualuze,
 thus this script may be placed somewhere in root of your project.
-
-# Features
-
-* 10+ visual object types (points, lines, triangles, ..., graphical files, ...).
-* Animations across selected Cinema parameter, and video movies.
-* Interpolation of input files, allowing to see transitions between your data. May be turned ON/OFF.
 
 # how to add your own type
 
