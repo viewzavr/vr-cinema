@@ -4,4 +4,4 @@ Windows Registry Editor Version 5.00
 @="Open with VR-Cinema"
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Folder\shell\vrcinema\command]
-@="cmd /c npx vr-cinema \"%1\""
+@="cmd /c npx vr-cinema -d \"%1\""
