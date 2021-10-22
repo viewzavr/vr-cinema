@@ -20,21 +20,46 @@ var process = require('process');
 const version = process.env.npm_package_version;
 console.log("VR-Cinema local_data_server", version || "");
 
+var dir = process.argv[2] || "."; // R-DIR-MODE, R-AUTO-GUESS-MODE
+var url_arg;
 
-var dir = ".";
-for (let i=2; i<process.argv.length; i++)
- if (process.argv[i] == "-d") {
+for (let i=2; i<process.argv.length; i++) {
+ if (process.argv[i] == "--dir" || process.argv[i] == "-d") {
     dir = process.argv[i+1];
     break;
  }
-//console.log( process.argv );
-console.log("serving dir:",dir );
-
-// R-SECURE
-if (fs.existsSync( path.join( dir,".ssh"))) {
-  console.log("It seems you are running from user home dir. This is not recommended because all your files might be visible via HTTP, including .ssh credentials. Exiting." );
-  process.exit(1);
+ else
+ if (process.argv[i] == "--url" || process.argv[i] == "-u") {
+    dir = undefined;
+    url_arg = process.argv[i+1];
+    break;
+ }
 }
+
+if (dir && dir.startsWith("http")) {
+  url_arg = dir;
+  dir = undefined;
+}
+
+var dir_mode = dir ? true : false;
+
+if (dir_mode) {
+  //console.log( process.argv );
+  console.log("serving dir:",dir );
+
+  // R-SECURE
+  if (fs.existsSync( path.join( dir,".ssh"))) {
+    console.log("It seems you are running from user home dir. This is not recommended because all your files might be visible via HTTP, including .ssh credentials. Exiting." );
+    process.exit(1);
+  }
+
+  if (!fs.existsSync(dir)) {
+  console.log("It seems directory is not exist. Exiting.");
+    process.exit(1);
+  }
+}
+else
+  console.log("opening url: ",url_arg );
 
 var nstatic = require('node-static');
 var nstatic_opts = {
@@ -48,7 +73,7 @@ var headers = {
             }  
 */            
   
-var fileServer = new nstatic.Server( dir,nstatic_opts );
+var fileServer = dir_mode ? new nstatic.Server( dir,nstatic_opts ) : null;
 
 // F_LOCAL_CINEMA {
   import { URL } from 'url'; // in Browser, the URL in native accessible on window
@@ -76,7 +101,7 @@ function reqfunc(request, response) {
         response.setHeader( "Access-Control-Allow-Methods","GET,HEAD,OPTIONS,POST,PUT" );
     }
     
-    if (request.url == "/")
+    if (request.url == "/" && dir_mode)
       return E.explore( server, dir, request, response, explore_params );
     
     if (request.method == "POST") {
@@ -129,8 +154,14 @@ function reqfunc(request, response) {
           fileServerCinema.serve(request, response); // F-LOCAL-CINEMA
         }
         else {
-          console.log("serving as dir file");
-          fileServer.serve(request, response);
+          if (dir_mode) {
+            console.log("serving as dir file");
+            fileServer.serve(request, response);
+          }
+          else
+          {
+             request.end("unserved");
+          }
         }
     }).resume();
 }
@@ -140,7 +171,8 @@ var host = process.env.VR_HOST || '127.0.0.1'; // only local iface
 
 /////////// feature: watch files
 import WF from "./feature-watch-file.mjs";
-var watcher_server = WF( dir, host );
+
+var watcher_server = dir_mode ? WF( dir, host ) : null;
 var watcher_port = 0;
 
 ///////////
@@ -163,30 +195,49 @@ server.on('error', (e) => {
 var opener = require("opener");
 
 
-watcher_server.on("listening",() => {
- watcher_port = watcher_server.address().port;
- console.log("websocket server listening on port",watcher_port );
+if (dir_mode) {
 
-server.on("listening",() => {
+  watcher_server.on("listening",() => {
+   watcher_port = watcher_server.address().port;
+   console.log("websocket server listening on port",watcher_port );
 
-  var opath;
-  var datacsv_file_path = path.join( dir, "data.csv" ); // F-AUTOOPEN-ONE-SCENE
-  if (fs.existsSync(datacsv_file_path)) {
-    opath = E.vzurl( server,"",explore_params );
-  }
-  else
-  {
-    opath = `http://${server.address().address}:${server.address().port}/`;
-  }
+    server.on("listening",() => {
+
+      var opath;
+      var datacsv_file_path = path.join( dir, "data.csv" ); // F-AUTOOPEN-ONE-SCENE
+      if (fs.existsSync(datacsv_file_path)) {
+        opath = E.vzurl( server,"",explore_params );
+      }
+      else
+      {
+        opath = `http://${server.address().address}:${server.address().port}/`;
+      }
+        console.log("opening in bro:",opath);
+        opener( opath );
+    });
+
+  });
+
+}
+else
+{
+  server.on("listening",() => {
+    if (url_arg.endsWith("/")) url_arg = url_arg + "data.csv";
+    // if local_vr_cinema mode ...
+    url_arg = url_arg.replaceAll("https://","http://"); // it will not load https from localhost..
+
+    var opath = E.vzurl_view( server,url_arg,explore_params );
     console.log("opening in bro:",opath);
     opener( opath );
-});
-});
+  });
+}
+
 
 
 //////////////////////////
 
 server.listen( port,host );
+// it seems we don-t need it in url + remote viewzavr mode.
 
 server.on("listening",() => {
   console.log('server started: http://%s:%s', server.address().address, server.address().port);

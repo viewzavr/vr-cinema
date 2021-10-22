@@ -53,7 +53,7 @@ export function auto_save_settings( vzPlayer ) {
       obj.trackParam( "file",function() {
         var f = obj.getParam("file");
         storepath = vz.getDir( f );
-      });  
+      });
 
       var oh = vzPlayer.saveToHash;
       vzPlayer.saveToHash = function(obj) {

@@ -5,9 +5,9 @@
         "camera": {
           "params": {
             "cameraPos": [
-              33.21118088531959,
-              23.062100360998507,
-              55.250938702092434
+              -2.435848980593576,
+              16.110198431466877,
+              33.875121641590205
             ],
             "cameraCenter": [
               5.96899546211197,
@@ -22,7 +22,23 @@
       "params": {
         "interpolation": false
       },
-      "module_url": "http://127.0.0.1:8083/local-vr-cinema/./app.js"
+      "module_url": "http://127.0.0.1:8083/local-vr-cinema//list.txt",
+      "children": {
+        "artefacts": {
+          "children": {
+            "FILE_points_alfa": {
+              "children": {
+                "points": {
+                  "params": {
+                    "radius": 11.7,
+                    "shape": 2
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "packages": {

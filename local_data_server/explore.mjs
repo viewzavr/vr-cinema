@@ -25,16 +25,21 @@ function findFiles( startdir, cb )
   return res;
 }
 
+export function vzurl_view( server, cinema_file_url, options={} ) {
+    var viewzavr_player_url = options.vr_cinema_url || "https://viewzavr.com/apps/vr-cinema";
+    if (typeof(viewzavr_player_url) == "function") {
+        viewzavr_player_url = viewzavr_player_url( `http://${server.address().address}:${server.address().port}` );
+    }  
+    var opath = `${viewzavr_player_url}?datapath=${cinema_file_url}`;
+    return opath;
+}
+
 export function vzurl( server, cinema_relative_dir,options={} ) {
     var datapath = `http://${server.address().address}:${server.address().port}${cinema_relative_dir}/data.csv`;
     var spath = `http://${server.address().address}:${server.address().port}${cinema_relative_dir}/viewzavr-player.json`;
     var storepath = `http://${server.address().address}:${server.address().port}${cinema_relative_dir}/viewzavr-player.json`;
-    var viewzavr_player_url = options.vr_cinema_url || "https://viewzavr.com/apps/vr-cinema";
-    if (typeof(viewzavr_player_url) == "function") {
-        viewzavr_player_url = viewzavr_player_url( `http://${server.address().address}:${server.address().port}` );
-    }
 
-    var opath = `${viewzavr_player_url}?datapath=${datapath}&settings=${spath}&storepath=${storepath}`;
+    var opath = vzurl_view( server, datapath,options ) + `&settings=${spath}&storepath=${storepath}`; //todo remove
     // +feature watch file
     if (options.watcher_port) {
        var wpath = `ws://${server.address().address}:${options.watcher_port}${cinema_relative_dir}/data.csv`;

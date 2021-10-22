@@ -86,11 +86,23 @@ If during combine value is absent, consider it zero.
 ## F-BLANK [x]
 if blank path specified, that means no data should be displayed in artifact.
 
-## F-LOCAL-VIEWZAVR
+## [x] F-LOCAL-VIEWZAVR
 index.html should use local viewzavr, not internet-based.
 
 ## [x] F-PREVIEW-SCENES
 Save preview images to Cinema scenes and show them in explore screen.
+
+## R-DIR-MODE
+Allow to specify dir other than current directory in command line.
+
+## R-URL-MODE
+Allow following: npx vr-cinema url-to-remote-dir which means visualize remote dir.
+If url ends with data.csv, consider dir of that file (and probably load data.csv as specified in command line).
+
+## R-AUTO-GUESS-MODE
+If vr-cinema is runned with -d key, this is dir mode.
+If vr-cinema is runned with -u key, this is remote url mode.
+If vr-cinema is runned just with arg, auto-guess what is it.
 
 # Ideas
 
