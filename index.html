@@ -60,123 +60,65 @@
     
     //////////////////////////// required packages
     // we need almost always that package
-    // var q0 = vzPlayer.loadPackage( ["vis-comps", vz.getDir( import.meta.url ) + "/views/list.txt"]);
-    var q0 = vzPlayer.loadPackage( "vis-comps" );
+    //var q0 = vzPlayer.loadPackage( ["vis-comps", vz.getDir( import.meta.url ) + "/views/list.txt", vz.getDir( import.meta.url ) + "/views/list.txt"]);
+    //var q0 = vzPlayer.loadAppPackage( vz.getDir( import.meta.url ) + "/list.txt", "" );
 
-    //////////////////////////// load user script
+    var q0 = vzPlayer.loadApp( vz.getDir( import.meta.url ) + "/list.txt" );
+    q0.then( function() {
+       vzPlayer.feature( "hash-settings auto-load-settings auto-save-settings auto-save-screenshot datapath-from-url commands-socket file-progress");
+    });
 
-      // use this logic if you want to load app files defined in parameter.
-      
-      // if (!userurl) userurl = vz.getDir( import.meta.url ) + "./app.js";
-      var userurl = vz.getDir( import.meta.url ) + "./app.js";
+  /*
+    q0.then( function() {
+       vzPlayer.loadPackage( vz.getDir( import.meta.url ) + "/app_features.txt" ); 
+    });
+    */    
 
-      console.log("user script url=",userurl );
+    //vzPlayer.loadPackage( vz.getDir( import.meta.url ) + "/app_features.txt" );
+    //vzPlayer.feature( "state-in-hash")
+    //vzPlayer.load_features( vz.getDir( import.meta.url ) + "/app_features.txt" )
 
-      // тут у нас форматирование для загрузки через прокси
-      userurl = formatSrc( userurl );
-      console.log("reformatted:",userurl );
-      var q1 = vzPlayer.loadApp( userurl );
-      
-      var q = Promise.allSettled( [q0,q1] );
-    
-      // идея - быть может быть это должно сопутсвовать data.csv ? а не плееру?
-      // и быть может даже - сопутсвовать всякой смене data.csv, т.е. уйти на уровень вглюбь viewzavr-cinema?
+    /*
+    import F1 from "./auto-load-settings.js";
+    import F2 from "./hash-settings.js";
+    import F3 from "./auto-save-settings.js";
+    import F4 from "./commands-socket.js";
+    import F5 from "./file-progress.js";
+    import F6 from "./datapath-from-url.js";
 
-      // приложение загружено
-      q.then( function() {
-        // var jsonurl = getParameterByName("settings");
-        //var q2 = jsonurl ? vzPlayer.loadJson( jsonurl ) : q;
-        var q2 = q;
-        
-        q2.then( () => {
-            vzPlayer.loadFromHash().then( () => {
-              vzPlayer.startSavingToHash();
-              console.log("we loaded from hash");
-            
-              // datapath from query should be the last in processsing order!
-              // it should override that what is in params!
-              var file = getParameterByName("datapath") || vz.getDir( import.meta.url ) + "./examples/tutorial/0-points-fly.cdb/data.csv";
-              var obj = vzPlayer.getRoot();
-              
-      var loaded_settings_url;
-      obj.trackParam( "file",function() {
-        var f = obj.getParam("file");
-        var settings_url = vz.getDir( f ) + "viewzavr-player.json";
+    q0.then( function() {
+       F1(vz); F2(vz); F3(vz); F4(vz); F5(vz); F6(vz);
+    });    
+    */
 
-        if (settings_url == loaded_settings_url) {
-          console.log("SETTINGS: source file changed, but settings path not, SO NOT fetching settings from server",settings_url );
-          return;
-        }
-        loaded_settings_url = settings_url;
+    /*
+    import * as FE from "./features.js";
 
-        // see also: feature-restore-on-base-change.js
-        console.log("SETTINGS: source file changed, fetching settings from server",settings_url );
-        vzPlayer.loadJson2( settings_url ).then( (data) =>  {
-          setTimeout( () => {
-            // need erase incoming url from settings - we have own one
-            if (typeof( data?.children?.scene?.params?.file ) !== "undefined")
-              delete data.children.scene.params['file'];
-            console.log("SETTINGS: source file changed, applying settings from server",settings_url,data );
-            vzPlayer.restoreFromDump( data, true );
-          }, 500 );
-        }).catch( (err) => {} );
-        
-      });              
-      
-      if ((obj?.params?.file || "") == "") {
-        console.log("we set file",file );
-        obj.setParam("file",file);
-      }
-    
+    var q0 = vzPlayer.loadApp( vz.getDir( import.meta.url ) + "/list.txt" );
+    q0.then( function() {
+      FE.auto_load_settings( vzPlayer );
+      FE.hash_settings( vzPlayer );
+      FE.auto_save_settings( vzPlayer );
+      FE.auto_save_screenshot( vzPlayer );
+      FE.show_file_progress( vzPlayer );
+      FE.commands_socket( vzPlayer );
+      FE.datapath_from_url( vzPlayer );
+    });
+    */
 
-            }); //loadFromHash
-        }) //q2
+    ////////////////////////////////////////////////
 
-      }); //q
-
-      // feature of saving settings
-      
-      import SE from "./save-settings.js";
-      
-      var storepathp = getParameterByName("storepath") || getParameterByName("savesettings");
-      if (storepathp) q.then( () => SE( storepathp ) );
-
-      import CS from "./commands-socket.js";
-      var cmdpath = getParameterByName("cmdpath");
-      if (cmdpath) {
-        CS(cmdpath);
-      }
-      
-      import "./file-progress.js";
-      
-    function loadJson2( url ) {
-     return new Promise( function( resolv, rej ) {
-      fetch(url).then((response) => {
-          if (!response.ok) {
-            console.error("loadJson2 fetch not ok:",response.statusText)
-            //throw "fetch error";
-            rej( "response not ok" );
-          }
-
-          return response.json();
-        },
-        (reason) => {
-          console.log("loadJson2 error: ",reason); // Ошибка!
-          rej( reason )
-          //resolv( {} );
-          return {};
-        }
-      )
-      .then((data) => {
-        //console.log(data);
-        //console.log("loadJson: loaded, syncing");
-          resolv( data );
-      }
-      ,(err) => { console.error("loadJson2 parse error",err); rej(err); }
-      );
-     });
-  }
-
+    var q0 = vzPlayer.loadApp( vz.getDir( import.meta.url ) + "/list.txt" );
+    q0.then( function() {
+       vzPlayer.feature( 
+          `hash-settings
+           auto-load-settings
+           auto-save-settings
+           auto-save-screenshot
+           datapath-from-url
+           commands-socket
+           file-progress`);
+    });
 
   </script>
 

@@ -112,3 +112,10 @@ Together with viewzavr-player.json, save thumb files.
 
 # I-KEEP-HISTORY
 Maybe, keep a history of viewzavr-player.json. Maybe in separate files, or maybe in 1 big file (including thumbs?)
+
+# I-OPEN-URL
+npx vr-cinema https://viewzavr.com/apps/vr-cinema-samples/wafe-fronts-2/ [data.csv] - open scene of that url.
+thus we may define not only dirs, but urls. But in that case -d arg is not usable....
+npx vr-cinema --url https://viewzavr.com/apps/vr-cinema-samples/wafe-fronts-2/
+Need to solve: --url arg, or [auto-guess].
+

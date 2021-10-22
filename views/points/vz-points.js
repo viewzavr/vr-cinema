@@ -10,6 +10,7 @@ export function setup( vz ) {
 }
 
 export function create( vz, opts ) {
+  //var vis = vz.env("vis").feature("graphical-api");
 
   var obj = vz.createObj( opts );
   var gr  = vz.vis.addPoints( obj, "points" );

@@ -1,3 +1,5 @@
+export default function setup() {
+
 var div = document.createElement("div");
 div.id = "fileProgress";
 document.body.appendChild(div);
@@ -30,3 +32,5 @@ sheet.innerHTML = `
         }
 `;
 document.body.appendChild(sheet);
+
+}

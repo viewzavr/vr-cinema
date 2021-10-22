@@ -1,4 +1,11 @@
-export default function go( socket_path ) {
+export default function setup( vz ) {
+  var cmdpath = getParameterByName("cmdpath");
+  if (cmdpath) {
+    go( cmdpath )
+  }
+}
+
+export function go( socket_path ) {
 
   loadFile( socket_path, function(msg) {
     console.log("msg",msg);

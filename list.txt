@@ -1,0 +1,10 @@
+src/cinema-viewzavr.js
+views/list.txt
+vis-comps
+features.js
+
+#[extra]
+# эти то к пакету не относятся, это фишки приложения
+#auto-save-settings.js
+#commands-socket.js
+#file-progress.js
