@@ -36,7 +36,8 @@ Create a file with scene description. See [format documentation](format.md) for 
 
 Execute in command line:
 * `npx vr-cinema` to start visualization in current directory.
-* `npx vr-cinema -d path-to-dir` to start visualization from another directory.
+* `npx vr-cinema path-to-dir` to start visualization from another directory.
+* `npx vr-cinema url-of-data-csv` to start visualization for specified `data.csv` from Internet.
 
 This will start local http server and open browser with VR-Cinema for specified CinemaScience database.
 
@@ -47,8 +48,8 @@ You may use online demo of VR-Cinema to visualize your data: http://viewzavr.com
 # Windows Explorer menu
 
 You may add "Open with VR-Cinema..." to Explorer menu, use command:
-* `npx -p vr-cinema vr-cinema-setup` - add menu
-* `npx -p vr-cinema vr-cinema-setup-off` - remove menu
+* `npx -p vr-cinema vr-cinema-setup` - add menu.
+* `npx -p vr-cinema vr-cinema-setup-off` - remove menu.
 
 This also works in Linux for GNOME Nautilus explorer.
 
