@@ -22,7 +22,7 @@ export default function addRestoreStateFeature( obj ) {
 
     console.log("FEATURE-RESTORE: restoring state",subtreeState)
     // now, all artefacts are already created, and we may setup them..
-    return obj.vz.createChildrenByDump( subtreeState, obj );
+    return obj.vz.createChildrenByDump( subtreeState, obj, true ); // manual params mode
   });
 
   var tmrid;

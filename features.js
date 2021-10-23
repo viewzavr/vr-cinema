@@ -65,8 +65,9 @@ export function auto_save_settings( vzPlayer ) {
       vzPlayer.saveToHash = function(obj) {
         if (storepath) {
             var code = obj.dump();
+            var path = storepath + "/viewzavr-player.json";
             
-            fetch( storepath + "/viewzavr-player.json", {
+            fetch( path, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json;charset=utf-8'
@@ -74,7 +75,7 @@ export function auto_save_settings( vzPlayer ) {
               body: JSON.stringify(code,null, '  ')
             });
            // послали
-           console.log("SETTINGS: sent to server",storepath);
+           console.log("SETTINGS: sent to server",path);
         }
         oh(obj);
       }
