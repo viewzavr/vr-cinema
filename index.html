@@ -66,7 +66,7 @@
 /*
     var q0 = vzPlayer.loadApp( vz.getDir( import.meta.url ) + "/list.txt" );
     q0.then( function() {
-       vzPlayer.feature( "hash-settings auto-load-settings auto-save-settings auto-save-screenshot datapath-from-url commands-socket file-progress");
+       vzPlayer.feature( "hash-settings auto-load-settings auto-save-settings auto-save-screenshot datapath-from-url commands-socket show-file-progress");
     });
 */    
 
@@ -110,6 +110,8 @@
 
     ////////////////////////////////////////////////
 
+    /*
+
     var q0 = vzPlayer.loadApp( vz.getDir( import.meta.url ) + "/list.txt" );
     q0.then( function() {
        vzPlayer.feature( 
@@ -121,6 +123,81 @@
            commands-socket
            show-file-progress`);
     });
+    */
+
+    /*
+     {
+        main: "features",
+        features: "hash-settings auto-load-settings auto-save-settings auto-save-screenshot datapath-from-url commands-socket show-file-progress"
+     }
+
+       features:
+         menu:
+    */
+
+    var feature_map = 
+    { main: 'features',
+      features: {
+       append: [ 'hash-settings',
+         'auto-load-settings',
+         'auto-save-settings',
+         'auto-save-screenshot',
+         'datapath-from-url',
+         'commands-socket',
+         'show-file-progress' ]
+      }
+    }
+    vz.register_feature_map( feature_map );
+    // vz.feature( "main" ); // это мечта; но так пока сломается - корневого объекта нет. и пока нет идей
+    // т.к. запуск применения фич хотелось бы контролировать, все нормально.
+    // хотя можно будет и зашить что loadApp затем вызывает сама vzPlayer.feature("main") и типа вы должны...
+    // но это опять же неявность. пока оставим так
+
+    vzPlayer.loadApp( vz.getDir( import.meta.url ) + "/list.txt" ).then( () => vzPlayer.feature("main"))
+
+
+    /*
+    vzPlayer.loadApp( vz.getDir( import.meta.url ) + "/list.txt" ).then( () => {
+      var feature_map = 
+      { main: 'features',
+        features: 
+         [ 'hash-settings',
+           'auto-load-settings',
+           'auto-save-settings',
+           'auto-save-screenshot',
+           'datapath-from-url',
+           'commands-socket',
+           'show-file-progress' ]
+      }
+      vz.register_feature_map( feature_map );
+      vzPlayer.feature("main")
+    })
+    */
+
+    /*
+
+    var q0 = vzPlayer.loadPackage( vz.getDir( import.meta.url ) + "/list.txt" );
+    var app = {
+        main: "features",
+        features: "hash-settings auto-load-settings auto-save-settings auto-save-screenshot datapath-from-url commands-socket show-file-progress"
+    }
+    interpret( app, "main", vz );
+    q0.then( () => {
+      vzPlayer.feature( "main" );
+    })
+    */
+
+/*
+    vz.register_feature( "main",(env) => {
+       let obj = vz.createObjByType("cinema-view-cinema");
+       debugger;
+       console.log("main feature created obj",obj);
+       env.setRoot( obj );
+    });
+*/
+
+
+
 
   </script>
 

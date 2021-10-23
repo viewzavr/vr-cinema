@@ -2,6 +2,12 @@ export function setup(vz,module) {
   vz.register_feature_set( module );
 }
 
+export function main2(vzPlayer) {
+   let obj = vzPlayer.vz.createObjByType("cinema-view-cinema");
+   vzPlayer.setRoot( obj );  
+   console.log("MAIN PERFORMED")
+}
+
 /////////////////////////////////////////////////////
 
 export function auto_load_settings(vzPlayer) {
