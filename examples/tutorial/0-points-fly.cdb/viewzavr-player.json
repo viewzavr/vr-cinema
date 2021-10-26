@@ -8,53 +8,20 @@
         "camera": {
           "params": {
             "cameraPos": [
-              3.610952526514355,
-              10.613024413028597,
-              36.143139809069744
-            ],
-            "cameraCenter": [
-              5.96899546211197,
-              3.251982613145035,
-              -3.8419295963582005
+              0,
+              2.5567296731039323e-15,
+              41.75456425287727
             ]
           }
         }
       }
     },
     "scene": {
-      "params": {
-        "interpolation": false
-      },
       "type": "cinema-view-cinema",
       "children": {
-        "screen1": {
-          "type": "screen",
-          "children": {
-            "column": {
-              "params": {
-                "style": ""
-              },
-              "type": "column"
-            }
-          }
-        },
         "params": {
           "params": {
             "time": 2
-          }
-        },
-        "artefacts": {
-          "children": {
-            "FILE_points_alfa": {
-              "children": {
-                "points": {
-                  "params": {
-                    "radius": 11.7,
-                    "shape": 2
-                  }
-                }
-              }
-            }
           }
         }
       }

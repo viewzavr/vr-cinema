@@ -13,7 +13,7 @@ export function create( vz, opts ) {
   <column id="column" gap="1em" >
    <text id="text" text="Cinema database" >
    </text>
-   <edit-params id="edit-params" input="/" only="file interpolation" >
+   <edit-params id="edit-params" input="/" only2="file interpolation refresh" >
    </edit-params>
    <text id="text_2" text="Parameters" >
    </text>
