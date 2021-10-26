@@ -1,5 +1,14 @@
 <!DOCTYPE html>
 <html>
+  <script async src="https://unpkg.com/es-module-shims@1.3.0/dist/es-module-shims.js"></script>
+  <script type="importmap">
+  {
+    "imports": {
+      "vz/": "./lib/viewzavr-system-a/"
+    }
+  }
+  </script>
+
   <script src="./lib/viewzavr-system-a/lib/viewlang/code/depends/jquery-2.1.4.js"></script>
 
   <script src="./lib/viewzavr-system-a/lib/viewlang/code//depends/qmlweb/src/parser.js"></script>
@@ -135,9 +144,37 @@
          menu:
     */
 
+    var feature_appends = 
+    { main: 'player_features',
+      player_features: `
+        hash-settings
+        auto-load-settings
+        auto-save-settings
+        auto-save-screenshot
+        datapath-from-url
+        commands-socket
+        show-file-progress
+        switch_to_editor_link
+        switch_to_editor_kbd
+        `
+    }
+    vz.register_feature_map( feature_appends );
+    // vz.feature( "main" ); // это мечта; но так пока сломается - корневого объекта нет. и пока нет идей
+    // т.к. запуск применения фич хотелось бы контролировать, все нормально.
+    // хотя можно будет и зашить что loadApp затем вызывает сама vzPlayer.feature("main") и типа вы должны...
+    // но это опять же неявность. пока оставим так
+
+    vzPlayer.loadPackage( vz.getDir( import.meta.url ) + "/list.txt" ).then( () => {
+      vzPlayer.setRoot( vz.createObjByType("vr-cinema-app") );
+      vzPlayer.feature("main")
+    })
+
+    //vz.load( vz.getDir( import.meta.url, "list.txt" ) );
+  
+    /* в будущем наверное так:
     var feature_map = 
-    { main: 'features',
-      features: {
+    { main: 'cinema-view-cinema',
+      player: {
        append: [ 'hash-settings',
          'auto-load-settings',
          'auto-save-settings',
@@ -147,13 +184,10 @@
          'show-file-progress' ]
       }
     }
-    vz.register_feature_map( feature_map );
-    // vz.feature( "main" ); // это мечта; но так пока сломается - корневого объекта нет. и пока нет идей
-    // т.к. запуск применения фич хотелось бы контролировать, все нормально.
-    // хотя можно будет и зашить что loadApp затем вызывает сама vzPlayer.feature("main") и типа вы должны...
-    // но это опять же неявность. пока оставим так
-
-    vzPlayer.loadApp( vz.getDir( import.meta.url ) + "/list.txt" ).then( () => vzPlayer.feature("main"))
+*/
+    //vz.env().feature("main");
+    //vzPlayer.setRoot( vz.createObj( {feature:"main" }));
+    //vzPlayer.feature("player");
 
 
     /*
@@ -195,9 +229,6 @@
        env.setRoot( obj );
     });
 */
-
-
-
 
   </script>
 

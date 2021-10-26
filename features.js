@@ -83,6 +83,7 @@ export function auto_save_settings( vzPlayer ) {
 
 /////////////////////////////////////////////////////
 
+//auto_save_screenshot.prepend_features = "scene_screenshot";
 export function auto_save_screenshot( vzPlayer ) {
       vzPlayer.feature( "scene_screenshot" );
       var vz = vzPlayer.vz;

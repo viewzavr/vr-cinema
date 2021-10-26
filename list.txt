@@ -1,8 +1,12 @@
+app.js
 src/cinema-viewzavr.js
 views/list.txt
 vis-comps
 features.js
 lib/viewzavr-system-a/features/list.txt
+# требуется для фичи activate-main-screen да и вообще для гуи-контролов
+# хорошо бы это явно как-то чтобы обозначалась потребностЬ, а не этими комментами..
+lib/viewzavr-system-a/features/gui-lib/list.txt
 
 #[extra]
 # эти то к пакету не относятся, это фишки приложения
