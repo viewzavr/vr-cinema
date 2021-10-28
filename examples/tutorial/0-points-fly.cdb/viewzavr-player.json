@@ -1,27 +1,32 @@
 {
-  "params": {
-    "active_screen": "/screen1"
-  },
   "children": {
     "state": {
       "children": {
         "camera": {
           "params": {
             "cameraPos": [
-              0,
-              2.5567296731039323e-15,
-              41.75456425287727
+              15.688417340873011,
+              18.092301656854755,
+              33.9548890349615
+            ],
+            "cameraCenter": [
+              4.647618902534818,
+              5.099313322199255,
+              0.3494019535103886
             ]
           }
         }
       }
     },
     "scene": {
+      "params": {
+        "interpolation": true
+      },
       "type": "cinema-view-cinema",
       "children": {
         "params": {
           "params": {
-            "time": 2
+            "time": 24.78
           }
         }
       }

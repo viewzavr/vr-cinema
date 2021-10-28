@@ -11,11 +11,18 @@ import * as colorize_scalars from "./colorize-scalars.js";
 import addUpdateFeature from "./feature-refresh.js";
 import addRestoreStateFeature from "./feature-restore-on-base-change.js";
 
+export function cinema_visual( obj,title ) {
+  obj.setParam("title",title);
+}
+
 export function setup( vz ) {
   vz.addItemType( "cinema-view-cinema","Cinema 3d viewer",function( opts ) {
     return create( vz, opts );
   }, {label:"special"} );
   colorize_scalars.setup( vz );
+
+  vz.register_feature_set( {cinema_visual} );
+
   return views.setup( vz );
 }
 

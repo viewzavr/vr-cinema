@@ -16,6 +16,9 @@ export function create( vz, opts ) {
   var mesh = vz.vis.addMesh( obj, "surface" );
   var pts  = vz.vis.addPoints( obj, "points" );
 
+  mesh.feature("cinema-visual", opts.name + "/surface");
+  pts.feature("cinema-visual", opts.name + "/points");
+
   pts.setParam("color",[1,1,1]);
   pts.setParam("radius",0.1);
   

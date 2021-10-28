@@ -14,6 +14,8 @@ export function create( vz, opts ) {
   var obj = vz.createObj( opts );
 
   var gr  = vz.vis.addPoints( obj, "points" );
+  gr.feature("cinema-visual", opts.name );
+
   gr.setParam("shape",2);
   gr.setParam("color",[1,0,0]);
   gr.setParam("radius",2.4);

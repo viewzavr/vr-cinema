@@ -11,6 +11,7 @@ export function create( vz, opts ) {
 
   var obj = vz.createObj( opts );
   var nobj = vz.vis.addGltf( obj );
+  nobj.feature("cinema-visual", opts.name );
 
   obj.trackParam( "file",function(v) {
         nobj.setParam( "src",v );

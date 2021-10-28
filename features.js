@@ -1,5 +1,6 @@
 export function setup(vz,module) {
-  vz.register_feature_set( module );
+  vz.register_feature_set( module ); // здесь фичи заведеным нами через апи системы в мозги системы
+  //return vz.features( module ); // здесь фичи являются автономным деревом
 }
 
 export function main2(vzPlayer) {
@@ -7,8 +8,6 @@ export function main2(vzPlayer) {
    vzPlayer.setRoot( obj );  
    console.log("MAIN PERFORMED")
 }
-
-/////////////////////////////////////////////////////
 
 export function auto_load_settings(vzPlayer) {
   var obj = vzPlayer.getRoot();

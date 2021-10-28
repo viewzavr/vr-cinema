@@ -11,6 +11,7 @@ export function create( vz, opts ) {
 
   var obj = vz.createObj( opts );
   var gr  = vz.vis.addLines( obj, "lines" );
+  gr.feature("cinema-visual", opts.name );
   
   obj.trackParam( "@dat",function(v) {
     var dat = obj.getParam("@dat");

@@ -11,19 +11,37 @@ export function create( vz, opts ) {
   var screen1 = vz.createFromXmlNow(`  
 <screen id="screen1" content-padding="2em" >
   <column id="column" gap="1em" >
-   <text id="text" text="Cinema database" >
-   </text>
-   <edit-params id="edit-params" input="/" only2="file interpolation refresh" >
-   </edit-params>
-   <text id="text_2" text="Parameters" >
-   </text>
-   <edit-params id="edit-params_3" input="/params" >
-   </edit-params>
+    <text id="text" text="Cinema database" >
+    </text>
+    <edit-params id="edit-params" input="/" only2="file interpolation refresh" >
+    </edit-params>
+    <text id="text_2" text="Parameters" >
+    </text>
+    <edit-params id="edit-params_3" input="/params" >
+    </edit-params>
+    <btn id="btn_tg" text="Visual objects" cmd="../oguis->trigger_visible" style='width:170px'/>
+    <column id="oguis" gap='0.2em'>
+    <objects-guis  objects="**/FILE*/* @cinema-visual"/>
+    </column>
   </column>
 </screen>
- `,null,obj,"screen1");
+`,null,obj,"screen1");
 
   screen1.activate();
+
+//  findObjects( ":artefact", ... ) repeater.input = [....];
   
   return obj;
 }
+
+/*
+    <column>
+      <repeater input="../fo->output">
+        <column>
+          <btn text='{{input.ns.name}}' cmd="..//ee->trigger_visible">
+          <edit-params input="{{input.getPath()}}" id='ee'/>
+        </column>
+      </repeater>
+      <find-objects id='fo' criteria='.artefact > .visual'/>
+    </column>
+*/    

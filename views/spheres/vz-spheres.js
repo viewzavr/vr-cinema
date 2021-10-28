@@ -13,6 +13,8 @@ export function create( vz, opts ) {
 
   var obj = vz.createObj( opts );
   var gr  = vz.vis.addSpheres( obj, "spheres" );
+  gr.feature("cinema-visual", opts.name );
+  
   gr.color=[1,1,1];
   obj.gr = gr;
 

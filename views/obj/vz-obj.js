@@ -31,6 +31,9 @@ export function create( vz, opts ) {
 
   utils.file_merge_feature( obj,parse_obj_to_df, interp, "@dat" );
 
+  gr.feature("cinema-visual", opts.name+"/points" );
+  surf.feature("cinema-visual", opts.name+"/surface" );
+
   return obj;
 }
 
