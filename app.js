@@ -9,8 +9,8 @@ export function create( vz, opts ) {
 
   vz.feature("xml-lang");
   var screen1 = vz.createFromXmlNow(`  
-<screen id="screen1" content-padding="2em" >
-  <column id="column" gap="1em" >
+<screen id="screen1" justify-content="space-between" style='width:100%; pointer-events:none'>
+  <column id="left_column" gap="1em" margin="2em" style='pointer-events:all;'>
     <text id="text" text="Cinema database" >
     </text>
     <edit-params id="edit-params" input="/" only2="file interpolation refresh" >
@@ -19,11 +19,20 @@ export function create( vz, opts ) {
     </text>
     <edit-params id="edit-params_3" input="/params" >
     </edit-params>
+
     <btn id="btn_tg" text="Visual objects" cmd="../oguis->trigger_visible" style='width:170px'/>
     <column id="oguis" gap='0.2em'>
-    <objects-guis  objects="**/FILE*/* @cinema-visual"/>
+    <objects-guis objects="**/FILE*/* @cinema-visual"/>
     </column>
+
   </column>
+
+  
+
+  <column id="right_column" gap="1em" margin="2em" style='pointer-events:all;'>
+    
+  </column>
+
 </screen>
 `,null,obj,"screen1");
 
