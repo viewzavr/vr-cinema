@@ -131,25 +131,25 @@ var txt = "", txtimg = "";
          let desktop = "";
 
          if (islocal(request)) { // F-OPEN-FOLDER
-            desktop = `<a href='#' onclick='fetch("/opendir?dir=${rec.reldir}")'>&#128187;</a>`;
+            desktop = `<a href='#' title='Open this directory in explorer' onclick='fetch("/opendir?dir=${rec.reldir}")'>&#128187;</a>`;
          }
 
           if (rec.preview_url)
             txtimg += `
   <span style="display:inline-block">
     
-    <a target='_blank' href='${rec.url}'>
+    <a title='Run visualization' target='_blank' href='${rec.url}'>
     <img src='${rec.preview_url}' width=240/>
     </a>
     <br/>
     ${desktop} 
-    <a target='_blank' href='${rec.url}'>
+    <a title='Run visualization' target='_blank' href='${rec.url}'>
       ${rec.reldir}
     </a>
   </span>
   `;
           else
-            txt += `<li>${desktop} <a target='_blank' href='${rec.url}'>${rec.reldir}</a></li>`
+            txt += `<li>${desktop} <a title='Run visualization' target='_blank' href='${rec.url}'>${rec.reldir}</a></li>`
         })
         txt = `<h3>There are ${counter} CinemaScience database(s) found</h3> <ul class='list_noimages'>${txt}</ul> ${txtimg}`;  
 return txt;

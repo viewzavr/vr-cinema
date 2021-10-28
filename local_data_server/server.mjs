@@ -18,7 +18,7 @@ var process = require('process');
 // F-PRINT-PROJECT-VERSION
 //import {version} from './../package.json';
 const version = process.env.npm_package_version;
-console.log("VR-Cinema local_data_server", version || "");
+console.log("VR-Cinema local_data_server, version", version || "[from source]");
 
 var dir = process.argv[2] || "."; // R-DIR-MODE, R-AUTO-GUESS-MODE
 var url_arg;
@@ -154,7 +154,7 @@ function reqfunc(request, response) {
         if (url.pathname.startsWith("/local-vr-cinema")) {
           url.pathname = url.pathname.substring(16);
           request.url = url.toString();
-          console.log("serving as project file");
+          console.log("serving as project file",request.url);
           fileServerCinema.serve(request, response); // F-LOCAL-CINEMA
         }
         else {
