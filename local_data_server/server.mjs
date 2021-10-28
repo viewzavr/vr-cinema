@@ -1,5 +1,9 @@
 #!/usr/bin/env node
 
+import { URL } from 'url'; // in Browser, the URL in native accessible on window
+const __filename = new URL('', import.meta.url).pathname;
+const __dirname = new URL('.', import.meta.url).pathname; // Will contain trailing slash
+
 import * as path from 'path';
 
 /*
@@ -16,8 +20,13 @@ var process = require('process');
 
 
 // F-PRINT-PROJECT-VERSION
-//import {version} from './../package.json';
-const version = process.env.npm_package_version;
+  //import {version} from './../package.json';
+  // - not supported by node, for some reason
+  //const version = process.env.npm_package_version;
+  // - npm_package_version is sometimes defined and sometimes not, not stable method.
+// thus just reading from file:
+const packageJson = fs.readFileSync( path.join(__dirname, '../package.json'))
+const version = JSON.parse(packageJson).version || 0
 console.log("VR-Cinema local_data_server, version", version || "[from source]");
 
 var dir = process.argv[2] || "."; // R-DIR-MODE, R-AUTO-GUESS-MODE
@@ -76,9 +85,6 @@ var headers = {
 var fileServer = dir_mode ? new nstatic.Server( dir,nstatic_opts ) : null;
 
 // F_LOCAL_CINEMA {
-  import { URL } from 'url'; // in Browser, the URL in native accessible on window
-  const __filename = new URL('', import.meta.url).pathname;
-  const __dirname = new URL('.', import.meta.url).pathname; // Will contain trailing slash
   var projectDir = path.resolve( __dirname + "/../" );  
   console.log("project dir:",projectDir)
   var fileServerCinema = new nstatic.Server( projectDir,nstatic_opts ); // F-LOCAL-CINEMA
