@@ -92,17 +92,21 @@ index.html should use local viewzavr, not internet-based.
 ## [x] F-PREVIEW-SCENES
 Save preview images to Cinema scenes and show them in explore screen.
 
-## R-DIR-MODE
+## [x] R-DIR-MODE
 Allow to specify dir other than current directory in command line.
 
-## R-URL-MODE
+## [x] R-URL-MODE
 Allow following: npx vr-cinema url-to-remote-dir which means visualize remote dir.
 If url ends with data.csv, consider dir of that file (and probably load data.csv as specified in command line).
 
-## R-AUTO-GUESS-MODE
+## [x] R-AUTO-GUESS-MODE
 If vr-cinema is runned with -d key, this is dir mode.
 If vr-cinema is runned with -u key, this is remote url mode.
 If vr-cinema is runned just with arg, auto-guess what is it.
+
+# [x] F-OPEN-FOLDER
+If running in local mode (client is 127.0.0.1), allow to open folders by starting explorer/nautilus.
+Also, maybe, allow to open it in browser in index mode.
 
 # Ideas
 

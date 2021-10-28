@@ -90,7 +90,7 @@ export function explore( server, dir, request, response, options={} )
             return 0;
         });
         
-        var txt = vis2( urls );
+        var txt = vis2( urls,request );
 
         response.setHeader('Content-Type', 'text/html');
         console.log("listing sent");
@@ -105,7 +105,6 @@ function vis0( urls ) {
   txt = `<h3>There are ${counter} CinemaScience database(s) found</h3> <ul class='list_noimages'>${txt}</ul> ${txtimg}`;
   return txt;
 }
-
 
 function vis1( urls ) { // F-PREVIEW-SCENES
   var counter = urls.length;
@@ -125,23 +124,55 @@ var txt = urls.map( (rec) => {
 return txt;
 }
 
-function vis2( urls ) { // F-PREVIEW-SCENES
+function vis2( urls, request ) { // F-PREVIEW-SCENES
   var counter = urls.length;
 var txt = "", txtimg = "";
         urls.forEach( (rec) => {
+         let desktop = "";
+
+         if (islocal(request)) { // F-OPEN-FOLDER
+            desktop = `<a href='#' onclick='fetch("/opendir?dir=${rec.reldir}")'>&#128187;</a>`;
+         }
+
           if (rec.preview_url)
             txtimg += `
-<a style="display:inline-block" target='_blank' href='${rec.url}'>
-  <span>
+  <span style="display:inline-block">
+    
+    <a target='_blank' href='${rec.url}'>
     <img src='${rec.preview_url}' width=240/>
+    </a>
     <br/>
-    ${rec.reldir}
+    ${desktop} 
+    <a target='_blank' href='${rec.url}'>
+      ${rec.reldir}
+    </a>
   </span>
-</a>
   `;
           else
-            txt += `<li><a target='_blank' href='${rec.url}'>${rec.reldir}</a></li>`
+            txt += `<li>${desktop} <a target='_blank' href='${rec.url}'>${rec.reldir}</a></li>`
         })
         txt = `<h3>There are ${counter} CinemaScience database(s) found</h3> <ul class='list_noimages'>${txt}</ul> ${txtimg}`;  
 return txt;
+}
+
+
+///////////////// F-OPEN-FOLDER
+import { URL } from 'url';
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+var opener = require("opener");
+export function opendir( server, dir, request, response, options={} )
+{
+  if (!islocal(request)) {
+    return response.end("notlocal");
+  }
+  let url = new URL(request.url,'http://localhost');
+  let reldir = url.searchParams.get("dir");
+  let finaldir = path.join( dir, reldir );
+  opener( finaldir );
+  response.end("done");
+}
+
+function islocal( request ) {
+  return (request.socket.remoteAddress == "127.0.0.1");
 }

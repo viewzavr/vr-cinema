@@ -103,6 +103,10 @@ function reqfunc(request, response) {
     
     if (request.url == "/" && dir_mode)
       return E.explore( server, dir, request, response, explore_params );
+
+    // F-OPEN-FOLDER
+    if (request.url.startsWith("/opendir") && dir_mode)
+      return E.opendir( server, dir, request, response, explore_params );
     
     if (request.method == "POST") {
       var filepath = path.join(dir,request.url);
@@ -193,7 +197,6 @@ server.on('error', (e) => {
 /////////// feature: open bro
 
 var opener = require("opener");
-
 
 if (dir_mode) {
 
