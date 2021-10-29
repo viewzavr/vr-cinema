@@ -26,17 +26,26 @@ export function create( vz, opts ) {
     </column>
 
   </column>
-
   
 
   <column id="right_column" gap="1em" margin="2em" style='pointer-events:all;'>
-    
+
+    <btn text="Add extra" cmd="../adder->showModal"/>
+    <gui-dialog-add id="adder" add-features="cinema-extra"/>
+    <btn id="btn_tg" text="Extras" cmd="../eguis->trigger_visible" style='width:170px'/>
+
+    <column id="eguis" gap='0.2em'>
+    <objects-guis objects="@cinema-extra" removable="true"/>
+    </column>
+
   </column>
 
 </screen>
 `,null,obj,"screen1");
 
   screen1.activate();
+
+  vz.register_feature( "cinema-extra", () => {} );
 
 //  findObjects( ":artefact", ... ) repeater.input = [....];
   
