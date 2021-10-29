@@ -22,8 +22,10 @@ export function create( vz, opts ) {
 
     <btn id="btn_tg" text="Visual objects" cmd="../oguis->trigger_visible" style='width:170px'/>
     <column id="oguis" gap='0.2em'>
-    <objects-guis objects="**/FILE*/* @cinema-visual"/>
+      <objects-guis objects="**/FILE*/* @cinema-visual"/>
     </column>
+
+   <objects-guis objects="/Animation_player"/>
 
   </column>
   
@@ -46,6 +48,9 @@ export function create( vz, opts ) {
   screen1.activate();
 
   vz.register_feature( "cinema-extra", () => {} );
+
+  var ap = vz.createObj({feature:"animation-player",name:"Animation_player",parent:obj})
+  //ap.feature("animation-player");
 
 //  findObjects( ":artefact", ... ) repeater.input = [....];
   

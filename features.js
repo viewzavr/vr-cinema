@@ -61,10 +61,14 @@ export function auto_save_settings( vzPlayer ) {
       });
 
       var oh = vzPlayer.saveToHash;
-      vzPlayer.saveToHash = function(obj) {
+      vzPlayer.saveToHash = function(obj2) {
         if (storepath) {
-            var code = obj.dump();
+            var code = vzPlayer.dump();
             var path = storepath + "/viewzavr-player.json";
+
+            var str = JSON.stringify( code );
+            if (str.indexOf("Camera rotate") > 0)
+               debugger;
             
             fetch( path, {
               method: 'POST',
@@ -76,7 +80,7 @@ export function auto_save_settings( vzPlayer ) {
            // послали
            console.log("SETTINGS: sent to server",path);
         }
-        oh(obj);
+        oh(obj2);
       }
 }
 
@@ -95,7 +99,7 @@ export function auto_save_screenshot( vzPlayer ) {
       });  
 
       var oh = vzPlayer.saveToHash;
-      vzPlayer.saveToHash = function(obj) {
+      vzPlayer.saveToHash = function(obj2) {
         if (storepath)
           vzPlayer.sceneScreenShotBlob("image/png",(blob) => {
               fetch( storepath + "/preview.png", {
@@ -103,7 +107,7 @@ export function auto_save_screenshot( vzPlayer ) {
                 body: blob
               });
             });
-        oh(obj);
+        oh(obj2);
       }
 }
 

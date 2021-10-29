@@ -112,6 +112,8 @@ export function create( vz, opts ) {
   obj.generateParams = function() {
     if (obj.params_obj) obj.params_obj.remove();
     obj.params_obj = vz.create_obj( {}, {parent:obj,name:"params"});
+    obj.params_obj.feature( "animation-player-priority" );
+
     obj.cinemadb.getParamNames().forEach( function(name) {
       var vals = obj.cinemadb.getDifferentParamValues( name );
       console.log("generating param: name=",name,"vals=",vals );
