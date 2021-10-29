@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 
 import { URL } from 'url'; // in Browser, the URL in native accessible on window
-const __filename = new URL('', import.meta.url).pathname;
-const __dirname = new URL('.', import.meta.url).pathname; // Will contain trailing slash
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 import * as path from 'path';
 
