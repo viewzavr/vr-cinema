@@ -1,13 +1,16 @@
 {
+  "params": {
+    "active_screen": "/screen1"
+  },
   "children": {
     "state": {
       "children": {
         "camera": {
           "params": {
             "cameraPos": [
-              15.688417340873011,
-              18.092301656854755,
-              33.9548890349615
+              6.794093305026895,
+              14.223920223150351,
+              38.89278112536446
             ],
             "cameraCenter": [
               4.647618902534818,
@@ -24,9 +27,79 @@
       },
       "type": "cinema-view-cinema",
       "children": {
-        "params": {
+        "screen1": {
+          "type": "screen",
+          "children": {
+            "left_column": {
+              "type": "column",
+              "children": {
+                "oguis": {
+                  "type": "column",
+                  "children": {
+                    "objects-guis": {
+                      "type": "objects-guis",
+                      "children": {
+                        "column": {
+                          "type": "column",
+                          "children": {
+                            "edit-params-col": {
+                              "params": {
+                                "visible": false
+                              },
+                              "type": "column"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "oguis_7": {
+                  "type": "column",
+                  "children": {
+                    "objects-guis": {
+                      "type": "objects-guis",
+                      "children": {
+                        "column": {
+                          "type": "column",
+                          "children": {
+                            "edit-params-col": {
+                              "params": {
+                                "visible": false
+                              },
+                              "type": "column"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "Animation_player": {
           "params": {
-            "time": 24.78
+            "parameter": "params->time",
+            "start_value": 0,
+            "min": 0,
+            "max": 140,
+            "step": 0.1,
+            "visible": false
+          }
+        },
+        "artefacts": {
+          "children": {
+            "FILE_points_alfa": {
+              "children": {
+                "points": {
+                  "params": {
+                    "radius": 1.9
+                  }
+                }
+              }
+            }
           }
         }
       }

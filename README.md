@@ -58,6 +58,16 @@ Also, you may create shell script (for example `vis.cmd`) that executes `npx vr-
 VR-Cinema scans internal directories on startup, and allows to choose which one to visualuze,
 thus this script may be placed somewhere in root of your project.
 
+# How to run from source
+
+```
+git clone https://github.com/viewzavr/vr-cinema.git
+cd vr-cinema
+git submodule update --init --recursive
+npm install
+npm start
+```
+
 # how to add your own type
 
 Create new viewzavr component with type `cinema-view-MYID`.
