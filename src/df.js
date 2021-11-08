@@ -8,7 +8,8 @@ export function create() {
 }
 
 export function add_column( df, name, values ) {
-  df.colnames.push( name );
+  if (df.colnames.indexOf(name) < 0)
+    df.colnames.push( name );
   values ||= [];
   df[name] = values;
   if (values.length > df.length) df.length = values.length;

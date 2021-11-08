@@ -93,11 +93,11 @@ export function interp_df( df1, df2, w ) {
 
 // interpolates dataframe
 export function interp_csv( csv1, csv2, w ) {
-  if (!csv1) return { colnames: [], length: 0}
+  if (!csv1) return { colnames: [], length: 0, isDataFrame: true}
   if (!csv2) return csv1;
   if (csv1 === csv2) return csv1; // in case of same data provided
   
-  var res = {};
+  var res = { isDataFrame: true };
   res.colnames = csv1.colnames;
   res.length = csv1.length;
   res.colnames.forEach(function(name) {

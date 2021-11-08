@@ -10,6 +10,7 @@ import * as views from "../views/init.js";
 import * as colorize_scalars from "./colorize-scalars.js";
 import addUpdateFeature from "./feature-refresh.js";
 import addRestoreStateFeature from "./feature-restore-on-base-change.js";
+import * as cinema_features from "./cinema-features.js";
 
 export function cinema_visual( obj,title ) {
   obj.setParam("title",title);
@@ -22,6 +23,7 @@ export function setup( vz ) {
   colorize_scalars.setup( vz );
 
   vz.register_feature_set( {cinema_visual} );
+  cinema_features.setup( vz, cinema_features );
 
   return views.setup( vz );
 }
@@ -96,7 +98,7 @@ export function create( vz, opts ) {
     obj.cinemadb_rotate_function = rotate_function || function(coords) { return coords; };
     
     //obj.clearArtefacts();
-    obj.generateParams();
+    obj.generateParams(); 
     obj.generateArtefacts();
     obj.reactOnParamChange();
   }
@@ -207,8 +209,8 @@ export function create( vz, opts ) {
     if (!obj.interpolationMode()) w = 0;
 
     obj.cinemadb.getArtNames().forEach( function(name) {
-      var artsrc1 = obj.cinemadb.data[ name ][ found_i1 ];
-      var artsrc2 = obj.cinemadb.data[ name ][ found_i2 ];
+      var artsrc1 = obj.cinemadb.data[ name ][ found_i1 ] || "";
+      var artsrc2 = obj.cinemadb.data[ name ][ found_i2 ] || "";
 
       var [nama, param] = getArtParts( name ); // F-ARTIFACT-PARAMS
 
@@ -255,11 +257,10 @@ export function create( vz, opts ) {
 
     obj.cinemadb.getArtNames().forEach( function(name) {
       //var nama = name.split("FILE_")[1];
-      var [nama, param] = getArtParts( name );
+      var [nama, param, feature_list ] = getArtParts( name );
       if (param != "file") return; // F-ARTIFACT-PARAMS
       
       var type = nama.split("_")[1];
-      
       
       var artfunc = obj.getArtFunc( type );
       var art;
@@ -285,12 +286,15 @@ export function create( vz, opts ) {
         });
         art.linkParam("interpolation",obj.getPath()+"->interpolation");
       }
-      
 
+      // F-CINEMA-FEATURES
+      // todo вытащить это в фичи бы.. то ли вьюзавровские, то ли на уровне js
+      // на уровне js кстатит уже есть. ну а тут событие добавить, on artefact-created.
+      reflect_artifact_features( art, parse_features(feature_list) );
     });
-    
-
   }
+
+
   
 
   
@@ -366,7 +370,54 @@ function add_dir_if( path, dir ) {
     }
     
 ///////////////////// feature: artifact parameters F-ARTIFACT-PARAMS
+/*
 function getArtParts( record ) {
   let arr = record.split("->");
   return [ arr[0], arr[1] || "file" ];
+}
+*/
+
+///////////////////// feature: artifact features F-CINEMA-FEATURES + F-ARTIFACT-PARAMS
+// [name, parametername, feature-list ]
+function getArtParts( record ) {
+  var items = record.split(" ");
+  let arr = items[0].split("->");
+  return [ arr[0], arr[1] || "file", items.slice(1) ];
+}
+
+function reflect_artifact_features( art, features ) {
+  console.log("REFLECTING",features);
+  for (var f of features) {
+    art.feature( f.name, f.args )
+  }
+}
+
+/*
+ input:
+   //feature_list = array of feature records, e.g. "@filter(column=t)" "@set(Y=0;Z=0;ROTATE_X=gamma[grad])"
+   feature_list = array of feature records, e.g. #filter{"column":"t"} #set{Y:0;Z:0;ROTATE_X:"gamma[grad]"}
+ output:
+   array of feature records in form { name: name, args: js-object-with-named-args }
+*/
+function parse_features(feature_list) {
+  var res = [];
+  for (var f of feature_list) {
+     if (f[0] != "@") continue;
+     f = f.slice( 1 );
+     var m = f.match(/^(.+)(\{.+\})$/); //f.match(/^(.+)\((.+)\)$/);
+     var rec = {}
+     if (m[2]) {
+       rec.name = m[1];
+       var jsonstr = m[2].replaceAll(";",","); //.replaceAll("=",":");
+       try {
+         rec.args = JSON.parse( jsonstr );
+       } catch(err) {
+          console.error("failed to parse feature ",m[2],jsonstr,err)
+       }
+     }
+     else
+       rec.name = f;
+     res.push( rec )
+  }
+  return res;
 }
