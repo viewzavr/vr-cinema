@@ -7,3 +7,4 @@ vrml/vz-vrml.js
 obj/vz-obj.js
 gltf/vz-gltf.js
 vtkpoints/vz-vtkpoints.js
+models/vz-models.js

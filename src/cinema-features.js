@@ -73,8 +73,9 @@ export function set( art, args ) {
          var colvalue = args[colname];
          var colarr;
          
-         if (typeof(colvalue) == "string")
-            colarr = value[ colvalue ];
+         if (typeof(colvalue) == "string" && colvalue.slice(0,2) == "->" ) {
+            colarr = value[ colvalue.slice( 2 ) ] || [];
+         }
           else
             colarr = new Array( df.get_length(value) ).fill(colvalue);
          // todo ссылки на колонки

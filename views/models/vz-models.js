@@ -2,7 +2,7 @@ import parse_csv from "../../src/csv.js";
 import * as utils from "../../src/utils.js";
 
 export function setup( vz ) {
-  vz.addItemType( "cinema-view-gltf","Cinema: gltf files", function( opts ) {
+  vz.addItemType( "cinema-view-models","Cinema: models files", function( opts ) {
     return create( vz, opts );
   } );
 }
@@ -10,6 +10,8 @@ export function setup( vz ) {
 export function create( vz, opts ) {
 
   var obj = vz.createObj( opts );
+  obj.models_obj = vz.create_obj( {}, {parent:obj,name:"models"});
+  obj.models_obj.feature("cinema-visual", opts.name );
 
   obj.cinemadb_path_function = function(v) { return v;};
   obj.cinemadb_coords_function = function(v) { return v;};
@@ -17,8 +19,6 @@ export function create( vz, opts ) {
 
   obj.trackParam( "@dat",function(v) {
       var dat = obj.getParam("@dat");
-      if (!obj.models_obj)
-        obj.models_obj = parent.vz.create_obj( {}, {parent:obj,name:"models"});
         
       var existing_co = obj.models_obj.ns.getChildren().length;
       if (existing_co != dat.length) {
@@ -34,7 +34,7 @@ export function create( vz, opts ) {
         {
           var need = dat.length-existing_co;
           while (need > 0) {
-            var nobj = parent.vz.vis.addGltf( obj.models_obj );
+            var nobj = vz.vis.addGltf( obj.models_obj );
             need--;
           }
         }
@@ -44,10 +44,15 @@ export function create( vz, opts ) {
       
       var arr = [];
       //console.log("making models",dat.length);
+      if (!dat.model) {
+        console.error("ERROR: 'model' column is not defined!")
+        return;
+      }
+
       for (var i=0; i<dat.length; i++) {
         var nobj = obj.models_obj.ns.getChildren()[i];
         //parent.vz.vis.addGltf( obj.models_obj );
-        var path = obj.cinemadb_path_function( dat.src[ i ] ); // todo change interface here.. to consider current path..
+        var path = obj.cinemadb_path_function( dat.model[ i ] || "" ); // todo change interface here.. to consider current path..
         
         nobj.setParam( "src",path );
         nobj.positions = obj.cinemadb_coords_function( [ dat.X[i], dat.Y[i], dat.Z[i] ]);
@@ -55,8 +60,8 @@ export function create( vz, opts ) {
         if (dat.R || dat.G || dat.B)
             nobj.colors = [ dat.R[i] || 0, dat.G[i] || 0, dat.B[i] || 0 ];
         // todo scale
-        if (dat.ROTATEX || dat.ROTATEY || dat.ROTATEZ) {
-           nobj.rotations = obj.cinemadb_rotate_function( [torad(dat.ROTATEX?.[i] || 0),torad(dat.ROTATEY?.[i] || 0),torad(dat.ROTATEZ?.[i] || 0)] );
+        if (dat.ROTATE_X || dat.ROTATE_Y || dat.ROTATE_Z) {
+           nobj.rotations = obj.cinemadb_rotate_function( [torad(dat.ROTATE_X?.[i] || 0),torad(dat.ROTATE_Y?.[i] || 0),torad(dat.ROTATE_Z?.[i] || 0)] );
            //nobj.rotations = [torad(dat.ROTATEX?.[i] || 0),torad(dat.ROTATEY?.[i] || 0),torad(dat.ROTATEZ?.[i] || 0)];
         }
         

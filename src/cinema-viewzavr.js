@@ -274,6 +274,8 @@ export function create( vz, opts ) {
         art.cinemadb_coords_function = obj.cinemadb_coords_function;
         art.cinemadb_rotate_function = obj.cinemadb_rotate_function;
       }
+
+      if (!art) return;
       
       // F-CINEMA-CLONE-PARAMS
       obj.params_obj.feature("param_mirror");
@@ -406,7 +408,7 @@ function parse_features(feature_list) {
      f = f.slice( 1 );
      var m = f.match(/^(.+)(\{.+\})$/); //f.match(/^(.+)\((.+)\)$/);
      var rec = {}
-     if (m[2]) {
+     if (m && m[2]) {
        rec.name = m[1];
        var jsonstr = m[2].replaceAll(";",","); //.replaceAll("=",":");
        try {

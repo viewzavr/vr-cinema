@@ -83,7 +83,8 @@ export default function parse_csv(data,separator) { // data is text blob
         return item;
       } );
 
-      for (var j=0; j<attrs.length; j++) {
+      // it is important to add values for all columns (proj_names)
+      for (var j=0; j<proj_names.length; j++) {
         acc[j] = acc[j] || [];
         acc[j].push( attrs[j] );
       }
