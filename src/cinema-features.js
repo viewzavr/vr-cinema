@@ -7,6 +7,10 @@ export function setup(vz,module) {
 // по колонке args.column
 import * as df from "./df.js";
 
+// идея сделать - не то чтобы фильтр, а типа slice с аргументами start,length,every
+// хотя по идее можно и разделить, добавить еще limit..
+// ну в общем надо придумать какие операции нужны. это по идее операции на полями в терминах Миши.
+// но не просто операции а интерактивные.
 export function filter( art, args ) {
    //console.log("FILTER feature attached")
 
@@ -33,7 +37,7 @@ export function filter( art, args ) {
            // интересно что тут v
            // console.log("see v=",v);
            // здесь v это индекс
-           var newdf = df_slice( value, v, v+1 );
+           var newdf = df.slice( value, v, v+1 );
            orig( name, newdf, manual );
       });
       params_obj.signalParam( pname );
@@ -47,15 +51,7 @@ export function filter( art, args ) {
 // короче это сломается, когда я решу замержить это с суб-базами синема...
 // или если в основном файле тоже будет t и будет режим интреполяции
 
-function df_slice( src, index0, index1 ) {
-  var r = df.create();
 
-  df.get_column_names(src).forEach( function(name) {
-      df.add_column( r, name, df.get_column(src,name).slice(index0,index1) );
-  });
-
-  return r;
-}
 
 //////////////// фича set
 export function set( art, args ) {
@@ -83,4 +79,20 @@ export function set( art, args ) {
       }
       orig( name, value, manual );
     }
-}      
+}
+
+//////////////// фича skip_every
+// я вижу что это в целом - операции над df, да и все..
+export function skip_every( art, args ) {
+   //console.log("SET feature attached")
+
+   var orig = art.setParam;
+   var params_obj = art.ns.parent.ns.parent.params_obj;
+
+   art.setParam = function(name,value,manual) {
+      if (name != "@dat") return orig( name,value,manual);
+      if (!df.is_df(value)) return orig( name,value,manual);
+      value = df.skip_every( value, args.step )
+      orig( name, value, manual );
+    }
+}

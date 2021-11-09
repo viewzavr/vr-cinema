@@ -77,3 +77,30 @@ export function create_from_df( src ) {
 
   return r;
 }
+
+// оставляет только каждую step-тую строку
+export function skip_every( src,step ) {
+  var r = create();
+  
+
+  get_column_names(src).forEach( function(name) {
+    var newarr = [];
+    var origarr = get_column(src,name);
+    if (step > 0) // мало ли какой step прислалил, зависать мы не должны
+      for (var i=0; i<get_length(src);i += step) newarr.push( origarr[i] );
+    add_column( r, name, newarr );
+  });
+
+  return r;
+}
+
+// выполняет slice на всех колонках
+export function slice( src, index0, index1 ) {
+  var r = create();
+
+  get_column_names(src).forEach( function(name) {
+      add_column( r, name, get_column(src,name).slice(index0,index1) );
+  });
+
+  return r;
+}

@@ -50,34 +50,43 @@ export function create( vz, opts ) {
       <objects-guis objects="**/FILE*/* @cinema-visual"/>
     </column>
 
-    <text id="text_3" text="Animations" >
-    </text>
-    <column id="oguis" gap='0.2em' class="shift-padding fine-bg-color">
-      <objects-guis objects="@animation-player" />
-    </column>
-
-  </column>
-  
-
-  <column id="right_column" gap="1em" margin="2em" class="vertical-auto-scroll">
-
-    <column class="fine-padding">
+    
     <btn id="btn_tg" text="Extras" cmd="../eguis->trigger_visible" style='width:170px'/>
     <column id="eguis" gap='0.2em' class="shift-padding fine-bg-color">
       <btn text="+ add new" cmd="../adder->showModal"/>
       <gui-dialog-add id="adder" add-features="cinema-extra"/>
       <objects-guis objects="@cinema-extra" removable="true"/>
     </column>
-    </column>
+    
 
+  </column>
+
+  <column id="right_column" gap="1em" margin="2em" class="vertical-auto-scroll">
   </column>
 
 </screen>
 `,null,obj,"screen1");
 
-  screen1.activate();
- 
+  screen1.activate(); 
 
+  //screen1.feature("tree_items");
+  //var adder = screen1.tree_items().adder;
+  var adder = screen1.ns.findChild("adder");
+  var new_extras_map = vz.getCatsDic();
+  /*
+  { 
+    "camera":vz.getTypesByCat("camera"),
+    "clip":vz.getTypesByCat("clip"),
+    "background":vz.getTypesByCat("background"),
+    "animation":vz.getTypesByCat("animation")
+  };
+  */
+  
+  forget_types(new_extras_map,["camera","auto_scale"]);
+  forget_categories(new_extras_map,["gui","cinema","examples","uncategorized"]);
+  adder.setParam("input",new_extras_map);
+
+  // manually add some extras
   var ap = vz.createObj({feature:"animation-player cinema-extra",name:"Animation_player",parent:obj})
   //ap.feature("animation-player");
 
@@ -97,3 +106,34 @@ export function create( vz, opts ) {
       <find-objects id='fo' criteria='.artefact > .visual'/>
     </column>
 */    
+
+/*
+    <text id="text_3" text="Animations" >
+    </text>
+    <column id="oguis" gap='0.2em' class="shift-padding fine-bg-color">
+      <objects-guis objects="@animation-player" />
+    </column>
+
+*/
+
+function forget_types( dic, names ) {
+  for (let n of Object.keys(dic)) {
+    var arr = dic[n];
+    arr = arr.filter( (item) => names.indexOf(item) < 0)
+    /*
+    for (let name of names) {
+      var i = arr.indexOf(name);
+      if (i >= 0) {
+        debugger;
+        arr=arr.slice(i);
+      }
+    }
+    */
+    dic[n] = arr;
+  }
+}
+
+function forget_categories( dic, names=[] ) {
+  for (let name of names)
+    delete dic[name]
+}
