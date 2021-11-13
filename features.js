@@ -184,3 +184,143 @@ export function datapath_from_url(vzPlayer) {
   }
 
 }
+
+////////////////////////////////////////// фича организации анимации
+
+export function animate(env) {
+  env.setAnimate = (func,milliseconds) => {
+    if (!(milliseconds>0)) return;
+
+    window.requestAnimationFrame( animframe );
+
+    var t0 = performance.now();
+    var tfinish = t0 + milliseconds;
+    var bstop = false;
+    function animframe() {
+      var t = performance.now();
+      if (t < tfinish && !bstop) {
+         func( (t - t0) / milliseconds );
+         window.requestAnimationFrame( animframe );
+      }
+      else
+        func( 1.0 );
+    }
+
+    return () => { bstop=true; }
+  }
+}
+
+////////////////////////////////////////// todo - сделать фичей camera manager?
+
+const mouse = new THREE.Vector2();
+export function camera_intesecting_objects( vzPlayer ) {
+  // по клику это странно. тут не одна поверхность а много объектов и надо уметь высказать свое желание явно
+  // даблклик выглядит как явное.
+  var gr = vzPlayer.vz.createObjByType( "lines", {parent: vzPlayer.getRoot(),name: "camera-cursor-hilite"})
+  var gr2 = vzPlayer.vz.createObjByType( "lines", {parent: gr,name: "pt"})
+  //var gr = vzPlayer.vz.createObjByType( "points", {parent: vzPlayer.getRoot(),name: "camera-cursor-hilite"})
+  gr.setParam("color",[1,1,0]);
+  gr.setParam("additive",true);
+  gr2.setParam("color",[1,1,0]);
+  gr2.setParam("additive",true);
+  gr2.linkParam("visible","..->visible");
+  // vz.setParam( [gr,gr2], ...
+
+
+  gr.feature("timers animate");
+
+  var camanim;
+
+  threejs.renderer.domElement.addEventListener( 'dblclick', sceneClick, false );  
+  function sceneClick( event ) {
+    mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+    mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+    do_intersect(mouse,(pt) => {
+       var coords = [
+                      pt[0],pt[1],0,   pt[0],pt[1],pt[2],
+                      0,pt[1],pt[2],   pt[0],pt[1],pt[2],
+                      pt[0],0,pt[2],   pt[0],pt[1],pt[2]
+                    ]
+       gr.setParam("positions",coords);
+       gr.setParam("visible",true)
+       gr2.setParam("positions",pt);
+       gr.setTimeout( () => {
+          gr.setParam("visible",false)
+       },2000);
+
+       var c = qmlEngine.rootObject.scene3d.cameraCenter.slice();
+       if (camanim) camanim();
+       camanim = gr.setAnimate( (t) => {
+          var pt2 = [0,0,0];
+          pt2[0] = c[0] + (pt[0]-c[0])*t;
+          pt2[1] = c[1] + (pt[1]-c[1])*t;
+          pt2[2] = c[2] + (pt[2]-c[2])*t;
+          
+          //console.log(t,pt2)
+          qmlEngine.rootObject.scene3d.cameraCenter = pt2;
+       },500,"camove");
+
+       //gr.setInterval
+       //qmlEngine.rootObject.scene3d.cameraCenter = arr;
+    });
+  }
+}
+
+const raycaster = new THREE.Raycaster();
+
+var rcp2 = {
+  Mesh: {},
+  Line: { threshold: 10 },
+  LOD: {},
+  Points: { threshold: 10 },
+  Sprite: {}
+}
+var rcp1 = {
+  Mesh: {},
+  Line: { threshold: 1 },
+  LOD: {},
+  Points: { threshold: 1 },
+  Sprite: {}
+}
+
+
+function do_intersect(pts = new THREE.Vector2(0,0), cb ) {
+  //const pts = new THREE.Vector2(0,0);
+  raycaster.setFromCamera( pts, threejs.camera );
+  //console.log("intersecting ",{pts});
+  raycaster.params = rcp1;
+  var intersects = raycaster.intersectObjects( threejs.scene.children );
+  //console.log("results:",{intersects})
+  var j = intersects.findIndex( (e) => e?.object?.visible);
+  // идея в том что если не смогли с мелкими радиусами что-то найти, поищем с более крупными
+  // но конечно надо это как-то по уму делать
+  if (!(j>=0)) {
+    raycaster.params = rcp2;
+    intersects = raycaster.intersectObjects( threejs.scene.children );
+    j = intersects.findIndex( (e) => e?.object?.visible);
+  }
+
+  //console.log({j})
+  if (j >= 0) {
+    var pt = intersects[j].point;
+    //console.log("setting center to",pt)
+    var arr  = [pt.x, pt.y, pt.z];
+    //qmlEngine.rootObject.scene3d.cameraCenter = arr;
+    if (cb) cb(arr);
+  }
+  
+  /*
+  for ( let i = 0; i < intersects.length; i ++ ) {
+    //console.log( intersects[ i ] );
+    if (intersects[ i ].object && intersects[ i ].object.visible) {
+      var pt = intersects[i].point;
+      var arr  = [pt.x, pt.y, pt.z];
+      qmlEngine.rootObject.scene3d.cameraCenter = arr;
+      if (cb) cb(arr);
+      break;
+    }
+  } 
+  */ 
+    
+}

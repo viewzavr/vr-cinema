@@ -82,8 +82,10 @@ export function create( vz, opts ) {
   };
   */
   
-  forget_types(new_extras_map,["camera","auto_scale"]);
+  forget_types(new_extras_map,["camera","auto_scale","camera-gui-control"]);
+  forget_categories(new_extras_map,find_emtpy_categories(new_extras_map));
   forget_categories(new_extras_map,["gui","cinema","examples","uncategorized"]);
+
   adder.setParam("input",new_extras_map);
 
   // manually add some extras
@@ -91,6 +93,9 @@ export function create( vz, opts ) {
   //ap.feature("animation-player");
 
 //  findObjects( ":artefact", ... ) repeater.input = [....];
+
+  vz.register_feature( "camera-manager", camera_manager );
+  var cm = vz.createObj({feature:"camera-manager cinema-extra",name:"Camera manager",parent:obj})
   
   return obj;
 }
@@ -133,7 +138,24 @@ function forget_types( dic, names ) {
   }
 }
 
+function find_emtpy_categories( dic ) {
+    var res = [];
+    for (let name of Object.keys(dic))
+       if (!(dic[name].length > 0)) res.push( name )
+    return res;
+}
+
 function forget_categories( dic, names=[] ) {
   for (let name of names)
     delete dic[name]
+}
+
+function camera_manager( obj ) {
+  obj.addCmd("camera_to_center",() => {
+     vzPlayer.camera.setParam("cameraInfo",[50,50,50,0,0,0]);
+  })
+  var gui = obj.vz.createObjByType("camera-gui-control",{parent:obj,name:"cgu"} );
+  obj.feature("param-mirror");
+  obj.addParamMirror( "camera_type","cgu->type" );
+
 }
